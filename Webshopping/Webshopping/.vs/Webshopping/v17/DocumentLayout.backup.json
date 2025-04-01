@@ -1,0 +1,570 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|e:\\kltn2025\\kltn-nhom-56\\webshopping\\webshopping\\views\\product\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|solutionrelative:views\\product\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|e:\\kltn2025\\kltn-nhom-56\\webshopping\\webshopping\\controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|solutionrelative:controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|e:\\kltn2025\\kltn-nhom-56\\webshopping\\webshopping\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|solutionrelative:views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|e:\\kltn2025\\kltn-nhom-56\\webshopping\\webshopping\\views\\shared\\components\\brands\\default.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|solutionrelative:views\\shared\\components\\brands\\default.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|e:\\kltn2025\\kltn-nhom-56\\webshopping\\webshopping\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|solutionrelative:views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|e:\\kltn2025\\kltn-nhom-56\\webshopping\\webshopping\\views\\product\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|solutionrelative:views\\product\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|ViewDataWindow_MSSQL__/\u4E09\u7396\u4E2D\u91CE/shopping/True/SqlTable/dbo.Products.sql||{0058A1F7-65F3-4DB9-B3D0-CA7E64DD73CD}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|e:\\kltn2025\\kltn-nhom-56\\webshopping\\webshopping\\models\\productmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|solutionrelative:models\\productmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|e:\\kltn2025\\kltn-nhom-56\\webshopping\\webshopping\\repository\\components\\categoriesviewcomponent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|solutionrelative:repository\\components\\categoriesviewcomponent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|e:\\kltn2025\\kltn-nhom-56\\webshopping\\webshopping\\repository\\components\\brandsviewcomponent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|solutionrelative:repository\\components\\brandsviewcomponent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|e:\\kltn2025\\kltn-nhom-56\\webshopping\\webshopping\\views\\brand\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|solutionrelative:views\\brand\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|e:\\kltn2025\\kltn-nhom-56\\webshopping\\webshopping\\views\\category\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|solutionrelative:views\\category\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|e:\\kltn2025\\kltn-nhom-56\\webshopping\\webshopping\\views\\checkout\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|solutionrelative:views\\checkout\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|e:\\kltn2025\\kltn-nhom-56\\webshopping\\webshopping\\views\\shared\\_validationscriptspartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|solutionrelative:views\\shared\\_validationscriptspartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|e:\\kltn2025\\kltn-nhom-56\\webshopping\\webshopping\\views\\shared\\_sidebarpartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|solutionrelative:views\\shared\\_sidebarpartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|e:\\kltn2025\\kltn-nhom-56\\webshopping\\webshopping\\views\\shared\\components\\categories\\default.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|solutionrelative:views\\shared\\components\\categories\\default.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|e:\\kltn2025\\kltn-nhom-56\\webshopping\\webshopping\\repository\\datacontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|solutionrelative:repository\\datacontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|e:\\kltn2025\\kltn-nhom-56\\webshopping\\webshopping\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|solutionrelative:controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|e:\\kltn2025\\kltn-nhom-56\\webshopping\\webshopping\\controllers\\cartcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|solutionrelative:controllers\\cartcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|e:\\kltn2025\\kltn-nhom-56\\webshopping\\webshopping\\controllers\\brandcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|solutionrelative:controllers\\brandcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|e:\\kltn2025\\kltn-nhom-56\\webshopping\\webshopping\\controllers\\categorycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|solutionrelative:controllers\\categorycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|e:\\kltn2025\\kltn-nhom-56\\webshopping\\webshopping\\controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|solutionrelative:controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|E:\\.NETweb\\Eshopper\\product-details.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|e:\\kltn2025\\kltn-nhom-56\\webshopping\\webshopping\\repository\\seeddata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|solutionrelative:repository\\seeddata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|e:\\kltn2025\\kltn-nhom-56\\webshopping\\webshopping\\models\\brandmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|solutionrelative:models\\brandmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|e:\\kltn2025\\kltn-nhom-56\\webshopping\\webshopping\\models\\categorymodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|solutionrelative:models\\categorymodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|e:\\kltn2025\\kltn-nhom-56\\webshopping\\webshopping\\models\\viewmodel\\cartitemviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|solutionrelative:models\\viewmodel\\cartitemviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|e:\\kltn2025\\kltn-nhom-56\\webshopping\\webshopping\\views\\cart\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|solutionrelative:views\\cart\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|e:\\kltn2025\\kltn-nhom-56\\webshopping\\webshopping\\views\\_viewimports.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|solutionrelative:views\\_viewimports.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|e:\\kltn2025\\kltn-nhom-56\\webshopping\\webshopping\\webshopping.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|solutionrelative:webshopping.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|e:\\kltn2025\\kltn-nhom-56\\webshopping\\webshopping\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|e:\\kltn2025\\kltn-nhom-56\\webshopping\\webshopping\\repository\\sessionextension.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|solutionrelative:repository\\sessionextension.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|e:\\kltn2025\\kltn-nhom-56\\webshopping\\webshopping\\models\\cartitemmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{92F35304-320B-653B-CD43-4BDC832B8608}|Webshopping.csproj|solutionrelative:models\\cartitemmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Details.cshtml",
+              "DocumentMoniker": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Views\\Product\\Details.cshtml",
+              "RelativeDocumentMoniker": "Views\\Product\\Details.cshtml",
+              "ToolTip": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Views\\Product\\Details.cshtml*",
+              "RelativeToolTip": "Views\\Product\\Details.cshtml*",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAAADcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-03-31T17:18:41.298Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ProductController.cs",
+              "DocumentMoniker": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Controllers\\ProductController.cs",
+              "RelativeDocumentMoniker": "Controllers\\ProductController.cs",
+              "ToolTip": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Controllers\\ProductController.cs",
+              "RelativeToolTip": "Controllers\\ProductController.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABoAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-31T17:30:00.814Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Views\\Product\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Product\\Index.cshtml",
+              "ToolTip": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Views\\Product\\Index.cshtml",
+              "RelativeToolTip": "Views\\Product\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-03-31T15:50:29.726Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAAEsAAAAAAAAAAAAAAHsAAAA9AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-03-31T19:00:36.322Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Default.cshtml",
+              "DocumentMoniker": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Views\\Shared\\Components\\Brands\\Default.cshtml",
+              "RelativeDocumentMoniker": "Views\\Shared\\Components\\Brands\\Default.cshtml",
+              "ToolTip": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Views\\Shared\\Components\\Brands\\Default.cshtml",
+              "RelativeToolTip": "Views\\Shared\\Components\\Brands\\Default.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-03-31T03:10:32.725Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Home\\Index.cshtml",
+              "ToolTip": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "Views\\Home\\Index.cshtml",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAIAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-03-27T16:04:26.361Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "dbo.Products [Data]",
+              "DocumentMoniker": "ViewDataWindow_MSSQL__/\u4E09\u7396\u4E2D\u91CE/shopping/True/SqlTable/dbo.Products.sql",
+              "ToolTip": "dbo.Products [Data]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2025-03-31T18:49:04.316Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "ProductModel.cs",
+              "DocumentMoniker": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Models\\ProductModel.cs",
+              "RelativeDocumentMoniker": "Models\\ProductModel.cs",
+              "ToolTip": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Models\\ProductModel.cs",
+              "RelativeToolTip": "Models\\ProductModel.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-31T17:29:58.78Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "CategoriesViewComponent.cs",
+              "DocumentMoniker": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Repository\\Components\\CategoriesViewComponent.cs",
+              "RelativeDocumentMoniker": "Repository\\Components\\CategoriesViewComponent.cs",
+              "ToolTip": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Repository\\Components\\CategoriesViewComponent.cs",
+              "RelativeToolTip": "Repository\\Components\\CategoriesViewComponent.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-31T02:53:17.144Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "BrandsViewComponent.cs",
+              "DocumentMoniker": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Repository\\Components\\BrandsViewComponent.cs",
+              "RelativeDocumentMoniker": "Repository\\Components\\BrandsViewComponent.cs",
+              "ToolTip": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Repository\\Components\\BrandsViewComponent.cs",
+              "RelativeToolTip": "Repository\\Components\\BrandsViewComponent.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAABeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-31T03:08:33.547Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Views\\Brand\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Brand\\Index.cshtml",
+              "ToolTip": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Views\\Brand\\Index.cshtml",
+              "RelativeToolTip": "Views\\Brand\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-03-31T15:49:41.869Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Views\\Category\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Category\\Index.cshtml",
+              "ToolTip": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Views\\Category\\Index.cshtml",
+              "RelativeToolTip": "Views\\Category\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-03-31T15:50:17.577Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Views\\Checkout\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Checkout\\Index.cshtml",
+              "ToolTip": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Views\\Checkout\\Index.cshtml",
+              "RelativeToolTip": "Views\\Checkout\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-04-01T02:21:48.965Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "_SidebarPartial.cshtml",
+              "DocumentMoniker": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Views\\Shared\\_SidebarPartial.cshtml",
+              "RelativeDocumentMoniker": "Views\\Shared\\_SidebarPartial.cshtml",
+              "ToolTip": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Views\\Shared\\_SidebarPartial.cshtml",
+              "RelativeToolTip": "Views\\Shared\\_SidebarPartial.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-04-01T02:21:19.142Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "_ValidationScriptsPartial.cshtml",
+              "DocumentMoniker": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Views\\Shared\\_ValidationScriptsPartial.cshtml",
+              "RelativeDocumentMoniker": "Views\\Shared\\_ValidationScriptsPartial.cshtml",
+              "ToolTip": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Views\\Shared\\_ValidationScriptsPartial.cshtml",
+              "RelativeToolTip": "Views\\Shared\\_ValidationScriptsPartial.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-03-31T19:00:28.399Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "DataContext.cs",
+              "DocumentMoniker": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Repository\\DataContext.cs",
+              "RelativeDocumentMoniker": "Repository\\DataContext.cs",
+              "ToolTip": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Repository\\DataContext.cs",
+              "RelativeToolTip": "Repository\\DataContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-01T02:11:05.5Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "Default.cshtml",
+              "DocumentMoniker": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Views\\Shared\\Components\\Categories\\Default.cshtml",
+              "RelativeDocumentMoniker": "Views\\Shared\\Components\\Categories\\Default.cshtml",
+              "ToolTip": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Views\\Shared\\Components\\Categories\\Default.cshtml",
+              "RelativeToolTip": "Views\\Shared\\Components\\Categories\\Default.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-03-31T02:56:09.667Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "Controllers\\HomeController.cs",
+              "ToolTip": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "Controllers\\HomeController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-31T15:44:11.126Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "CartController.cs",
+              "DocumentMoniker": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Controllers\\CartController.cs",
+              "RelativeDocumentMoniker": "Controllers\\CartController.cs",
+              "ToolTip": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Controllers\\CartController.cs",
+              "RelativeToolTip": "Controllers\\CartController.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAQwAgAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-27T16:03:31.289Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "BrandController.cs",
+              "DocumentMoniker": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Controllers\\BrandController.cs",
+              "RelativeDocumentMoniker": "Controllers\\BrandController.cs",
+              "ToolTip": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Controllers\\BrandController.cs",
+              "RelativeToolTip": "Controllers\\BrandController.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAuwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-31T17:04:30.609Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "CategoryController.cs",
+              "DocumentMoniker": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Controllers\\CategoryController.cs",
+              "RelativeDocumentMoniker": "Controllers\\CategoryController.cs",
+              "ToolTip": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Controllers\\CategoryController.cs",
+              "RelativeToolTip": "Controllers\\CategoryController.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-31T16:55:26.688Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "LoginController.cs",
+              "DocumentMoniker": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Controllers\\LoginController.cs",
+              "RelativeDocumentMoniker": "Controllers\\LoginController.cs",
+              "ToolTip": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Controllers\\LoginController.cs",
+              "RelativeToolTip": "Controllers\\LoginController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-31T18:45:26.451Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "product-details.html",
+              "DocumentMoniker": "E:\\.NETweb\\Eshopper\\product-details.html",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\.NETweb\\Eshopper\\product-details.html",
+              "ToolTip": "E:\\.NETweb\\Eshopper\\product-details.html",
+              "RelativeToolTip": "..\\..\\..\\..\\.NETweb\\Eshopper\\product-details.html",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAAHgCAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-03-31T17:34:32.819Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "SeedData.cs",
+              "DocumentMoniker": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Repository\\SeedData.cs",
+              "RelativeDocumentMoniker": "Repository\\SeedData.cs",
+              "ToolTip": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Repository\\SeedData.cs",
+              "RelativeToolTip": "Repository\\SeedData.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-31T16:36:23.957Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "BrandModel.cs",
+              "DocumentMoniker": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Models\\BrandModel.cs",
+              "RelativeDocumentMoniker": "Models\\BrandModel.cs",
+              "ToolTip": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Models\\BrandModel.cs",
+              "RelativeToolTip": "Models\\BrandModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-31T16:12:14.649Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "CategoryModel.cs",
+              "DocumentMoniker": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Models\\CategoryModel.cs",
+              "RelativeDocumentMoniker": "Models\\CategoryModel.cs",
+              "ToolTip": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Models\\CategoryModel.cs",
+              "RelativeToolTip": "Models\\CategoryModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-31T16:13:02.383Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "CartItemViewModel.cs",
+              "DocumentMoniker": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Models\\ViewModel\\CartItemViewModel.cs",
+              "RelativeDocumentMoniker": "Models\\ViewModel\\CartItemViewModel.cs",
+              "ToolTip": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Models\\ViewModel\\CartItemViewModel.cs",
+              "RelativeToolTip": "Models\\ViewModel\\CartItemViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-27T16:01:13.786Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "_ViewImports.cshtml",
+              "DocumentMoniker": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Views\\_ViewImports.cshtml",
+              "RelativeDocumentMoniker": "Views\\_ViewImports.cshtml",
+              "ToolTip": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Views\\_ViewImports.cshtml",
+              "RelativeToolTip": "Views\\_ViewImports.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-03-31T02:58:42.855Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "Webshopping.csproj",
+              "DocumentMoniker": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Webshopping.csproj",
+              "RelativeDocumentMoniker": "Webshopping.csproj",
+              "ToolTip": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Webshopping.csproj",
+              "RelativeToolTip": "Webshopping.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-03-31T02:50:01.686Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Views\\Cart\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Cart\\Index.cshtml",
+              "ToolTip": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Views\\Cart\\Index.cshtml",
+              "RelativeToolTip": "Views\\Cart\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-03-27T16:18:32.721Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "SessionExtension.cs",
+              "DocumentMoniker": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Repository\\SessionExtension.cs",
+              "RelativeDocumentMoniker": "Repository\\SessionExtension.cs",
+              "ToolTip": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Repository\\SessionExtension.cs",
+              "RelativeToolTip": "Repository\\SessionExtension.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAxwBMAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-27T16:11:10.331Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "Program.cs",
+              "DocumentMoniker": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAIBJwBIAAAADAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-27T16:04:46.744Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "CartItemModel.cs",
+              "DocumentMoniker": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Models\\CartItemModel.cs",
+              "RelativeDocumentMoniker": "Models\\CartItemModel.cs",
+              "ToolTip": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\Models\\CartItemModel.cs",
+              "RelativeToolTip": "Models\\CartItemModel.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAswBcAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-27T15:58:41.784Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
