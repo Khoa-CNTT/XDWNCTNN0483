@@ -7,7 +7,7 @@ using Webshopping.Repository.Shopping_Tutorial.Repository;
 
 namespace Webshopping.Controllers
 {
-    public class CartController: Controller
+    public class CartController : Controller
     {
         private readonly DataContext _datacontext;
         public CartController(DataContext _context)
@@ -16,7 +16,7 @@ namespace Webshopping.Controllers
         }
         public IActionResult Index()
         {
-            List<CartItemModels> cartItem = HttpContext.Session.GetJson<List<CartItemModels>>("cart") ??new List<CartItemModels>();
+            List<CartItemModels> cartItem = HttpContext.Session.GetJson<List<CartItemModels>>("cart") ?? new List<CartItemModels>();
             CartItemViewModel cartVM = new()
             {
                 CartItems = cartItem,
