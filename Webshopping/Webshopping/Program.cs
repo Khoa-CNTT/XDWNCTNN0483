@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Shopping_Tutorial.Repository;
+// using Shopping_Tutorial.Repository;
 using Webshopping.Models;
 using Webshopping.Repository;
 
@@ -22,8 +22,8 @@ builder.Services.AddSession(options =>
 });
 
 //Khai bao Identity
-builder.Services.AddIdentity<AppUserModel, IdentityRole>()
-    .AddEntityFrameworkStores<DataContext>().AddDefaultTokenProviders();
+// builder.Services.AddIdentity<AppUserModel, IdentityRole>()
+//     .AddEntityFrameworkStores<DataContext>().AddDefaultTokenProviders();
 
 builder.Services.AddAuthentication(options =>
 {

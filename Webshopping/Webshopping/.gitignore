@@ -158,7 +158,7 @@ coverage*.info
 *.coveragexml
 
 bin
-obj
+obj/
 
 # NCrunch
 _NCrunch_*

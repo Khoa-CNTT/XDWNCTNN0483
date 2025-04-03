@@ -188,4 +188,37 @@ public class ProductController : Controller
         TempData["success"] = "Sản phẩm đã được thêm thành công!";
         return RedirectToAction("Index");
     }
+
+    public async Task<IActionResult> Delete(int id)
+    {
+        // Tìm sản phẩm theo ID
+        var product = await _dataContext.Products.FindAsync(id);
+
+        // Kiểm tra nếu sản phẩm không tồn tại
+        if (product == null)
+        {
+            TempData["error"] = "Sản phẩm không tồn tại!";
+            return RedirectToAction("Index");
+        }
+
+        // Xóa hình ảnh từ thư mục nếu sản phẩm có hình ảnh
+        if (!string.IsNullOrEmpty(product.Img))
+        {
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img", product.Img);
+
+            if (System.IO.File.Exists(filePath))
+            {
+                // Xóa tệp hình ảnh
+                System.IO.File.Delete(filePath);
+            }
+        }
+
+        // Xóa sản phẩm khỏi cơ sở dữ liệu
+        _dataContext.Products.Remove(product);
+        await _dataContext.SaveChangesAsync();
+
+        TempData["success"] = "Sản phẩm đã được xóa thành công!";
+        return RedirectToAction("Index");
+    }
+
 }
