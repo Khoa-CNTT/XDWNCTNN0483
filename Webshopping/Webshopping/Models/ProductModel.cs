@@ -13,7 +13,8 @@ namespace Webshopping.Models
         public string Slug { get; set; }
         // [Required(ErrorMessage = "Yêu cầu nhập mô tả của sản phẩm"), MinLength(4)]
         public string Description { get; set; }
-        [Required(ErrorMessage = "yêu cầu nhập giá của sản phẩm"), MinLength(4)]
+        [Required(ErrorMessage = "yêu cầu nhập giá của sản phẩm")]
+        [Range(1, double.MaxValue, ErrorMessage = "Giá sản phẩm phải lớn hơn 0")]
         public decimal Price { get; set; }
         [Required(), Range(1, int.MaxValue, ErrorMessage = "Chọn thương hiệu")]
         public int BrandID { get; set; }
@@ -23,7 +24,6 @@ namespace Webshopping.Models
         public BrandModel Brand { get; set; }
         public string Img { get; set; }
         [NotMapped]
-        [FileExtensions]
         public IFormFile ImageUpload { get; set; }
     }
 }

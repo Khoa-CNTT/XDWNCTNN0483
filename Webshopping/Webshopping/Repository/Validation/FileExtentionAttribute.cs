@@ -6,19 +6,16 @@ public class FileExtentionAttribute : ValidationAttribute
 {
     protected override ValidationResult IsValid(object value, ValidationContext validationContext)
     {
-        // Example: Validate file extension
         if (value is IFormFile file)
         {
-            var allowedExtensions = new[] { "jpg", "png", "jpeg" }; // Allowed file extensions
-            var fileExtension = System.IO.Path.GetExtension(file.FileName); // Use FileName property
-            bool result = allowedExtensions.Any(ext => fileExtension.EndsWith(ext, StringComparison.OrdinalIgnoreCase));
+            var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };  // Bao gồm dấu chấm.
+            var fileExtension = System.IO.Path.GetExtension(file.FileName);
 
-            if (!result)
+            if (!allowedExtensions.Contains(fileExtension))
             {
-                return new ValidationResult($@"The file extension '{fileExtension}' is not allowed. 
-                    Allowed extensions are: {string.Join(", ", allowedExtensions)}.");
+                return new ValidationResult($"Phần mở rộng tệp '{fileExtension}' không được phép. Các phần mở rộng cho phép là: {string.Join(", ", allowedExtensions)}.");
             }
         }
-        return ValidationResult.Success; // Validation passed
+        return ValidationResult.Success;
     }
 }

@@ -47,9 +47,9 @@
             <span asp-validation-for="BrandID" class="text-danger"></span>
         </div>
 
-        <div class="form-group">
-            <label>Image</label>
-            <input asp-for="ImageUpload" type="file" class="form-control" />
+        <div>
+            <label asp-for="ImageUpload">Image</label>
+            <input asp-for="ImageUpload" type="file" />
             <!-- Hiển thị lỗi cho Image -->
             <span asp-validation-for="ImageUpload" class="text-danger"></span>
         </div>
