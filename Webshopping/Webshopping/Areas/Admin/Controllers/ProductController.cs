@@ -189,6 +189,7 @@ public class ProductController : Controller
         return RedirectToAction("Index");
     }
 
+    [HttpPost]
     public async Task<IActionResult> Delete(int id)
     {
         // Tìm sản phẩm theo ID
@@ -220,5 +221,4 @@ public class ProductController : Controller
         TempData["success"] = "Sản phẩm đã được xóa thành công!";
         return RedirectToAction("Index");
     }
-
 }
