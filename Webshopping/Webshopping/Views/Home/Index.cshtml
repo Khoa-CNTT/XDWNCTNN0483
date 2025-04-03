@@ -7,38 +7,45 @@
     <div class="features_items">
         <!--features_items-->
         <h2 class="title text-center">Features Items</h2>
-        @foreach(var item in Model){
+        @foreach (var item in Model)
+        {
             <div class="col-sm-4">
                 <div class="product-image-wrapper">
-                  
-                <div class="single-products">
-                    <a asp action="Details" asp-controller="Product" asp-route-Id="@item.Id">
-                    <div class="productinfo text-center">
-                        <img src="~/img/@item.Img" alt="@item.Name" width="100%" />
-                        <h2>$@item.Price</h2>
-                        <p>@item.Name</p>
-                        <p>Danh mục: @item.Category.Name</p>
-                        <p>Thương hiệu: @item.Brand.Name</p>
-                        <a class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                    </div>
-                    <div class="product-overlay">
-                        <div class="overlay-content">
-                            <h2>$@item.Price</h2>
-                            <p>@item.Name</p>
-                            <p>@item.Description</p>
-                        </div>
-                    </div>
+
+                    <div class="single-products">
+                        <a asp action="Details" asp-controller="Product" asp-route-Id="@item.Id">
+                            <div class="productinfo text-center">
+
+                                <img src="~/img/@item.Img" alt="@item.Name" width="100%" />
+                                <h2>$@item.Price</h2>
+                                <p>@item.Name</p>
+                                <p>Danh mục: @item.Category.Name</p>
+                                <p>Thương hiệu: @item.Brand.Name</p>
+
+                                <a class="btn btn-default add-to-cart" asp-action="add" asp-controller="cart" asp-route-Id="@item.Id">
+                                    <i class="fa fa-shopping-cart"></i>Add to cart
+                                </a>
+                            </div>
+                            <div class="product-overlay">
+
+                                <div class="overlay-content">
+                                    <h2>$@item.Price</h2>
+                                    <p>@item.Name</p>
+                                    <p>@item.Description</p>
+                                </div>
+
+                            </div>
                         </a>
-                </div>
-                    
-                <div class="choose">
-                    <ul class="nav nav-pills nav-justified">
-                        <li><a href="#"><i class="fa fa-plus-square"></i>Add to wishlist</a></li>
-                        <li><a href="#"><i class="fa fa-plus-square"></i>Add to compare</a></li>
-                    </ul>
+                    </div>
+
+                    <div class="choose">
+                        <ul class="nav nav-pills nav-justified">
+                            <li><a href="#"><i class="fa fa-plus-square"></i>Add to wishlist</a></li>
+                            <li><a href="#"><i class="fa fa-plus-square"></i>Add to compare</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </div>
         }
 
     </div><!--features_items-->

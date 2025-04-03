@@ -157,9 +157,6 @@ coverage*.info
 *.coverage
 *.coveragexml
 
-bin
-obj
-
 # NCrunch
 _NCrunch_*
 .*crunch*.local.xml
@@ -486,5 +483,5 @@ $RECYCLE.BIN/
 # Vim temporary swap files
 *.swp
 
-.vscode/**
-
+# vscode
+.vscode
