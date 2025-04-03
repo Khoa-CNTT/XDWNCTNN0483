@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.ObjectPool;
+using Webshopping.Models;
 using Webshopping.Repository;
 
 [Area("Admin")]
@@ -35,5 +36,15 @@ public class ProductController : Controller
         ViewBag.Categories = new SelectList(_dataContext.Categories, "Id", "Name");
         ViewBag.Brands = new SelectList(_dataContext.Brands, "Id", "Name");
         return View();
+    }
+
+    public async Task<IActionResult> Add(ProductModel model)
+    {
+        // model.CategoryID: Giá trị danh mục được chọn trước(nếu có) khi chỉnh sửa sản phẩm
+        ViewBag.Categories = new SelectList(_dataContext.Categories, "Id", "Name", model.CategoryID);
+
+        // model.BrandID: Giá trị thương hiệu được chọn trước (nếu có) khi chỉnh sửa sản phẩm
+        ViewBag.Brands = new SelectList(_dataContext.Brands, "Id", "Name", model.BrandID);
+        return View(model);
     }
 }
