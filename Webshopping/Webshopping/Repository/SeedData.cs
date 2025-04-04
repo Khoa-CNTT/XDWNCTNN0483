@@ -26,6 +26,12 @@ namespace Shopping_Tutorial.Repository
                 new ProductModel { Name = "Idole", Slug = "Idole", Description = "Lacome is the best ", Img = "1.jpg", Category = Idole, Brand = Lacome, Price = 123 }
                 );
                 _context.SaveChanges();
+                Console.WriteLine("Seed data added successfully.");
+            }
+            else
+            {
+                // Log message if data already exists
+                Console.WriteLine("Seed data already exists. No changes made.");
             }
         }
     }

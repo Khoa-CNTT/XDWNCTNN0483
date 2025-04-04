@@ -7,7 +7,7 @@ using Webshopping.Repository.Shopping_Tutorial.Repository;
 
 namespace Webshopping.Controllers
 {
-    public class CartController: Controller
+    public class CartController : Controller
     {
         private readonly DataContext _datacontext;
         public CartController(DataContext _context)
@@ -16,7 +16,7 @@ namespace Webshopping.Controllers
         }
         public IActionResult Index()
         {
-            List<CartItemModels> cartItem = HttpContext.Session.GetJson<List<CartItemModels>>("cart") ??new List<CartItemModels>();
+            List<CartItemModels> cartItem = HttpContext.Session.GetJson<List<CartItemModels>>("cart") ?? new List<CartItemModels>();
             CartItemViewModel cartVM = new()
             {
                 CartItems = cartItem,
@@ -43,8 +43,78 @@ namespace Webshopping.Controllers
                 cartItems.Quantity++;
             }
             HttpContext.Session.SetJson("cart", cart);
+            TempData["success"] = "Thêm sản phẩm vào giỏ hàng thành công";
             return Redirect(Request.Headers["Referer"].ToString());
 
+        }
+        public async Task<IActionResult> Decrease(int Id)
+        {
+            List<CartItemModels> cart = HttpContext.Session.GetJson<List<CartItemModels>>("cart");
+            CartItemModels cartItems = cart.Where(c => c.ProductId == Id).FirstOrDefault();
+
+            if (cartItems.Quantity > 1)
+            {
+                cartItems.Quantity--;
+            }
+            else
+            {
+                cart.RemoveAll(p => p.ProductId == Id);
+            }
+            if (cart.Count == 0)
+            {
+                HttpContext.Session.Remove("cart");
+            }
+            else
+            {
+                HttpContext.Session.SetJson("cart", cart);
+            }
+            TempData["success"] = "Giảm số lượng sản phẩm thành công";
+            return RedirectToAction("Index");
+        }
+        public async Task<IActionResult> Increase(int Id)
+        {
+            List<CartItemModels> cart = HttpContext.Session.GetJson<List<CartItemModels>>("cart");
+            CartItemModels cartItems = cart.Where(c => c.ProductId == Id).FirstOrDefault();
+
+            if (cartItems.Quantity >= 1)
+            {
+                cartItems.Quantity++;
+            }
+            else
+            {
+                cart.RemoveAll(p => p.ProductId == Id);
+            }
+            if (cart.Count == 0)
+            {
+                HttpContext.Session.Remove("cart");
+            }
+            else
+            {
+                HttpContext.Session.SetJson("cart", cart);
+            }
+            TempData["success"] = "Tăng số lượng sản phẩm thành công";
+            return RedirectToAction("Index");
+        }
+        public async Task<IActionResult> Remove(int Id)
+        {
+            List<CartItemModels> cart = HttpContext.Session.GetJson<List<CartItemModels>>("cart");
+            cart.RemoveAll(p => p.ProductId == Id);
+            if (cart.Count == 0)
+            {
+                HttpContext.Session.Remove("cart");
+            }
+            else
+            {
+                HttpContext.Session.SetJson("cart", cart);
+            }
+            TempData["success"] = "Xóa sản phẩm thành công";
+            return RedirectToAction("Index");
+        }
+        public async Task<IActionResult> Clear()
+        {
+            HttpContext.Session.Remove("cart");
+            TempData["success"] = "Xóa giỏ hàng thành công";
+            return RedirectToAction("Index");
         }
     }
 }
