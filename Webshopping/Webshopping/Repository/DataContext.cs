@@ -4,9 +4,9 @@ using Webshopping.Models;
 
 namespace Webshopping.Repository
 {
-    public class DataContext: IdentityDbContext<AppUserModel>
+    public class DataContext : IdentityDbContext<AppUserModel>
     {
-        public DataContext(DbContextOptions<DataContext>options) : base(options)
+        public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
 
         }
