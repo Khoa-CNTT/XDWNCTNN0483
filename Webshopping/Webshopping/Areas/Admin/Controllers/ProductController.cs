@@ -1,10 +1,13 @@
-namespace Webshopping.Areas.Amdin.Controllers;
+namespace Webshopping.Areas.Admin.Controllers;
 
 using System.Globalization;
+using System.Text;
+using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.ObjectPool;
+using Webshopping.Areas.Admin.Common;
 using Webshopping.Models;
 using Webshopping.Repository;
 
@@ -128,64 +131,76 @@ public class ProductController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(int id, ProductModel model)
     {
+        var existingProduct = await _dataContext.Products.FindAsync(id);
+        if (existingProduct == null)
+        {
+            return NotFound();
+        }
+
         ViewBag.Categories = new SelectList(_dataContext.Categories, "Id", "Name", model.CategoryID);
         ViewBag.Brands = new SelectList(_dataContext.Brands, "Id", "Name", model.BrandID);
 
-        // Kiểm tra và gán giá trị mặc định cho Img nếu không có ảnh
+        // Tạo slug từ tên sản phẩm
+        model.Slug = SlugGenerate.GenerateSlug(model.Name);
+
+        // Kiểm tra trùng Slug (nhưng không tính sản phẩm hiện tại)
+        var slugExists = await _dataContext.Products
+            .AnyAsync(p => p.Slug == model.Slug && p.Id != id);
+        if (slugExists)
+        {
+            ModelState.AddModelError("Slug", "Tên sản phẩm đã tồn tại trong hệ thống (trùng Slug).");
+            return View(model);
+        }
+
+        // Nếu có ảnh mới được upload
         if (model.ImageUpload != null)
         {
-            model.Slug = model.Name.Replace(" ", "-");
-            var slug = await _dataContext.Products.FirstOrDefaultAsync(p => p.Slug == model.Slug);
+            var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
+            var fileExtension = Path.GetExtension(model.ImageUpload.FileName).ToLower();
 
-            if (slug != null)
+            if (!allowedExtensions.Contains(fileExtension))
             {
-                ModelState.AddModelError("", "Sản phẩm đã có trong database");
+                ModelState.AddModelError("ImageUpload", "Tệp hình ảnh phải là .jpg, .jpeg, .png hoặc .gif.");
                 return View(model);
             }
-            else
+
+            var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img");
+            if (!Directory.Exists(uploadsFolder))
             {
-                var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
-                var fileExtension = System.IO.Path.GetExtension(model.ImageUpload.FileName).ToLower();
-
-                if (!allowedExtensions.Contains(fileExtension))
-                {
-                    ModelState.AddModelError("ImageUpload", "Tệp hình ảnh phải có định dạng .jpg, .jpeg, .png hoặc .gif.");
-                    return View(model);
-                }
-
-                // Đường dẫn lưu ảnh
-                var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img");
-
-                // Kiểm tra và tạo thư mục nếu không tồn tại
-                if (!Directory.Exists(uploadsFolder))
-                {
-                    Directory.CreateDirectory(uploadsFolder);
-                }
-
-                // Sinh ra số ngẫu nhiên 4 chữ số
-                var random = new Random();
-                var randomNumber = random.Next(1000, 9999);  // Sinh số ngẫu nhiên từ 1000 đến 9999
-                var fileName = $"img{randomNumber}{fileExtension}"; // Tên tệp mới là img{random số}{extension}
-
-                var filePath = Path.Combine(uploadsFolder, fileName);
-
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    await model.ImageUpload.CopyToAsync(stream);
-                }
-                model.Img = fileName;  // Chỉ lưu tên tệp vào cơ sở dữ liệu
+                Directory.CreateDirectory(uploadsFolder);
             }
-        }
-        else
-        {
-            model.Img = "1.jpg";  // Gán ảnh mặc định nếu không có ảnh tải lên
+
+            var random = new Random();
+            var fileName = $"img{random.Next(1000, 9999)}{fileExtension}";
+            var filePath = Path.Combine(uploadsFolder, fileName);
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await model.ImageUpload.CopyToAsync(stream);
+            }
+
+            existingProduct.Img = fileName;
         }
 
-        // Thêm sản phẩm vào cơ sở dữ liệu
-        _dataContext.Products.Update(model);
+        // Nếu không upload ảnh, giữ ảnh cũ
+        // Nếu chưa có ảnh (Img rỗng), gán mặc định
+        if (string.IsNullOrEmpty(existingProduct.Img))
+        {
+            existingProduct.Img = "1.jpg";
+        }
+
+        // Cập nhật các trường thông tin
+        existingProduct.Name = model.Name;
+        existingProduct.Description = model.Description;
+        existingProduct.Price = model.Price;
+        existingProduct.Slug = model.Slug;
+        existingProduct.BrandID = model.BrandID;
+        existingProduct.CategoryID = model.CategoryID;
+
+        _dataContext.Products.Update(existingProduct);
         await _dataContext.SaveChangesAsync();
 
-        TempData["success"] = "Sản phẩm đã được thêm thành công!";
+        TempData["success"] = "Cập nhật sản phẩm thành công!";
         return RedirectToAction("Index");
     }
 
