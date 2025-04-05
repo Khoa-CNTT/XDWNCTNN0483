@@ -1,0 +1,41 @@
+@model IEnumerable<CategoryModel>
+
+@{
+    ViewData["title"] = "Category Listed";
+}
+
+<h3>List Product</h3>
+@* asp-action="Add" sẽ được gọi khi có hàm Add *@
+@* có thể sử dụng asp-area="admin" để ấy đường dẫn thêm admin *@
+<a asp-area="admin" asp-action="Add" asp-controller="category" class="btn btn-primary btn-sm pt-1">Add Product</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Tên Danh mục</th>
+            <th scope="col">Mô tả của danh mục</th>
+            <th scope="col">Slug danh mục</th>
+            <th scope="col">Trạng thái</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th scope="row">1</th>
+                <td>@item.Name</td>
+                <td>@item.Description</td>
+                <td>@item.Slug</td>
+                <td>@item.Status</td>
+                <td>
+                    <a asp-action="Edit" class="btn btn-sm btn-warning" asp-controller="Product" asp-route-Id="@item.Id">
+                        Edit
+                    </a>
+                    <form asp-action="Delete" asp-route-id="@item.Id" method="post">
+                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

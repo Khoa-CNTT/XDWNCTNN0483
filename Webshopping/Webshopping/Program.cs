@@ -5,11 +5,13 @@ using Webshopping.Models;
 using Webshopping.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
+
 //ConnectionDB
 builder.Services.AddDbContext<DataContext>(options =>
 {
     options.UseSqlServer(builder.Configuration["ConnectionStrings:ConnectedDb"]);
 });
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
@@ -70,13 +72,10 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Home/Error");
 }
 
-
-
 app.UseStaticFiles();
 
 app.UseRouting();
 app.UseAuthentication();
-
 
 app.UseAuthorization();
 
