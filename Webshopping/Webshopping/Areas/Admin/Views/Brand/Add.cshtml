@@ -1,15 +1,15 @@
-@model CategoryModel
+@model BrandModel
 @{
-    ViewData["title"] = "Create Category";
+    ViewData["title"] = "Create Brand";
 }
 
-<h3>Tạo danh mục</h3>
+<h3>Tạo thương hiệu</h3>
 
 <div class="col-md-9">
     <form asp-action="Add">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group">
-            <label>Tên danh mục</label>
+            <label>Tên thương hiệu</label>
             <input asp-for="Name" class="form-control" />
             <span asp-validation-for="Name" class="text-danger"></span>
         </div>
@@ -30,10 +30,10 @@
         </div>
 
         <div class="form-group">
-            <button class="btn btn-primary">Thêm danh mục</button>
+            <button class="btn btn-primary">Thêm thương hiệu</button>
         </div>
     </form>
-    <a asp-action="Index">Trở về lại trang danh mục</a>
+    <a asp-action="Index">Trở về lại trang thương hiệu</a>
 </div>
 @section Scripts {
     @{

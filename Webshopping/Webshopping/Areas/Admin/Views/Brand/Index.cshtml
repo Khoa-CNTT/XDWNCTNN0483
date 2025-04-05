@@ -1,10 +1,10 @@
-@model IEnumerable<ProductModel>
+@model IEnumerable<BrandModel>
 
 @{
-    ViewData["title"] = "Product Listed";
+    ViewData["title"] = "Brand Listed";
 }
 
-<h3>List Product</h3>
+<h3>thương hiệu</h3>
 
 @if (TempData["success"] != null)
 {
@@ -20,20 +20,16 @@
     </div>
 }
 
-@* asp-action="Add" sẽ được gọi khi có hàm Add *@
-@* có thể sử dụng asp-area="admin" để ấy đường dẫn thêm admin *@
-<a asp-area="admin" asp-action="Add" asp-controller="Product" class="btn btn-primary btn-sm pt-1">Add Product</a>
+<!-- Your other content here -->
+<a asp-area="admin" asp-action="Add" asp-controller="brand" class="btn btn-primary btn-sm pt-1">Thêm thương hiệu</a>
 <table class="table">
     <thead>
         <tr>
             <th scope="col">#</th>
-            <th scope="col">Tên sản phẩm</th>
-            <th scope="col">Mô tả</th>
-            <th scope="col">Giá của sản phẩm</th>
-            <th scope="col">Hình ảnh</th>
-            <th scope="col">Slug sản phẩm</th>
-            <th scope="col">Danh múc</th>
-            <th scope="col">Thương hiệu</th>
+            <th scope="col">Tên thương hiệu</th>
+            <th scope="col">Mô tả của thương hiệu</th>
+            <th scope="col">Slug thương hiệu</th>
+            <th scope="col">Trạng thái</th>
             <th scope="col">Thao tác</th>
         </tr>
     </thead>
@@ -44,16 +40,23 @@
                 <th class="index-col" scope="row"></th>
                 <td>@item.Name</td>
                 <td>@Html.Raw(item.Description)</td>
-                <td>@item.Price</td>
-                <td><img src="/img/@item.Img" width="100"></td> @* lấy hình ảnh từ folder img *@
                 <td>@item.Slug</td>
-                <td>@item.Category.Name</td>
-                <td>@item.Brand.Name</td>
+
                 <td>
-                    <a asp-action="Edit" class="btn btn-sm btn-warning" asp-controller="Product" asp-route-Id="@item.Id">
+                    @if (@item.Status == 1)
+                    {
+                        <span class="text text-success">Hiển thị</span>
+                    }
+                    else
+                    {
+                        <span class="text text-secondary">Ẩn</span>
+                    }
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-controller="Brand" asp-route-id="@item.Id" class="btn btn-sm btn-warning">
                         Sửa
                     </a>
-                    <a asp-action="Delete" asp-controller="Product" asp-route-id="@item.Id" class="btn btn-sm btn-danger">
+                    <a asp-action="Delete" asp-controller="Brand" asp-route-id="@item.Id" class="btn btn-sm btn-danger">
                         Xóa
                     </a>
                 </td>
