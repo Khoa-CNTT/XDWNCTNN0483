@@ -5,6 +5,21 @@
 }
 
 <h3>List Product</h3>
+
+@if (TempData["success"] != null)
+{
+    <div class="alert alert-success notification">
+        @TempData["success"]
+    </div>
+}
+
+@if (TempData["error"] != null)
+{
+    <div class="alert alert-danger notification">
+        @TempData["error"]
+    </div>
+}
+
 @* asp-action="Add" sẽ được gọi khi có hàm Add *@
 @* có thể sử dụng asp-area="admin" để ấy đường dẫn thêm admin *@
 <a asp-area="admin" asp-action="Add" asp-controller="Product" class="btn btn-primary btn-sm pt-1">Add Product</a>
@@ -22,11 +37,11 @@
             <th scope="col">Thao tác</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody id="categoryTableBody">
         @foreach (var item in Model)
         {
             <tr>
-                <th scope="row">1</th>
+                <th class="index-col" scope="row"></th>
                 <td>@item.Name</td>
                 <td>@item.Description</td>
                 <td>@item.Price</td>
@@ -46,3 +61,17 @@
         }
     </tbody>
 </table>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const rows = document.querySelectorAll("#categoryTableBody tr");
+            rows.forEach((row, index) => {
+                const indexCell = row.querySelector(".index-col");
+                if (indexCell) {
+                    indexCell.textContent = index + 1;
+                }
+            });
+        });
+    </script>
+}

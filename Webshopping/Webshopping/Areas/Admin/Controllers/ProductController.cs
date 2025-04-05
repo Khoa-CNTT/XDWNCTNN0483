@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.ObjectPool;
+using Webshopping.Areas.Admin.Common;
 using Webshopping.Models;
 using Webshopping.Repository;
 
@@ -140,7 +141,7 @@ public class ProductController : Controller
         ViewBag.Brands = new SelectList(_dataContext.Brands, "Id", "Name", model.BrandID);
 
         // Tạo slug từ tên sản phẩm
-        model.Slug = GenerateSlug(model.Name);
+        model.Slug = SlugGenerate.GenerateSlug(model.Name);
 
         // Kiểm tra trùng Slug (nhưng không tính sản phẩm hiện tại)
         var slugExists = await _dataContext.Products
@@ -201,41 +202,6 @@ public class ProductController : Controller
 
         TempData["success"] = "Cập nhật sản phẩm thành công!";
         return RedirectToAction("Index");
-    }
-
-    private string GenerateSlug(string name)
-    {
-        string normalized = name.ToLowerInvariant();
-
-        // Bỏ dấu tiếng Việt
-        normalized = RemoveDiacritics(normalized);
-
-        // Thay thế khoảng trắng bằng dấu "-"
-        normalized = Regex.Replace(normalized, @"\s+", "-");
-
-        // Loại bỏ ký tự đặc biệt
-        normalized = Regex.Replace(normalized, @"[^a-z0-9\-]", "");
-
-        // Loại bỏ dấu - thừa ở đầu/cuối
-        return normalized.Trim('-');
-    }
-
-    private string RemoveDiacritics(string text)
-    {
-        var normalized = text.Normalize(NormalizationForm.FormD);
-        var builder = new StringBuilder();
-
-        foreach (var ch in normalized)
-        {
-            var unicodeCategory = CharUnicodeInfo.GetUnicodeCategory(ch);
-            if (unicodeCategory != UnicodeCategory.NonSpacingMark)
-            {
-                builder.Append(ch);
-            }
-        }
-
-        return builder.ToString().Normalize(NormalizationForm.FormC)
-                     .Replace("đ", "d").Replace("Đ", "D");
     }
 
     [HttpPost]
