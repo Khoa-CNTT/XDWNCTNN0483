@@ -4,7 +4,7 @@
     ViewData["title"] = "Brand Listed";
 }
 
-<h3>thương hiệu</h3>
+<h3>Thương hiệu</h3>
 
 @if (TempData["success"] != null)
 {
@@ -56,9 +56,9 @@
                     <a asp-action="Edit" asp-controller="Brand" asp-route-id="@item.Id" class="btn btn-sm btn-warning">
                         Sửa
                     </a>
-                    <a asp-action="Delete" asp-controller="Brand" asp-route-id="@item.Id" class="btn btn-sm btn-danger">
-                        Xóa
-                    </a>
+                    <form asp-action="Delete" asp-controller="Brand" asp-route-id="@item.Id" method="post">
+                        <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
+                    </form>
                 </td>
             </tr>
         }

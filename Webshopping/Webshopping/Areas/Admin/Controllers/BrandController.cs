@@ -83,4 +83,24 @@ public class BrandController : Controller
             return View(model); // trả về trang lỗi
         }
     }
+
+    // POST: admin/brand/{id}
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Delete(int id)
+    {
+        // lấy brand thoe Id
+        var brandExisting = await _dataContext.Brands.FindAsync(id);
+        if (brandExisting == null)
+        {
+            TempData["error"] = "Thương hiệu không tồn tại!";
+            return RedirectToAction("Index");
+        }
+        // xóa trong database
+        _dataContext.Brands.Remove(brandExisting);
+        await _dataContext.SaveChangesAsync();
+
+        TempData["success"] = "Thương hiệu đã được xóa thành công!";
+        return RedirectToAction("Index");
+    }
 }

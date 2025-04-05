@@ -53,9 +53,9 @@
                     <a asp-action="Edit" class="btn btn-sm btn-warning" asp-controller="Product" asp-route-Id="@item.Id">
                         Sửa
                     </a>
-                    <a asp-action="Delete" asp-controller="Product" asp-route-id="@item.Id" class="btn btn-sm btn-danger">
-                        Xóa
-                    </a>
+                    <form asp-action="Delete" asp-route-id="@item.Id" method="post">
+                        <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
+                    </form>
                 </td>
             </tr>
         }

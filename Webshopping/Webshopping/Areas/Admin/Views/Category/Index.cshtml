@@ -39,7 +39,7 @@
             <tr>
                 <th class="index-col" scope="row"></th>
                 <td>@item.Name</td>
-                <td>@Html.Raw(item.Description)</td>
+                <td>@item.Description</td>
                 <td>@item.Slug</td>
 
                 <td>
@@ -56,9 +56,9 @@
                     <a asp-action="Edit" asp-controller="Category" asp-route-id="@item.Id" class="btn btn-sm btn-warning">
                         Sửa
                     </a>
-                    <a asp-action="Delete" asp-controller="Category" asp-route-id="@item.Id" class="btn btn-sm btn-danger">
-                        Xóa
-                    </a>
+                    <form asp-action="Delete" asp-route-id="@item.Id" method="post">
+                        <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
+                    </form>
                 </td>
             </tr>
         }
