@@ -84,6 +84,73 @@ public class BrandController : Controller
         }
     }
 
+    // GET: admin/brand/update/{id}
+    [HttpGet("update/{id}")]
+    public async Task<IActionResult> Edit(int id)
+    {
+        var brandExisting = await _dataContext.Brands.FindAsync(id);
+        if (brandExisting == null)
+        {
+            return NotFound();
+        }
+        return View(brandExisting); // truyền model vào view
+    }
+
+    // POST: admin/brand/update/{id}
+    [HttpPost("update/{id}")]
+    public async Task<IActionResult> Edit(int id, BrandModel model)
+    {
+        if (ModelState.IsValid)
+        {
+            // Tên thương hiệu không dược trống
+            if (string.IsNullOrWhiteSpace(model.Name))
+            {
+                ModelState.AddModelError("Name", "Tên thương hiệu không được để trống");
+                return View(model); // trả về trang lỗi
+            }
+
+            // tao Slug bằng Name
+            model.Slug = string.IsNullOrWhiteSpace(model.Slug) ? SlugGenerate.GenerateSlug(model.Name) : model.Slug;
+
+            // kiểm tra Slug có trong cơ sở dữ liệu hay không
+            var slugExisting = await _dataContext.Brands.FirstOrDefaultAsync((brand) => brand.Slug == model.Slug && brand.Id == model.Id);
+            if (slugExisting != null)
+            {
+                ModelState.AddModelError("", "Slug đã tồn tại trong database");
+                return View(model);
+            }
+
+            var brandExisting = await _dataContext.Brands.FindAsync(model.Id);
+            if (brandExisting == null)
+            {
+                return View(model);
+            }
+
+            // thay đổi giá trị của brand
+            brandExisting.Name = model.Name;
+            brandExisting.Description = model.Description;
+            brandExisting.Slug = model.Slug;
+            brandExisting.Status = model.Status;
+
+            // update vào database
+            await _dataContext.SaveChangesAsync();
+            TempData["success"] = "Thương hiệu cập nhật thành công";
+            return RedirectToAction("Index");
+        }
+
+        List<string> errors = new List<string>();
+        foreach (var value in ModelState.Values)
+        {
+            foreach (var error in value.Errors)
+            {
+                errors.Add(error.ErrorMessage);
+            }
+        }
+        string errorMessage = string.Join("\n", errors);
+        TempData["error"] = "Model có lỗi: " + errorMessage;
+        return View(model);
+    }
+
     // POST: admin/brand/{id}
     [HttpPost]
     [ValidateAntiForgeryToken]

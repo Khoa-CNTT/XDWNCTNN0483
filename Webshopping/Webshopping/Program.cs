@@ -24,8 +24,8 @@ builder.Services.AddSession(options =>
 });
 
 //Khai bao Identity
-// builder.Services.AddIdentity<AppUserModel, IdentityRole>()
-//     .AddEntityFrameworkStores<DataContext>().AddDefaultTokenProviders();
+builder.Services.AddIdentity<AppUserModel, IdentityRole>()
+     .AddEntityFrameworkStores<DataContext>().AddDefaultTokenProviders();
 
 builder.Services.AddAuthentication(options =>
 {
