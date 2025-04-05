@@ -79,21 +79,94 @@ public class CategoryController : Controller
         }
     }
 
-    [HttpPost]
+    // GET: admin/category/update/{id}
+    [HttpGet("category/update/{id}")]
+    public async Task<IActionResult> Edit(int id)
+    {
+        CategoryModel existingCategory = await _dataContext.Categories.FindAsync(id);
+        if (existingCategory == null)
+        {
+            return NotFound();
+        }
+        return View(existingCategory); // truyền model vào view
+    }
+
+    // POST: admin/category/update/{id}
+    [HttpPost("category/update/{id}")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Edit(CategoryModel model)
+    {
+        if (ModelState.IsValid)
+        {
+            if (string.IsNullOrWhiteSpace(model.Name))
+            {
+                ModelState.AddModelError("Name", "Tên danh mục không được để trống");
+                return View(model);
+            }
+
+            // Tạo Slug
+            model.Slug = string.IsNullOrWhiteSpace(model.Slug)
+                ? SlugGenerate.GenerateSlug(model.Name)
+                : model.Slug;
+
+            // Kiểm tra Slug trùng (loại trừ chính nó)
+            var slugExisted = await _dataContext.Categories
+                .FirstOrDefaultAsync(p => p.Slug == model.Slug && p.Id != model.Id);
+            if (slugExisted != null)
+            {
+                ModelState.AddModelError("", "Slug đã tồn tại trong database");
+                return View(model);
+            }
+
+            // Tìm entity gốc từ DB
+            var existingCategory = await _dataContext.Categories.FindAsync(model.Id);
+            if (existingCategory == null)
+            {
+                return NotFound();
+            }
+
+            // Cập nhật từng trường
+            existingCategory.Name = model.Name;
+            existingCategory.Description = model.Description;
+            existingCategory.Slug = model.Slug;
+            existingCategory.Status = model.Status;
+
+            await _dataContext.SaveChangesAsync();
+
+            TempData["success"] = "Danh mục đã được cập nhật thành công!";
+            return RedirectToAction("Index");
+        }
+
+        // Xử lý lỗi
+        List<string> errors = new List<string>();
+        foreach (var value in ModelState.Values)
+        {
+            foreach (var error in value.Errors)
+            {
+                errors.Add(error.ErrorMessage);
+            }
+        }
+        string errorMessage = string.Join("\n", errors);
+        TempData["error"] = "Model có lỗi: " + errorMessage;
+        return View(model);
+    }
+
+    // POST: admin/category/delete
+    [HttpPost("category/delete")]
     public async Task<IActionResult> Delete(int id)
     {
         // Tìm sản phẩm theo ID
-        var catagory = await _dataContext.Categories.FindAsync(id);
+        var category = await _dataContext.Categories.FindAsync(id);
 
         // Kiểm tra nếu sản phẩm không tồn tại
-        if (catagory == null)
+        if (category == null)
         {
             TempData["error"] = "Danh mục không tồn tại!";
             return RedirectToAction("Index");
         }
 
         // Xóa sản phẩm khỏi cơ sở dữ liệu
-        _dataContext.Categories.Remove(catagory);
+        _dataContext.Categories.Remove(category);
         await _dataContext.SaveChangesAsync();
 
         TempData["success"] = "Danh mục đã được xóa thành công!";
