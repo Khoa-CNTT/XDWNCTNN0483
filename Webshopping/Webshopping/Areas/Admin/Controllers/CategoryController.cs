@@ -78,4 +78,25 @@ public class CategoryController : Controller
             return View(model); // Trả về view với lỗi
         }
     }
+
+    [HttpPost]
+    public async Task<IActionResult> Delete(int id)
+    {
+        // Tìm sản phẩm theo ID
+        var catagory = await _dataContext.Categories.FindAsync(id);
+
+        // Kiểm tra nếu sản phẩm không tồn tại
+        if (catagory == null)
+        {
+            TempData["error"] = "Danh mục không tồn tại!";
+            return RedirectToAction("Index");
+        }
+
+        // Xóa sản phẩm khỏi cơ sở dữ liệu
+        _dataContext.Categories.Remove(catagory);
+        await _dataContext.SaveChangesAsync();
+
+        TempData["success"] = "Danh mục đã được xóa thành công!";
+        return RedirectToAction("Index");
+    }
 }
