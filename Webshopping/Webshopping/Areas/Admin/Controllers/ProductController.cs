@@ -3,6 +3,7 @@ namespace Webshopping.Areas.Admin.Controllers;
 using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,7 @@ using Webshopping.Models;
 using Webshopping.Repository;
 
 [Area("Admin")]
+[Authorize]
 [Route("admin/")]
 public class ProductController : Controller
 {
