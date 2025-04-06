@@ -1,0 +1,58 @@
+@model LoginViewModel
+@{
+    ViewData["title"] = "Login";
+}
+
+@if (TempData["success"] != null)
+{
+    <div class="alert alert-success notification">
+        @TempData["success"]
+    </div>
+}
+
+@if (TempData["error"] != null)
+{
+    <div class="alert alert-danger notification">
+        @TempData["error"]
+    </div>
+}
+
+<section>
+    <!--form-->
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-8 col-sm-offset-1">
+                <div class="login-form">
+                    <!--login form-->
+                    <h2>Login to your account</h2>
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <form asp-action="Login" asp-controller="Account">
+
+                        <div class="form-group">
+                            <label>Username</label>
+                            <input asp-for="Username" class="form-control"> </input>
+                            <span asp-validation-for="Username" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input asp-for="Password" class="form-control"> </input>
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+
+                        <button class="btn btn-default">Đăng nhập</button><br />
+                        <a asp-action="ForgotPass" asp-controller="Account">Quên mật khẩu</a><br />
+                        <a asp-action="LoginByGoogle" asp-controller="Account">Đăng nhập bằng Google</a><br />
+                        <a asp-action="Create" class="btn btn-primary" asp-controller="Account">Đăng ký</a>
+                    </form>
+                </div><!--/login form-->
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

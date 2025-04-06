@@ -5,8 +5,10 @@ using Microsoft.EntityFrameworkCore;
 using Webshopping.Models;
 using Webshopping.Repository;
 using Webshopping.Areas.Admin.Common;
+using Microsoft.AspNetCore.Authorization;
 
 [Area("Admin")]
+[Authorize]
 [Route("admin/")]
 public class CategoryController : Controller
 {

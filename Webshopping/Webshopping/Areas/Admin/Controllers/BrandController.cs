@@ -1,5 +1,6 @@
 namespace Webshopping.Areas.Admin.Controllers;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -9,6 +10,7 @@ using Webshopping.Models;
 using Webshopping.Repository;
 
 [Area("Admin")]
+[Authorize]
 [Route("admin/brand")]
 public class BrandController : Controller
 {
