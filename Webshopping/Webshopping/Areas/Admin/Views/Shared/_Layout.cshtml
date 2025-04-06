@@ -70,6 +70,11 @@
 						</div>
 						<div class="mainmenu pull-left">
 							<ul class="nav navbar-nav collapse navbar-collapse">
+								<li><a asp-controller="home" class="active">Home</a></li>
+								<li><a asp-controller="product" asp-action="Index">Sản phẩm</a></li>
+								<li><a asp-controller="category" asp-action="Index">Danh mục</a></li>
+								<li><a asp-controller="brand" asp-action="Index">Thương hiệu</a></li>
+								<li><a asp-controller="Order" asp-action="Index">Order</a> </li>
 								<li><a asp-controller="HOME" class="active">Home</a></li>
 								<li class="dropdown">
 									<a asp-controller="Product" asp-action="Details">Shop<i
@@ -79,6 +84,7 @@
 										<li><a asp-controller="Product" asp-action="Details">Product Details</a></li>
 										<li><a asp-controller="Cart" asp-action="Checkout">Checkout</a></li>
 										<li><a asp-controller="Cart">Cart</a></li>
+
 										<li><a>Login</a></li>
 									</ul>
 								</li>
