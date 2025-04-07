@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Webshopping.Models;
 using Webshopping.Models;
 using Webshopping.Repository;
@@ -32,6 +33,25 @@ namespace Shopping_Tutorial.Repository
             {
                 // Log message if data already exists
                 Console.WriteLine("Seed data already exists. No changes made.");
+            }
+        }
+        public static async Task SeedingDataAsync(DataContext _context, RoleManager<IdentityRole> roleManager)
+        {
+            _context.Database.Migrate();
+
+            await SeedRolesAsync(roleManager); // Gọi hàm riêng để seed role
+        }
+        // Hàm để seeding role
+        private static async Task SeedRolesAsync(RoleManager<IdentityRole> roleManager)
+        {
+            string[] roles = { "Admin", "User" };
+
+            foreach (var role in roles)
+            {
+                if (!await roleManager.RoleExistsAsync(role))
+                {
+                    await roleManager.CreateAsync(new IdentityRole(role));
+                }
             }
         }
     }
