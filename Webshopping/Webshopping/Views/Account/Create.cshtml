@@ -27,6 +27,12 @@
                         </div>
 
                         <div class="form-group">
+                            <label>Số điện thoại</label>
+                            <input asp-for="PhoneNumber" class="form-control"></input>
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
                             <label>Mật khẩu</label>
                             <input asp-for="Password" class="form-control"></input>
                             <span asp-validation-for="Password" class="text-danger"></span>

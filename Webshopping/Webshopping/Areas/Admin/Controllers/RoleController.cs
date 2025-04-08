@@ -9,17 +9,18 @@ using Webshopping.Repository;
 
 namespace Webshopping.Areas.Admin.Controllers
 {
-    [Area("Admin")]
+[Area("Admin")]
     [Route("admin/Role")]
-    public class RoleController : Controller
+public class RoleController : Controller
+{
+    private readonly DataContext _dataContext;
+    private readonly RoleManager<IdentityRole> _roleManager;
+
+    public RoleController(DataContext context, RoleManager<IdentityRole> roleManager)
     {
-        private readonly DataContext _dataContext;
-        private readonly RoleManager<IdentityRole> _roleManager;
-        public RoleController(DataContext context, RoleManager<IdentityRole> roleManager)
-        {
-            _dataContext = context;
-            _roleManager = roleManager;
-        }
+        _dataContext = context;
+        _roleManager = roleManager;
+    }
         [HttpGet("Index")]
         public async Task<IActionResult> Index()
         {
@@ -101,7 +102,7 @@ namespace Webshopping.Areas.Admin.Controllers
                 TempData["success"] = "Xóa thành công";
             }
             catch (Exception ex)
-            {
+    {
                 ModelState.AddModelError("", "Xóa không thành công");
             }
             return Redirect("Index");

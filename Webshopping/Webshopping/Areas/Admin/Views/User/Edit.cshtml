@@ -1,0 +1,58 @@
+@model AppUserModel
+
+@{
+    ViewData["Title"] = "Edit User";
+}
+
+<h3>Cập nhật người dùng</h3>
+
+<div class="col-md-9">
+    <form asp-action="Edit" method="post">
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <input type="hidden" asp-for="Id">
+        <div class="form-group">
+            <label asp-for="UserName">Tên đăng nhập</label>
+            <input asp-for="UserName" class="form-control" />
+            <span asp-validation-for="UserName" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Email">Email</label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="PhoneNumber">Số điện thoại</label>
+            <input asp-for="PhoneNumber" class="form-control" />
+            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Mật khẩu</label>
+            <input readonly class="form-control" />
+            <span asp-validation-for="PasswordHash" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Role</label>
+            <select asp-for="RoleId" asp-items="ViewBag.Roles" class="form-control">
+                <option value="">-- Select Role --</option>
+            </select>
+            <span asp-validation-for="RoleId" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Cập nhật người dùng</button>
+    </form>
+
+    <button type="submit" asp-controller="user" asp-action="Index" class="btn btn-primary">
+        Trở về trang danh sách người dùng
+    </button>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
