@@ -30,7 +30,7 @@ public class AccountController : Controller
     {
         if (ModelState.IsValid)
         {
-            AppUserModel newUser = new AppUserModel { UserName = model.Username, Email = model.Email };
+            AppUserModel newUser = new AppUserModel { UserName = model.Username, Email = model.Email, PhoneNumber = model.PhoneNumber };
             IdentityResult result = await _userManage.CreateAsync(newUser, model.Password);
             if (result.Succeeded)
             {

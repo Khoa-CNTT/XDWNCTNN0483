@@ -14,7 +14,7 @@ using Webshopping.Repository;
 
 [Area("Admin")]
 [Authorize]
-[Route("admin/")]
+[Route("admin/product/")]
 public class ProductController : Controller
 {
     private readonly DataContext _dataContext;
@@ -37,7 +37,7 @@ public class ProductController : Controller
     }
 
     // GET: /admin/product/create
-    [HttpGet("product/create")]
+    [HttpGet("create")]
     public IActionResult Add()
     {
         ViewBag.Categories = new SelectList(_dataContext.Categories, "Id", "Name");
@@ -46,7 +46,7 @@ public class ProductController : Controller
     }
 
     // POST: /admin/product/create
-    [HttpPost("product/create")]
+    [HttpPost("create")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Add(ProductModel model)
     {
@@ -111,7 +111,7 @@ public class ProductController : Controller
         return RedirectToAction("Index");
     }
 
-    [HttpGet("product/edit/{id}")]
+    [HttpGet("edit/{id}")]
     public async Task<IActionResult> Edit(int id)
     {
         // Fetch the product from the database
@@ -129,7 +129,7 @@ public class ProductController : Controller
         return View(product); // Return the view with the product data
     }
 
-    [HttpPost("product/edit/{id}")]
+    [HttpPost("edit/{id}")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(int id, ProductModel model)
     {

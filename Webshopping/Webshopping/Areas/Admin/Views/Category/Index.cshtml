@@ -56,7 +56,8 @@
                     <a asp-action="Edit" asp-controller="Category" asp-route-id="@item.Id" class="btn btn-sm btn-warning">
                         Sửa
                     </a>
-                    <form asp-action="Delete" asp-route-id="@item.Id" method="post">
+                    <form asp-action="Delete" asp-controller="category" asp-route-id="@item.Id" method="post"
+                        style="display: inline;">
                         <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
                     </form>
                 </td>
@@ -67,13 +68,10 @@
 
 @section Scripts {
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const rows = document.querySelectorAll("#categoryTableBody tr");
-            rows.forEach((row, index) => {
-                const indexCell = row.querySelector(".index-col");
-                if (indexCell) {
-                    indexCell.textContent = index + 1;
-                }
+        $(document).ready(function () {
+            // Lặp qua từng dòng trong tbody và đánh số thứ tự
+            $('#categoryTableBody tr').each(function (index) {
+                $(this).find('.index-col').text(index + 1);
             });
         });
     </script>
