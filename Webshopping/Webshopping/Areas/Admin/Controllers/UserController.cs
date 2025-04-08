@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Webshopping.Models;
+using Webshopping.Models.ViewModel;
 using Webshopping.Repository;
 
 [Area("Admin")]
@@ -14,13 +15,13 @@ using Webshopping.Repository;
 [Authorize]
 public class UserController : Controller
 {
-    private readonly DataContext _dataContext;
+    // private readonly DataContext _dataContext;
     private readonly RoleManager<IdentityRole> _roleManager;
     private readonly UserManager<AppUserModel> _userManager;
 
-    public UserController(DataContext dataContext, RoleManager<IdentityRole> roleManager, UserManager<AppUserModel> userManager)
+    public UserController(RoleManager<IdentityRole> roleManager, UserManager<AppUserModel> userManager)
     {
-        _dataContext = dataContext;
+        // _dataContext = dataContext;
         _roleManager = roleManager;
         _userManager = userManager;
     }
@@ -48,60 +49,61 @@ public class UserController : Controller
         //                           */
         //                           select new { User = u, RoleName = r.Name }).ToListAsync();
 
-
-        return View(await _dataContext.CustomUsers.OrderByDescending((customer) => customer.Id).ToListAsync());
+        var users = await _userManager.Users.OrderByDescending(user => user.Id).ToListAsync();
+        return View(users);  // Trả về danh sách AppUserModel
     }
 
     // GET: admin/user/create
-    [HttpGet("edit/{id}")]
-    public async Task<IActionResult> Add(string id)
+    [HttpGet("create")]
+    public async Task<IActionResult> Add()
     {
-        var user = await _userManager.FindByIdAsync(id);
-        if (user == null) return NotFound();
-
         var roles = await _roleManager.Roles.ToListAsync();
-        var userRoles = await _userManager.GetRolesAsync(user);
-
-        var viewModel = new UserViewModel
-        {
-            Id = user.Id,
-            UserName = user.UserName,
-            Email = user.Email,
-            PhoneNumber = user.PhoneNumber,
-            RoleIds = roles.Where(r => userRoles.Contains(r.Name)).Select(r => r.Id).ToList()
-        };
-
         ViewBag.Roles = new SelectList(roles, "Id", "Name");
-        return View(viewModel);
+        return View(); // không cần truyền model
     }
 
-    [HttpPost("edit/{id}")]
+    // POST: admin/user/create
+    [HttpPost("create")]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Add(UserViewModel model)
     {
-        var user = await _userManager.FindByIdAsync(model.Id);
-        if (user == null) return NotFound();
-
-        // Update user details
-        user.UserName = model.UserName;
-        user.Email = model.Email;
-        user.PhoneNumber = model.PhoneNumber;
-
-        var result = await _userManager.UpdateAsync(user);
-        if (!result.Succeeded)
+        if (!ModelState.IsValid)
         {
-            ModelState.AddModelError("", "Failed to update user details.");
+            var roles = await _roleManager.Roles.ToListAsync();
+            ViewBag.Roles = new SelectList(roles, "Id", "Name");
             return View(model);
         }
 
-        // Update roles
-        var currentRoles = await _userManager.GetRolesAsync(user);
-        var rolesToRemove = currentRoles.Except(model.RoleIds).ToList();
-        await _userManager.RemoveFromRolesAsync(user, rolesToRemove);
+        var user = new AppUserModel
+        {
+            UserName = model.UserName,
+            Email = model.Email,
+            PhoneNumber = model.PhoneNumber,
+        };
 
-        var rolesToAdd = model.RoleIds.Except(currentRoles).ToList();
-        var roleNamesToAdd = _roleManager.Roles.Where(r => rolesToAdd.Contains(r.Id)).Select(r => r.Name).ToList();
-        await _userManager.AddToRolesAsync(user, roleNamesToAdd);
+        var result = await _userManager.CreateAsync(user, model.Password);
+        if (result.Succeeded)
+        {
+            if (!string.IsNullOrEmpty(model.RoleId))
+            {
+                var role = await _roleManager.FindByIdAsync(model.RoleId);
+                if (role != null)
+                {
+                    await _userManager.AddToRoleAsync(user, role.Name);
+                }
+            }
 
-        return RedirectToAction("Index");
+            TempData["success"] = "Người dùng được tạo thành công!";
+            return RedirectToAction("Index");
+        }
+
+        foreach (var error in result.Errors)
+        {
+            ModelState.AddModelError("", error.Description);
+        }
+
+        var rolesList = await _roleManager.Roles.ToListAsync();
+        ViewBag.Roles = new SelectList(rolesList, "Id", "Name");
+        return View(model);
     }
 }

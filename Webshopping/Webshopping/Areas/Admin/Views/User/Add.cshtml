@@ -1,54 +1,49 @@
+@using Webshopping.Models.ViewModel
 @model UserViewModel
+
 @{
-    ViewData["title"] = "Edit User";
+    ViewData["Title"] = "Add User";
 }
 
-<h3>Edit User</h3>
+<h3>Add User</h3>
 
-<div class="col-md-9">
-    <form asp-action="Edit" enctype="multipart/form-data">
-        <input type="hidden" asp-for="Id" />
+<form asp-action="Add" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
 
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="form-group">
-            <label>UserName</label>
-            <input asp-for="UserName" required class="form-control" />
-            <span asp-validation-for="UserName" class="text-danger"></span>
-        </div>
+    <div class="form-group">
+        <label asp-for="UserName">Tên đăng nhập</label>
+        <input asp-for="UserName" class="form-control" />
+        <span asp-validation-for="UserName" class="text-danger"></span>
+    </div>
 
-        <div class="form-group">
-            <label>Email</label>
-            <input asp-for="Email" required class="form-control" />
-            <span asp-validation-for="Email" class="text-danger"></span>
-        </div>
+    <div class="form-group">
+        <label asp-for="Email">Email</label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
 
-        <div class="form-group">
-            <label>Phone Number</label>
-            <input asp-for="PhoneNumber" required class="form-control" />
-            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-        </div>
+    <div class="form-group">
+        <label asp-for="PhoneNumber">Số điện thoại</label>
+        <input asp-for="PhoneNumber" class="form-control" />
+        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+    </div>
 
-        @* <div class="form-group">
-            <label>Current Password Hash</label>
-            <input asp-for="PasswordHash" readonly required class="form-control" />
-            <span asp-validation-for="PasswordHash" class="text-danger"></span>
-        </div> *@
+    <div class="form-group">
+        <label asp-for="Password">Mật khẩu</label>
+        <input asp-for="Password" class="form-control" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
 
-        <div class="form-group">
-            <label>Roles</label>
-            <select asp-for="RoleIds" class="form-control" asp-items="ViewBag.Roles" multiple="multiple">
-            </select>
-            <span asp-validation-for="RoleIds" class="text-danger"></span>
-        </div>
+    <div class="form-group">
+        <label>Role</label>
+        <select asp-for="RoleId" asp-items="ViewBag.Roles" class="form-control">
+            <option value="">-- Select Role --</option>
+        </select>
+        <span asp-validation-for="RoleId" class="text-danger"></span>
+    </div>
 
-        <div class="form-group">
-            <button class="btn btn-primary">Update</button>
-        </div>
-
-
-    </form>
-    <a asp-action="Index">Back to list User</a>
-</div>
+    <button type="submit" class="btn btn-primary">Add User</button>
+</form>
 
 @section Scripts {
     @{

@@ -12,6 +12,6 @@ public class UserModel
     public string Email { set; get; }
     [DataType(DataType.Password), Required(ErrorMessage = "Vui lòng nhập mật khẩu")]
     public string Password { set; get; }
-    [DataType(DataType.PhoneNumber), Required(ErrorMessage = "Vui lòng nhập mật khẩu")]
+    [DataType(DataType.PhoneNumber), Required(ErrorMessage = "Vui lòng nhập số điện thoại")]
     public string PhoneNumber { set; get; }
 }
