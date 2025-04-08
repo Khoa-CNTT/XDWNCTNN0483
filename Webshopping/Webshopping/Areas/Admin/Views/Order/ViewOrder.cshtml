@@ -1,40 +1,35 @@
 ﻿@model IEnumerable<OrderDetail>
 @{
-	ViewData["Title"] = "Order Details";
+    ViewData["Title"] = "Order Details";
+    int stt = 1;
 }
 
-<h3>List Order </h3>
+<h3>Chi tiết đơn hàng</h3>
 <table class="table">
-	<thead>
-		<tr>
-			<th scope="col">STT</th>
-			<th scope="col">Order Code</th>
-			<th scope="col">User Name</th>
-			<th scope="col">Order Date</th>
-			<th scope="col">Order Status</th>
-			<th scope="col">Action</th>
-		</tr>
-	</thead>
-	<tbody>
-		@foreach (var item in Model)
-		{
-			<tr>
-
-				<th scope="col">1</th>
-				<th scope="row">@item.OrderCode</th>
-				@* <td>@item.UserName</td> *@
-				@* <td>@item.CrateDate</td> *@
-				@* <td> *@
-
-				@* 	@if (item.Status == 1) *@
-				@* 	{ *@
-				@* 		<span class="text text-danger">Đơn hàng mới</span> *@
-				@* 	} *@
-				@* 	else *@
-				@* 	{ *@
-				@* 		<span class="text text-danger">Đơn hàng thành công</span> *@
-				@* 	} *@
-				@* </td> *@
-
-			</tr>
-		}
+    <thead>
+        <tr>
+            <th scope="col">STT</th>
+            <th scope="col">Mã đơn hàng</th>
+            <th scope="col">Người đặt</th>
+            <th scope="col">Sản phẩm</th>
+            <th scope="col">Giá</th>
+            <th scope="col">Số lượng</th>
+            <th scope="col">Tổng tiền</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@stt</td>
+                <td>@item.OrderCode</td>
+                <td>@item.UserName</td>
+                <td>@item.Product?.Name</td> @* Hiển thị tên sản phẩm *@
+                <td>@item.Price.ToString("N0") đ</td>
+                <td>@item.Quantity</td>
+                <td>@(item.Price * item.Quantity) đ</td>
+            </tr>
+            stt++;
+        }
+    </tbody>
+</table>

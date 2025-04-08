@@ -3,21 +3,21 @@
 	ViewData["Title"] = "Order Listed";
 }
 
-<h3>List Order </h3>
+<h3>Danh sách đơn hàng</h3>
 <table class="table">
 	<thead>
 		<tr>
 			<th scope="col">STT</th>
-			<th scope="col">Order Code</th>
-			<th scope="col">User Name</th>
-			<th scope="col">Order Date</th>
-			<th scope="col">Order Status</th>
-			<th scope="col">Action</th>
+			<th scope="col">Mã đơn hàng</th>
+			<th scope="col">Tên khách hàng</th>
+			<th scope="col">Ngày đặt hàng</th>
+			<th scope="col">Trạng thái</th>
+			<th scope="col">Thao tác</th>
 		</tr>
 	</thead>
 	<tbody>
-		@foreach (var item in Model)
-		{
+@foreach (var item in Model)
+{
 			<tr>
 
 				<th scope="col">1</th>
@@ -25,7 +25,6 @@
 				<td>@item.UserName</td>
 				<td>@item.CrateDate</td>
 				<td>
-
 					@if (item.Status == 1)
 					{
 						<span class="text text-danger">Đơn hàng mới</span>
@@ -36,8 +35,10 @@
 					}
 				</td>
 				<td>
-					<a asp-action="ViewOrder" class=" btn btn-warning btn-sm" asp-controller="Order" asp-route-ordercode="@item.OrderCode">View Order</a>
-					<a asp-action="Delete" class=" btn btn-danger btn-sm confirmDeletion" asp-controller="Order" asp-route-id="@item.Id">Delete</a>
+					<a asp-action="ViewOrder" class=" btn btn-warning btn-sm" asp-controller="Order"
+						asp-route-ordercode="@item.OrderCode">View Order</a>
+					<a asp-action="Delete" class=" btn btn-danger btn-sm confirmDeletion" asp-controller="Order"
+						asp-route-id="@item.Id">Delete</a>
 				</td>
 			</tr>
-		}
+}

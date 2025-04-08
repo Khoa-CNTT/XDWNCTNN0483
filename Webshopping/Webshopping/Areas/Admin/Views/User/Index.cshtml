@@ -1,0 +1,67 @@
+@model IEnumerable<AppUserModel>
+
+@{
+    ViewData["title"] = "User Listed";
+}
+
+<h3>List Product</h3>
+
+@if (TempData["success"] != null)
+{
+    <div class="alert alert-success notification">
+        @TempData["success"]
+    </div>
+}
+
+@if (TempData["error"] != null)
+{
+    <div class="alert alert-danger notification">
+        @TempData["error"]
+    </div>
+}
+
+@* asp-action="Add" sẽ được gọi khi có hàm Add *@
+@* có thể sử dụng asp-area="admin" để ấy đường dẫn thêm admin *@
+<a asp-area="admin" asp-action="Add" asp-controller="user" class="btn btn-primary btn-sm pt-1">Thêm người dùng</i></a>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Tên tài khoản</th>
+            <th scope="col">Email</th>
+            <th scope="col">Số điện thoại</th>
+            <th scope="col">Thao tác</th>
+        </tr>
+    </thead>
+    <tbody id="userTableBody">
+        @foreach (var user in Model)
+        {
+            <tr>
+                <th class="index-col" scope="row"></th>
+                <td>@user.UserName</td>
+                <td>@user.Email</td>
+                <td>@user.PhoneNumber</td>
+                <td>
+                    <a asp-action="Edit" class="btn btn-sm btn-warning" asp-controller="user" asp-route-Id="@user.Id">
+                        Sửa
+                    </a>
+                    <form asp-action="Delete" asp-controller="user" asp-route-id="@user.Id" method="post"
+                        style="display: inline;">
+                        <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Lặp qua từng dòng trong tbody và đánh số thứ tự
+            $('#userTableBody tr').each(function (index) {
+                $(this).find('.index-col').text(index + 1);
+            });
+        });
+    </script>
+}

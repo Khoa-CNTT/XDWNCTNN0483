@@ -53,10 +53,15 @@
 								</td>
 							</tr>
 						}
-						<tr rowspan="6">
+						<tr rowspan="5">
 							<td colspan="6">GrandTotal: <p class="cart_total_price"> @Model.GrandTotal.ToString()</p>
 							</td>
 							<td><a class="btn btn-danger btn-sn" asp-controller="Cart" asp-action="Clear"> Clear </a></td>
+							@if(User.Identity.IsAuthenticated)
+							{
+								<td><a class="btn btn-success btn-sn" asp-controller="Checkout" asp-action="Checkout"> Checkout </a></td>
+							}
+						
 						</tr>
 					}
 					else

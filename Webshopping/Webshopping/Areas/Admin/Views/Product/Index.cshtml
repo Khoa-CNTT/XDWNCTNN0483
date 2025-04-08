@@ -37,7 +37,7 @@
             <th scope="col">Thao tác</th>
         </tr>
     </thead>
-    <tbody id="categoryTableBody">
+    <tbody id="productTableBody">
         @foreach (var item in Model)
         {
             <tr>
@@ -53,7 +53,8 @@
                     <a asp-action="Edit" class="btn btn-sm btn-warning" asp-controller="Product" asp-route-Id="@item.Id">
                         Sửa
                     </a>
-                    <form asp-action="Delete" asp-route-id="@item.Id" method="post">
+                    <form asp-action="Delete" asp-controller="Product" asp-route-id="@item.Id" method="post"
+                        style="display: inline;">
                         <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
                     </form>
                 </td>
@@ -64,13 +65,10 @@
 
 @section Scripts {
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const rows = document.querySelectorAll("#categoryTableBody tr");
-            rows.forEach((row, index) => {
-                const indexCell = row.querySelector(".index-col");
-                if (indexCell) {
-                    indexCell.textContent = index + 1;
-                }
+        $(document).ready(function () {
+            // Lặp qua từng dòng trong tbody và đánh số thứ tự
+            $('#productTableBody tr').each(function (index) {
+                $(this).find('.index-col').text(index + 1);
             });
         });
     </script>
