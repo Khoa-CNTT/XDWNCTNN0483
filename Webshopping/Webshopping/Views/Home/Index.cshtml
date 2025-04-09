@@ -12,8 +12,8 @@
             <div class="col-sm-4">
                 <div class="product-image-wrapper">
 
-                    <div class="single-products">
-                        <a asp action="Details" asp-controller="Product" asp-route-Id="@item.Id">
+                    <d`iv class="single-products">
+                        <a asp-action="Details" asp-controller="Product" asp-route-Id="@item.Id">
                             <div class="productinfo text-center">
 
                                 <img src="~/img/@item.Img" alt="@item.Name" width="100%" />
@@ -26,7 +26,7 @@
                                     <i class="fa fa-shopping-cart"></i>Add to cart
                                 </a>
                             </div>
-                            <div class="product-overlay">
+                            @* <div class="product-overlay">
 
                                 <div class="overlay-content">
                                     <h2>$@item.Price</h2>
@@ -34,9 +34,9 @@
                                     <p>@item.Description</p>
                                 </div>
 
-                            </div>
+                            </div> *@
                         </a>
-                    </div>
+                    </d`iv>
 
                     <div class="choose">
                         <ul class="nav nav-pills nav-justified">

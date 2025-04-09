@@ -22,6 +22,7 @@ namespace Webshopping.Models
         public int CategoryID { get; set; }
         public CategoryModel Category { get; set; }
         public BrandModel Brand { get; set; }
+        public RatingModel Ratings { get; set; }
         public string Img { get; set; }
         [NotMapped]
         public IFormFile ImageUpload { get; set; }
