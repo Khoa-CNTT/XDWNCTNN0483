@@ -1,0 +1,60 @@
+﻿@model SliderModel;
+
+@{
+    ViewData["title"] = "Create Slider";
+}
+
+<h4>Create Slider</h4>
+<div class="col-md-9">
+    <form asp-action="Add" asp-controller="Slider" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label>Tên Slider</label>
+            <input asp-for="Name" class="form-control" />
+            <!-- Hiển thị lỗi cho mame -->
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+      
+
+        <div class="form-group">
+            <label>Mô tả Slider</label>
+            <textarea asp-for="Description" class="form-control"></textarea>
+            <!-- Hiển thị lỗi cho description -->
+            <span asp-validation-for="Description" class="text-danger"></span> 
+        </div>
+
+
+
+        <div class="form-group">
+            <label>Trạng thái Slider</label>
+            <select asp-for="Status" class="form-control" asp-items="ViewBag.Brands">
+                <option value="1">Hiển thị</option>
+                <option value="0">Ẩn</option>
+            </select>
+           
+            <span asp-validation-for="Status" class="text-danger"></span>
+        </div>
+
+        <div>
+            <label asp-for="ImageUpload">Hình ảnh</label>
+            <input asp-for="ImageUpload" type="file" />
+            <!-- Hiển thị lỗi cho Image -->
+            <span asp-validation-for="ImageUpload" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <button class="btn btn-primary">Thêm mới slider</button>
+        </div>
+    </form>
+    <a asp-action="Index"></a>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace('Description');
+    </script>
+}
