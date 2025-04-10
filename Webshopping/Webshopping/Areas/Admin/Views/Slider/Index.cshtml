@@ -1,0 +1,95 @@
+﻿@model IEnumerable<SliderModel>
+
+@{
+    ViewData["Title"] = "List Slider";
+}
+
+<h3>Slider</h3>
+
+@if (TempData["success"] != null)
+{
+    <div class="alert alert-success notification">
+        @TempData["success"]
+    </div>
+}
+
+@if (TempData["error"] != null)
+{
+    <div class="alert alert-danger notification">
+        @TempData["error"]
+    </div>
+}
+
+<a asp-area="admin" asp-action="Add" asp-controller="Slider" class="btn btn-primary btn-sm pt-1 mb-3">Thêm Slider</a>
+
+<table class="table" id="sliderTable">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Tên Slider</th>
+            <th scope="col">Mô tả của Slider</th>
+            <th scope="col">Ảnh Slider</th>
+            <th scope="col">Trạng thái Slider</th>
+            <th scope="col">Thao tác Slider</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <th class="index-col" scope="row"></th>
+                    <td>@item.Name</td>
+                    <td>@Html.Raw(item.Description)</td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(item.Img))
+                        {
+                            <img src="~/@item.Img" alt="Slider image" width="120" />
+                        }
+                        else
+                        {
+                            <span>Không có ảnh</span>
+                        }
+                    </td>
+                    <td>
+                        @if (item.Status == 1)
+                        {
+                            <span class="text-success">Hiển thị</span>
+                        }
+                        else
+                        {
+                            <span class="text-secondary">Ẩn</span>
+                        }
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-controller="Slider" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Sửa</a>
+                        <form asp-action="Delete" asp-controller="Slider" asp-route-id="@item.Id" method="post" style="display:inline-block;">
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc muốn xóa không?');">Xóa</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="6">Không có slider nào được tìm thấy.</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const rows = document.querySelectorAll("#sliderTable tbody tr");
+            rows.forEach((row, index) => {
+                const indexCell = row.querySelector(".index-col");
+                if (indexCell) {
+                    indexCell.textContent = index + 1;
+                }
+            });
+        });
+    </script>
+}
