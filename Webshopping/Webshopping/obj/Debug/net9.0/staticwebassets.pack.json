@@ -41,10 +41,6 @@
       "PackagePath": "staticwebassets\\img\\1.jpg"
     },
     {
-      "Id": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\wwwroot\\img\\2.jpg",
-      "PackagePath": "staticwebassets\\img\\2.jpg"
-    },
-    {
       "Id": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\wwwroot\\img\\BN1.jpg",
       "PackagePath": "staticwebassets\\img\\BN1.jpg"
     },
@@ -55,6 +51,14 @@
     {
       "Id": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\wwwroot\\img\\gallery1.jpg",
       "PackagePath": "staticwebassets\\img\\gallery1.jpg"
+    },
+    {
+      "Id": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\wwwroot\\img\\img1141.png",
+      "PackagePath": "staticwebassets\\img\\img1141.png"
+    },
+    {
+      "Id": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\wwwroot\\img\\img3690.png",
+      "PackagePath": "staticwebassets\\img\\img3690.png"
     },
     {
       "Id": "E:\\KLTN2025\\KLTN-NHOM-56\\Webshopping\\Webshopping\\wwwroot\\js\\bootstrap.min.js",
