@@ -80,10 +80,11 @@ wwwroot\css\price-range.css
 wwwroot\css\responsive.css
 wwwroot\favicon.ico
 wwwroot\img\1.jpg
-wwwroot\img\2.jpg
 wwwroot\img\BN1.jpg
 wwwroot\img\BN2.jpg
 wwwroot\img\gallery1.jpg
+wwwroot\img\img1141.png
+wwwroot\img\img3690.png
 wwwroot\js\bootstrap.min.js
 wwwroot\js\contact.js
 wwwroot\js\gmaps.js

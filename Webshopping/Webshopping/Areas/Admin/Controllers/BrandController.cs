@@ -10,166 +10,133 @@ using Webshopping.Models;
 using Webshopping.Repository;
 
 [Area("Admin")]
-[Authorize]
-[Route("admin/brand/")]
+[Route("Admin/Brand")]
+[Authorize(Roles = "Publisher,Author,Admin")]
 public class BrandController : Controller
 {
     private readonly DataContext _dataContext;
-
-    public BrandController(DataContext dataContext)
+    public BrandController(DataContext context)
     {
-        _dataContext = dataContext;
+        _dataContext = context;
     }
 
-    // GET: admin/brand 
-    [HttpGet("")]
-    public async Task<IActionResult> Index()
+
+    [Route("Index")]
+    public async Task<IActionResult> Index(int pg = 1)
     {
-        // xử lí đồng bộ database 
-        return View(await _dataContext.Brands
-                .OrderByDescending((brand) => brand.Id)
-                .ToListAsync());
+        List<BrandModel> brand = _dataContext.Brands.ToList();
+
+
+        const int pageSize = 10;
+
+        if (pg < 1)
+        {
+            pg = 1;
+        }
+        int recsCount = brand.Count();
+
+        var pager = new Paginate(recsCount, pg, pageSize);
+
+        int recSkip = (pg - 1) * pageSize;
+
+        var data = brand.Skip(recSkip).Take(pager.PageSize).ToList();
+
+        ViewBag.Pager = pager;
+
+        return View(data);
     }
 
-    //GET: admin/brand/create
-    [HttpGet("create")]
-    public IActionResult Add()
+    [Route("Create")]
+
+    public IActionResult Create()
     {
         return View();
     }
 
-    //GET: admin/brand/create
-    [HttpPost("create")]
+    [Route("Create")]
+    [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Add(BrandModel model)
+    public async Task<IActionResult> Create(BrandModel brand)
     {
         if (ModelState.IsValid)
         {
-            // Name thương hiệu không dược để trống
-            if (string.IsNullOrWhiteSpace(model.Name))
-            {
-                ModelState.AddModelError("Name", "Tên thương hiệu không được để trống!");
-                return View(model);
-            }
-
-            // Slug không được để trống
-            model.Slug = string.IsNullOrWhiteSpace(model.Slug) ? SlugGenerate.GenerateSlug(model.Name) : model.Slug;
-
-            // Kiểm tra trong cơ sở dữ liệu có Slug chưa
-            var slug = await _dataContext.Brands.FirstOrDefaultAsync((brand) => brand.Slug == model.Slug);
+            brand.Slug = brand.Name.Replace(" ", "-");
+            var slug = await _dataContext.Brands.FirstOrDefaultAsync(p => p.Slug == brand.Slug);
             if (slug != null)
             {
-                ModelState.AddModelError("", "Slug đã có trong cơ sở dữ liệu");
-                return View(model); // trả về trang lỗi
+                ModelState.AddModelError("", "Danh mục đã có trong database");
+                return View(brand);
             }
 
-            // thêm thương hiệu vào database
-            _dataContext.Brands.Add(model);
+            _dataContext.Add(brand);
             await _dataContext.SaveChangesAsync();
-
             TempData["success"] = "Thêm thương hiệu thành công";
             return RedirectToAction("Index");
+
         }
         else
         {
+            TempData["error"] = "Model có một vài thứ đang lỗi";
             List<string> errors = new List<string>();
             foreach (var value in ModelState.Values)
             {
-                foreach (var error in errors)
+                foreach (var error in value.Errors)
                 {
-                    errors.Add(error);
+                    errors.Add(error.ErrorMessage);
                 }
             }
             string errorMessage = string.Join("\n", errors);
-            TempData["error"] = "Model có một vài thứ đang lỗi: " + errorMessage;
-            return View(model); // trả về trang lỗi
+            return BadRequest(errorMessage);
         }
+        return View(brand);
     }
 
-    // GET: admin/brand/update/{id}
-    [HttpGet("update/{id}")]
-    public async Task<IActionResult> Edit(int id)
+    [Route("Edit")]
+    public async Task<IActionResult> Edit(int Id)
     {
-        var brandExisting = await _dataContext.Brands.FindAsync(id);
-        if (brandExisting == null)
-        {
-            return NotFound();
-        }
-        return View(brandExisting); // truyền model vào view
+        BrandModel brand = await _dataContext.Brands.FindAsync(Id);
+        return View(brand);
     }
 
-    // POST: admin/brand/update/{id}
-    [HttpPost("update/{id}")]
-    public async Task<IActionResult> Edit(int id, BrandModel model)
+    [Route("Edit")]
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Edit(BrandModel brand)
     {
         if (ModelState.IsValid)
         {
-            // Tên thương hiệu không dược trống
-            if (string.IsNullOrWhiteSpace(model.Name))
-            {
-                ModelState.AddModelError("Name", "Tên thương hiệu không được để trống");
-                return View(model); // trả về trang lỗi
-            }
-
-            // tao Slug bằng Name
-            model.Slug = string.IsNullOrWhiteSpace(model.Slug) ? SlugGenerate.GenerateSlug(model.Name) : model.Slug;
-
-            // kiểm tra Slug có trong cơ sở dữ liệu hay không
-            var slugExisting = await _dataContext.Brands.FirstOrDefaultAsync((brand) => brand.Slug == model.Slug && brand.Id == model.Id);
-            if (slugExisting != null)
-            {
-                ModelState.AddModelError("", "Slug đã tồn tại trong database");
-                return View(model);
-            }
-
-            var brandExisting = await _dataContext.Brands.FindAsync(model.Id);
-            if (brandExisting == null)
-            {
-                return View(model);
-            }
-
-            // thay đổi giá trị của brand
-            brandExisting.Name = model.Name;
-            brandExisting.Description = model.Description;
-            brandExisting.Slug = model.Slug;
-            brandExisting.Status = model.Status;
-
-            // update vào database
+            brand.Slug = brand.Name.Replace(" ", "-");
+            _dataContext.Update(brand);
             await _dataContext.SaveChangesAsync();
-            TempData["success"] = "Thương hiệu cập nhật thành công";
+            TempData["success"] = "Cập nhật thương hiệu thành công";
             return RedirectToAction("Index");
-        }
 
-        List<string> errors = new List<string>();
-        foreach (var value in ModelState.Values)
-        {
-            foreach (var error in value.Errors)
-            {
-                errors.Add(error.ErrorMessage);
-            }
         }
-        string errorMessage = string.Join("\n", errors);
-        TempData["error"] = "Model có lỗi: " + errorMessage;
-        return View(model);
+        else
+        {
+            TempData["error"] = "Model có một vài thứ đang lỗi";
+            List<string> errors = new List<string>();
+            foreach (var value in ModelState.Values)
+            {
+                foreach (var error in value.Errors)
+                {
+                    errors.Add(error.ErrorMessage);
+                }
+            }
+            string errorMessage = string.Join("\n", errors);
+            return BadRequest(errorMessage);
+        }
+        return View(brand);
     }
 
-    // POST: admin/brand/{id}
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Delete(int id)
-    {
-        // lấy brand thoe Id
-        var brandExisting = await _dataContext.Brands.FindAsync(id);
-        if (brandExisting == null)
-        {
-            TempData["error"] = "Thương hiệu không tồn tại!";
-            return RedirectToAction("Index");
-        }
-        // xóa trong database
-        _dataContext.Brands.Remove(brandExisting);
-        await _dataContext.SaveChangesAsync();
 
-        TempData["success"] = "Thương hiệu đã được xóa thành công!";
+    public async Task<IActionResult> Delete(int Id)
+    {
+        BrandModel brand = await _dataContext.Brands.FindAsync(Id);
+
+        _dataContext.Brands.Remove(brand);
+        await _dataContext.SaveChangesAsync();
+        TempData["success"] = "Thương hiệu đã được xóa thành công";
         return RedirectToAction("Index");
     }
 }
