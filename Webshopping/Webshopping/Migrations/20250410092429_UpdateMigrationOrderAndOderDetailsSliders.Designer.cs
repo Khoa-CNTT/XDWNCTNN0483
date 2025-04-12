@@ -12,8 +12,8 @@ using Webshopping.Repository;
 namespace Webshopping.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250409152624_RatingsMigration")]
-    partial class RatingsMigration
+    [Migration("20250410092429_UpdateMigrationOrderAndOderDetailsSliders")]
+    partial class UpdateMigrationOrderAndOderDetailsSliders
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -409,6 +409,33 @@ namespace Webshopping.Migrations
                         .IsUnique();
 
                     b.ToTable("Ratings");
+                });
+
+            modelBuilder.Entity("Webshopping.Models.SliderModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Img")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Slider");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

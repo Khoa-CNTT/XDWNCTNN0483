@@ -79,6 +79,7 @@ public class UserController : Controller
             UserName = model.UserName,
             Email = model.Email,
             PhoneNumber = model.PhoneNumber,
+            RoleId = model.RoleId
         };
 
         var result = await _userManager.CreateAsync(user, model.Password);
