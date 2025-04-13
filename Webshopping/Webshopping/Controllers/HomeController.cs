@@ -21,7 +21,12 @@ namespace Webshopping.Controllers
         public IActionResult Index()
         {
             var products = _dataContext.Products.Include("Category").Include("Brand").ToList();
+
+            var sliders = _dataContext.Slider.Where(s => s.Status == 1).ToList();
+            ViewBag.Slider = sliders;
+			
             return View(products);
+
         }
 
         public IActionResult Privacy()
