@@ -1,0 +1,67 @@
+﻿@model ContactModel;
+
+@{
+    ViewData["title"] = "Edit Contact";
+}
+
+<h4>Edit contact</h4>
+<div class="col-md-9">
+    <form asp-action="Edit" asp-controller="Contact" method="post" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label>Tên liên hệ</label>
+            <input asp-for="Name" class="form-control" />
+            <!-- Hiển thị lỗi cho mame -->
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+        <label>Email</label>
+        <input asp-for="Email" class="form-control" />
+        <!-- Hiển thị lỗi cho mame -->
+        <span asp-validation-for="Email" class="text-danger"></span>
+</div>
+
+        <div class="form-group">
+            <label>Bản đồ</label>
+            <input asp-for="Map" class="form-control" />
+            <!-- Hiển thị lỗi cho price -->
+            <span asp-validation-for="Map" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Mô tả</label>
+            <textarea asp-for="Description" class="form-control"></textarea>
+            <!-- Hiển thị lỗi cho description -->
+            <span asp-validation-for="Description" class="text-danger"></span> 
+        </div>
+
+        <div class="form-group">
+            <label>Số điện thoại</label>
+            <input asp-for="Phone" class="form-control" />
+            <!-- Hiển thị lỗi cho mame -->
+            <span asp-validation-for="Phone" class="text-danger"></span>
+        </div>
+
+        <div>
+            <label asp-for="ImageUpload">Hình ảnh</label>
+            <input asp-for="ImageUpload" type="file" />
+            <!-- Hiển thị lỗi cho Image -->
+            <span asp-validation-for="ImageUpload" class="text-danger"></span>
+            <img src="/Logo/@Model.LogoImg" width="100">
+        </div>
+
+        <div class="form-group">
+            <button class="btn btn-primary">Cập nhật</button>
+        </div>
+    </form>
+    <a asp-action="Index"></a>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace('Description');
+    </script>
+}
