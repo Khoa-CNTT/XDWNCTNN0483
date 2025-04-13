@@ -7,66 +7,77 @@ using Webshopping.Repository;
 using Webshopping.Areas.Admin.Common;
 using Microsoft.AspNetCore.Authorization;
 
+
 [Area("Admin")]
-[Authorize]
-[Route("admin/")]
+[Route("Admin/Category")]
+[Authorize(Roles = "Publisher,Author,Admin")]
 public class CategoryController : Controller
 {
     private readonly DataContext _dataContext;
-
-    public CategoryController(DataContext dataContext)
+    public CategoryController(DataContext context)
     {
-        _dataContext = dataContext;
+        _dataContext = context;
     }
 
-    // GET: admin/category
-    [HttpGet("category")]
-    public async Task<IActionResult> Index()
+
+    [Route("Index")]
+    public async Task<IActionResult> Index(int pg = 1)
     {
-        return View(await _dataContext.Categories.OrderByDescending(p => p.Id).ToListAsync());
+        List<CategoryModel> category = _dataContext.Categories.ToList(); //33 datas
+
+
+        const int pageSize = 10; //10 items/trang
+
+        if (pg < 1) //page < 1;
+        {
+            pg = 1; //page ==1
+        }
+        int recsCount = category.Count(); //33 items;
+
+        var pager = new Paginate(recsCount, pg, pageSize);
+
+        int recSkip = (pg - 1) * pageSize; //(3 - 1) * 10; 
+
+        //category.Skip(20).Take(10).ToList()
+
+        var data = category.Skip(recSkip).Take(pager.PageSize).ToList();
+
+        ViewBag.Pager = pager;
+
+        return View(data);
     }
 
-    //GET: admin/category/create
-    [HttpGet("category/create")]
-    public IActionResult Add()
+    [Route("Create")]
+
+    public IActionResult Create()
     {
         return View();
     }
 
-    [HttpPost("category/create")]
+    [Route("Create")]
+    [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Add(CategoryModel model)
+    public async Task<IActionResult> Create(CategoryModel category)
     {
         if (ModelState.IsValid)
         {
-            // Kiểm tra xem Name có hợp lệ không
-            if (string.IsNullOrWhiteSpace(model.Name))
-            {
-                ModelState.AddModelError("Name", "Tên danh mục không được để trống");
-                return View(model);
-            }
-
-            // Tạo Slug từ Name sử dụng SlugGenerate
-            model.Slug = string.IsNullOrWhiteSpace(model.Slug) ? SlugGenerate.GenerateSlug(model.Name) : model.Slug;
-
-            // Kiểm tra xem Slug có tồn tại trong cơ sở dữ liệu không
-            var slug = await _dataContext.Categories.FirstOrDefaultAsync(p => p.Slug == model.Slug);
+            category.Slug = category.Name.Replace(" ", "-");
+            var slug = await _dataContext.Categories.FirstOrDefaultAsync(p => p.Slug == category.Slug);
             if (slug != null)
             {
                 ModelState.AddModelError("", "Danh mục đã có trong database");
-                return View(model); // Trả về model khi có lỗi
+                return View(category);
             }
 
-            // Thêm danh mục vào cơ sở dữ liệu
-            _dataContext.Categories.Add(model);
+            _dataContext.Add(category);
             await _dataContext.SaveChangesAsync();
-
-            TempData["success"] = "Danh mục đã được thêm thành công!";
+            TempData["success"] = "Thêm danh mục thành công";
             return RedirectToAction("Index");
+
         }
         else
         {
-            // Hiển thị các lỗi nếu có
+            TempData["error"] = "Model có một vài thứ đang lỗi";
             List<string> errors = new List<string>();
             foreach (var value in ModelState.Values)
             {
@@ -76,102 +87,57 @@ public class CategoryController : Controller
                 }
             }
             string errorMessage = string.Join("\n", errors);
-            TempData["error"] = "Model có một vài thứ đang lỗi: " + errorMessage;
-            return View(model); // Trả về view với lỗi
+            return BadRequest(errorMessage);
         }
+        return View(category);
     }
 
-    // GET: admin/category/update/{id}
-    [HttpGet("category/update/{id}")]
-    public async Task<IActionResult> Edit(int id)
+    [Route("Edit")]
+    public async Task<IActionResult> Edit(int Id)
     {
-        CategoryModel existingCategory = await _dataContext.Categories.FindAsync(id);
-        if (existingCategory == null)
-        {
-            return NotFound();
-        }
-        return View(existingCategory); // truyền model vào view
+        CategoryModel category = await _dataContext.Categories.FindAsync(Id);
+        return View(category);
     }
 
-    // POST: admin/category/update/{id}
-    [HttpPost("category/update/{id}")]
+    [Route("Edit")]
+    [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(CategoryModel model)
+    public async Task<IActionResult> Edit(CategoryModel category)
     {
         if (ModelState.IsValid)
         {
-            if (string.IsNullOrWhiteSpace(model.Name))
-            {
-                ModelState.AddModelError("Name", "Tên danh mục không được để trống");
-                return View(model);
-            }
+            category.Slug = category.Name.Replace(" ", "-");
 
-            // Tạo Slug
-            model.Slug = string.IsNullOrWhiteSpace(model.Slug)
-                ? SlugGenerate.GenerateSlug(model.Name)
-                : model.Slug;
-
-            // Kiểm tra Slug trùng (loại trừ chính nó)
-            var slugExisted = await _dataContext.Categories
-                .FirstOrDefaultAsync(p => p.Slug == model.Slug && p.Id != model.Id);
-            if (slugExisted != null)
-            {
-                ModelState.AddModelError("", "Slug đã tồn tại trong database");
-                return View(model);
-            }
-
-            // Tìm entity gốc từ DB
-            var existingCategory = await _dataContext.Categories.FindAsync(model.Id);
-            if (existingCategory == null)
-            {
-                return NotFound();
-            }
-
-            // Cập nhật từng trường
-            existingCategory.Name = model.Name;
-            existingCategory.Description = model.Description;
-            existingCategory.Slug = model.Slug;
-            existingCategory.Status = model.Status;
-
+            _dataContext.Update(category);
             await _dataContext.SaveChangesAsync();
-
-            TempData["success"] = "Danh mục đã được cập nhật thành công!";
+            TempData["success"] = "Cập nhật danh mục thành công";
             return RedirectToAction("Index");
-        }
 
-        // Xử lý lỗi
-        List<string> errors = new List<string>();
-        foreach (var value in ModelState.Values)
-        {
-            foreach (var error in value.Errors)
-            {
-                errors.Add(error.ErrorMessage);
-            }
         }
-        string errorMessage = string.Join("\n", errors);
-        TempData["error"] = "Model có lỗi: " + errorMessage;
-        return View(model);
+        else
+        {
+            TempData["error"] = "Model có một vài thứ đang lỗi";
+            List<string> errors = new List<string>();
+            foreach (var value in ModelState.Values)
+            {
+                foreach (var error in value.Errors)
+                {
+                    errors.Add(error.ErrorMessage);
+                }
+            }
+            string errorMessage = string.Join("\n", errors);
+            return BadRequest(errorMessage);
+        }
+        return View(category);
     }
 
-    // POST: admin/category/delete
-    [HttpPost("category/delete")]
-    public async Task<IActionResult> Delete(int id)
+    public async Task<IActionResult> Delete(int Id)
     {
-        // Tìm sản phẩm theo ID
-        var category = await _dataContext.Categories.FindAsync(id);
+        CategoryModel category = await _dataContext.Categories.FindAsync(Id);
 
-        // Kiểm tra nếu sản phẩm không tồn tại
-        if (category == null)
-        {
-            TempData["error"] = "Danh mục không tồn tại!";
-            return RedirectToAction("Index");
-        }
-
-        // Xóa sản phẩm khỏi cơ sở dữ liệu
         _dataContext.Categories.Remove(category);
         await _dataContext.SaveChangesAsync();
-
-        TempData["success"] = "Danh mục đã được xóa thành công!";
+        TempData["success"] = "Danh mục đã được xóa thành công";
         return RedirectToAction("Index");
     }
 }

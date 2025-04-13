@@ -8,6 +8,7 @@
 	<meta name="author" content="">
 	<title>@ViewData["title"] - Admin Areas</title>
 	<link href="~/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.17.2/dist/sweetalert2.min.css" rel="stylesheet" />
 	<link href="~/css/font-awesome.min.css" rel="stylesheet">
 	<link href="~/css/prettyPhoto.css" rel="stylesheet">
 	<link href="~/css/price-range.css" rel="stylesheet">
@@ -135,6 +136,14 @@
 	<script src="~/js/price-range.js"></script>
 	<script src="~/js/jquery.prettyPhoto.js"></script>
 	<script src="~/js/main.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.17.2/dist/sweetalert2.all.min.js"></script>
+	<script>
+		function(){
+                var message = '@TempData["success"]';
+				if(message != '')
+                    Swal.fire(message);
+		});
+    </script>
 	@await RenderSectionAsync("Scripts", required: false)
 	<script src="~/lib/jquery/jquery.min.js"></script>
 </body>

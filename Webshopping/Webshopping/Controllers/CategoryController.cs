@@ -13,8 +13,9 @@ namespace Webshopping.Controllers
 		{
 			_dataContext = context;
 		}
+		
 
-		public async Task<IActionResult> Index(string Slug = "")
+        public async Task<IActionResult> Index(string Slug = "")
 		{
 			CategoryModel category = _dataContext.Categories.Where(p => p.Slug == Slug).FirstOrDefault();
 
