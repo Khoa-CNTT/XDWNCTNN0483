@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System.Reflection.Metadata.Ecma335;
 using Webshopping.Models;
 using Webshopping.Models.ViewModel;
@@ -14,13 +16,23 @@ namespace Webshopping.Controllers
         {
             _datacontext = _context;
         }
-        public IActionResult Index()
+        public IActionResult Index(ShippingModel shippingModel)
         {
-            List<CartItemModels> cartItem = HttpContext.Session.GetJson<List<CartItemModels>>("cart") ?? new List<CartItemModels>();
+            List<CartItemModels> cartItems = HttpContext.Session.GetJson<List<CartItemModels>>("Cart") ?? new List<CartItemModels>();
+            // Nhận shipping giá từ cookie
+            var shippingPriceCookie = Request.Cookies["ShippingPrice"];
+            decimal shippingPrice = 0;
+
+            if (shippingPriceCookie != null)
+            {
+                var shippingPriceJson = shippingPriceCookie;
+                shippingPrice = JsonConvert.DeserializeObject<decimal>(shippingPriceJson);
+            }
             CartItemViewModel cartVM = new()
             {
-                CartItems = cartItem,
-                GrandTotal = cartItem.Sum(x => x.Price * x.Quantity)
+                CartItems = cartItems,
+                GrandTotal = cartItems.Sum(x => x.Price * x.Quantity),
+                ShippingPrice = shippingPrice,
             };
             return View(cartVM);
         }
@@ -115,6 +127,45 @@ namespace Webshopping.Controllers
             HttpContext.Session.Remove("cart");
             TempData["success"] = "Xóa giỏ hàng thành công";
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        [Route("Cart/GetShipping")]
+        public async Task<IActionResult> GetShipping(ShippingModel shippingModel, string quan, string tinh, string phuong)
+        {
+
+            var existingShipping = await _datacontext.Shippings
+                .FirstOrDefaultAsync(x => x.City == tinh && x.Distric == quan && x.Ward == phuong);
+
+            decimal shippingPrice = 0; // Set mặc định giá tiền
+
+            if (existingShipping != null)
+            {
+                shippingPrice = existingShipping.Price;
+            }
+            else
+            {
+                //Set mặc định giá tiền nếu ko tìm thấy
+                shippingPrice = 50000;
+            }
+            var shippingPriceJson = JsonConvert.SerializeObject(shippingPrice);
+            try
+            {
+                var cookieOptions = new CookieOptions
+                {
+                    HttpOnly = true,
+                    Expires = DateTimeOffset.UtcNow.AddMinutes(30),
+                    Secure = true // using HTTPS
+                };
+
+                Response.Cookies.Append("ShippingPrice", shippingPriceJson, cookieOptions);
+            }
+            catch (Exception ex)
+            {
+                //
+                Console.WriteLine($"Error adding shipping price cookie: {ex.Message}");
+            }
+            return Json(new { shippingPrice });
         }
     }
 }
