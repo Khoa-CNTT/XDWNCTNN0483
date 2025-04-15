@@ -63,7 +63,7 @@ namespace Webshopping.Areas.Admin.Controllers
 
 				// Tạo tên file ngẫu nhiên
 				var random = new Random();
-				var randomNumber = random.Next(1000, 9999);
+				var randomNumber = random.Next(1, 9999);
 				var fileName = $"slider_{randomNumber}{fileExtension}";
 				var filePath = Path.Combine(uploadsFolder, fileName);
 
@@ -119,7 +119,7 @@ namespace Webshopping.Areas.Admin.Controllers
 					return View(slider);
 				}
 
-				var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img","slider");
+				var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img", "slider");
 				if (!Directory.Exists(uploadsFolder))
 				{
 					Directory.CreateDirectory(uploadsFolder);
@@ -149,7 +149,7 @@ namespace Webshopping.Areas.Admin.Controllers
 			existingSlider.Name = slider.Name;
 			existingSlider.Description = slider.Description;
 			existingSlider.Status = slider.Status;
-	
+
 
 			_dataContext.Slider.Update(existingSlider);
 			await _dataContext.SaveChangesAsync();

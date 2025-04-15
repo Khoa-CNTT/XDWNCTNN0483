@@ -86,7 +86,7 @@ public class ProductController : Controller
 
                 // Sinh ra số ngẫu nhiên 4 chữ số
                 var random = new Random();
-                var randomNumber = random.Next(1000, 9999);  // Sinh số ngẫu nhiên từ 1000 đến 9999
+                var randomNumber = random.Next(1, 9999);  // Sinh số ngẫu nhiên từ 1000 đến 9999
                 var fileName = $"img{randomNumber}{fileExtension}"; // Tên tệp mới là img{random số}{extension}
 
                 var filePath = Path.Combine(uploadsFolder, fileName);

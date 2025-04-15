@@ -24,6 +24,10 @@
 	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
 	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
 	<link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
+
+	@* DataTable libs css *@
+	<link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.dataTables.css">
+	<link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.2.2/css/buttons.dataTables.css">
 </head><!--/head-->
 
 <body>
@@ -137,14 +141,36 @@
 	<script src="~/js/price-range.js"></script>
 	<script src="~/js/jquery.prettyPhoto.js"></script>
 	<script src="~/js/main.js"></script>
+
+	@* sweetalert2 lib *@
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.17.2/dist/sweetalert2.all.min.js"></script>
+
+	@* DataTable libs script *@
+	<script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
+	<script src="https://cdn.datatables.net/buttons/3.2.2/js/dataTables.buttons.js"></script>
+	<script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.dataTables.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+	<script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.html5.min.js"></script>
+	<script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.print.min.js"></script>
+
 	<script>
-		function(){
-                var message = '@TempData["success"]';
-				if(message != '')
-                    Swal.fire(message);
+		function() {
+			var message = '@TempData["success"]';
+			if (message != '')
+				Swal.fire(message);
 		});
-    </script>
+	</script>
+	<script>
+		new DataTable('#myTable', {
+			layout: {
+				topStart: {
+					buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+				}
+			}
+		});
+	</script>
 	@await RenderSectionAsync("Scripts", required: false)
 	<script src="~/lib/jquery/jquery.min.js"></script>
 </body>
