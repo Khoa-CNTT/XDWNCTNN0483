@@ -21,15 +21,26 @@ namespace Webshopping.Controllers
         public IActionResult Index()
         {
             var products = _dataContext.Products.Include("Category").Include("Brand").ToList();
-            return View(products);
-        }
 
-        public IActionResult Privacy()
+            var sliders = _dataContext.Slider.Where(s => s.Status == 1).ToList();
+            ViewBag.Slider = sliders;
+			
+            return View(products);
+
+        }
+		
+
+		public IActionResult Privacy()
         {
             return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+		public IActionResult Contact()
+		{
+			return View();
+
+		}
+		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error(int statuscode)
         {
             if (statuscode == 404)

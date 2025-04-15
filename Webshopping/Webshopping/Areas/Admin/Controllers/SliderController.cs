@@ -28,7 +28,7 @@ namespace Webshopping.Areas.Admin.Controllers
 		[HttpGet("")]
 		public async Task<IActionResult> Index()
 		{
-			var sliders = await _dataContext.Sliders.OrderByDescending(s => s.Id).ToListAsync();
+			var sliders = await _dataContext.Slider.OrderByDescending(s => s.Id).ToListAsync();
 			return View(sliders);
 
 		}
@@ -82,17 +82,27 @@ namespace Webshopping.Areas.Admin.Controllers
 				slider.Img = "img/slider/default.jpg"; // bạn có thể đặt ảnh mặc định ở đây
 			}
 
-			_dataContext.Sliders.Add(slider);
+			_dataContext.Slider.Add(slider);
 			await _dataContext.SaveChangesAsync();
 
 			TempData["success"] = "Slider đã được thêm thành công!";
 			return RedirectToAction("Index");
 		}
+
+		[HttpGet("Edit/{Id}")]
+
+		public async Task<IActionResult> Edit(int Id)
+		{
+			SliderModel slider = await _dataContext.Slider.FindAsync(Id);
+
+			return View(slider);
+		}
+
 		[HttpPost("edit/{id}")]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Edit(int id, SliderModel slider)
 		{
-			var existingSlider = await _dataContext.Sliders.FindAsync(id);
+			var existingSlider = await _dataContext.Slider.FindAsync(id);
 			if (existingSlider == null)
 			{
 				return NotFound();
@@ -141,7 +151,7 @@ namespace Webshopping.Areas.Admin.Controllers
 			existingSlider.Status = slider.Status;
 
 
-			_dataContext.Sliders.Update(existingSlider);
+			_dataContext.Slider.Update(existingSlider);
 			await _dataContext.SaveChangesAsync();
 
 			TempData["success"] = "Cập nhật slider thành công!";
@@ -151,7 +161,7 @@ namespace Webshopping.Areas.Admin.Controllers
 		public async Task<IActionResult> Delete(int id)
 		{
 			// Tìm sản phẩm theo ID
-			var slider = await _dataContext.Sliders.FindAsync(id);
+			var slider = await _dataContext.Slider.FindAsync(id);
 
 			// Kiểm tra nếu sản phẩm không tồn tại
 			if (slider == null)
@@ -173,7 +183,7 @@ namespace Webshopping.Areas.Admin.Controllers
 			}
 
 			// Xóa sản phẩm khỏi cơ sở dữ liệu
-			_dataContext.Sliders.Remove(slider);
+			_dataContext.Slider.Remove(slider);
 			await _dataContext.SaveChangesAsync();
 
 			TempData["success"] = "Slider đã được xóa thành công!";

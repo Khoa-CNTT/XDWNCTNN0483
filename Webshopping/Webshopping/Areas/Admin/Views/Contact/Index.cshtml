@@ -1,0 +1,73 @@
+﻿@model IEnumerable<ContactModel>
+
+@{
+    ViewData["title"] = "Contact Info";
+}
+
+<h3>Liên hệ</h3>
+
+@if (TempData["success"] != null)
+{
+    <div class="alert alert-success notification">
+        @TempData["success"]
+    </div>
+}
+
+@if (TempData["error"] != null)
+{
+    <div class="alert alert-danger notification">
+        @TempData["error"]
+    </div>
+}
+
+<!-- Your other content here -->
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Tên liên hệ</th>
+            <th scope="col">Mô tả </th>
+            <th scope="col">Bản đồ</th>
+            <th scope="col">Email</th>
+            <th scope="col">Logo</th>
+            <th scope="col">Số điện thoại</th>
+            <th scope="col">Thao tác</th>
+        </tr>
+    </thead>
+    <tbody id="categoryTableBody">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th class="index-col" scope="row"></th>
+                <td>@item.Name</td>
+                <td>@item.Description</td>
+                <td>@Html.Raw(@item.Map)</td>
+                <td>@item.Email</td>
+                <td><img src="/Logo/@item.LogoImg=" width="100px" height="150px" /> </td>
+                <td>@item.Phone</td>
+
+                <td>
+                    <a asp-action="Edit" asp-controller="contact"  class="btn btn-sm btn-warning">
+                        Sửa
+                    </a>
+                    
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const rows = document.querySelectorAll("#sliderTable tbody tr");
+            rows.forEach((row, index) => {
+                const indexCell = row.querySelector(".index-col");
+                if (indexCell) {
+                    indexCell.textContent = index + 1;
+                }
+            });
+        });
+    </script>
+}

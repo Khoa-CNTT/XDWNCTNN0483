@@ -5,25 +5,25 @@
 namespace Webshopping.Migrations
 {
     /// <inheritdoc />
-    public partial class UpdateAfterChanges : Migration
+    public partial class AddContact : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Sliders",
+                name: "Contact",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Map = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Status = table.Column<int>(type: "int", nullable: true),
-                    Img = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    LogoImg = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Sliders", x => x.Id);
+                    table.PrimaryKey("PK_Contact", x => x.Name);
                 });
         }
 
@@ -31,7 +31,7 @@ namespace Webshopping.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Sliders");
+                name: "Contact");
         }
     }
 }

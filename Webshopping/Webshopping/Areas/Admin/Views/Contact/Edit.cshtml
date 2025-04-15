@@ -1,55 +1,53 @@
-﻿@model SliderModel;
+﻿@model ContactModel;
 
 @{
-    ViewData["title"] = "Edit Slider";
+    ViewData["title"] = "Edit Contact";
 }
 
-<h4>Edit Slider</h4>
+<h4>Edit contact</h4>
 <div class="col-md-9">
-    <form asp-action="Edit"  enctype="multipart/form-data">
+    <form asp-action="Edit" asp-controller="Contact" method="post" enctype="multipart/form-data">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group">
-            <label>Tên slider</label>
+            <label>Tên liên hệ</label>
             <input asp-for="Name" class="form-control" />
             <!-- Hiển thị lỗi cho mame -->
             <span asp-validation-for="Name" class="text-danger"></span>
         </div>
+        <div class="form-group">
+        <label>Email</label>
+        <input asp-for="Email" class="form-control" />
+        <!-- Hiển thị lỗi cho mame -->
+        <span asp-validation-for="Email" class="text-danger"></span>
+</div>
 
-
+        <div class="form-group">
+            <label>Bản đồ</label>
+            <input asp-for="Map" class="form-control" />
+            <!-- Hiển thị lỗi cho price -->
+            <span asp-validation-for="Map" class="text-danger"></span>
+        </div>
 
         <div class="form-group">
             <label>Mô tả</label>
             <textarea asp-for="Description" class="form-control"></textarea>
             <!-- Hiển thị lỗi cho description -->
-             <span asp-validation-for="Description" class="text-danger"></span> 
+            <span asp-validation-for="Description" class="text-danger"></span> 
         </div>
 
         <div class="form-group">
-            <label>Trạng thái slider</label>
-            <select asp-for="Status" class="form-control" asp-items="ViewBag.Slider">
-                @if (Model.Status == 1)
-                {
-                    <option value="1" selected>Hiển thị</option>
-                    <option value="0">Ẩn</option>
-                }
-                else
-                {
-                    <option value="1">Hiển thị</option>
-                    <option value="0" selected>Ẩn</option>
-                }
-            </select>
-            <!-- Hiển thị lỗi cho category -->
-            <span asp-validation-for="Status" class="text-danger"></span>
+            <label>Số điện thoại</label>
+            <input asp-for="Phone" class="form-control" />
+            <!-- Hiển thị lỗi cho mame -->
+            <span asp-validation-for="Phone" class="text-danger"></span>
         </div>
-
 
         <div>
             <label asp-for="ImageUpload">Hình ảnh</label>
             <input asp-for="ImageUpload" type="file" />
             <!-- Hiển thị lỗi cho Image -->
             <span asp-validation-for="ImageUpload" class="text-danger"></span>
-            <img src="~/@Model.Img" width="100" />
-
+            <img src="/Logo/@Model.LogoImg" width="100">
         </div>
 
         <div class="form-group">
