@@ -35,7 +35,7 @@
 								
 								</td>
 								<td class="cart_price">
-									<p>@item.Price</p>
+									<p>@item.Price.ToString("#,##0 VNĐ")</p>
 								</td>
 								<td>
 									
@@ -46,7 +46,7 @@
 									
 								</td>
 								<td class="cart_total">
-									<p class="cart_total_price">@Model.CartItems.Where(x => x.ProductId == item.ProductId).Sum(x => x.Quantity*x.Price).ToString()</p>
+									<p class="cart_total_price">@Model.CartItems.Where(x => x.ProductId == item.ProductId).Sum(x => x.Quantity * x.Price).ToString("#,##0 VNĐ")</p>
 								</td>
 								<td class="cart_delete">
 									<a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
@@ -54,7 +54,7 @@
 							</tr>
 						}
 						<tr rowspan="5">
-							<td colspan="6">GrandTotal: <p class="cart_total_price"> @Model.GrandTotal.ToString()</p>
+							<td colspan="6">GrandTotal: <p class="cart_total_price"> @Model.GrandTotal.ToString("#,##0 VNĐ")</p>
 							</td>
 							<td><a class="btn btn-danger btn-sn" asp-controller="Cart" asp-action="Clear"> Clear </a></td>
 							@if(User.Identity.IsAuthenticated)
