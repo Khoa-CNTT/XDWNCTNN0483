@@ -238,4 +238,40 @@ public class ProductController : Controller
         TempData["success"] = "Sản phẩm đã được xóa thành công!";
         return RedirectToAction("Index");
     }
+        //add quantity
+        
+        [HttpGet("AddQuantity")]
+        public async Task<IActionResult> AddQuantity(int Id)
+        {
+            var productbyquantity = await _dataContext.ProductQuantities.Where(pq => pq.ProductId == Id).ToListAsync();
+            ViewBag.ProductByQuantity = productbyquantity;
+            ViewBag.Id= Id;
+            return View();
+            
+        }
+    [Route("StoreProductQuantity")]
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult StoreProductQuantity(ProductQuantityModel productQuantityModel, int Id)
+    {
+        // Get the product to update
+        var product = _dataContext.Products.Find(productQuantityModel.ProductId);
+
+        if (product == null)
+        {
+            return NotFound(); // Handle product not found scenario
+        }
+        product.Quantity += productQuantityModel.Quantity;
+
+        productQuantityModel.Quantity = productQuantityModel.Quantity;
+        productQuantityModel.ProductId = Id;
+        productQuantityModel.Date = DateTime.Now;
+
+
+        _dataContext.Add(productQuantityModel);
+        _dataContext.SaveChangesAsync();
+        TempData["success"] = "Thêm số lượng sản phẩm thành công";
+        return RedirectToAction("AddQuantity", "Product", new { Id = productQuantityModel.ProductId });
+    }
+
 }

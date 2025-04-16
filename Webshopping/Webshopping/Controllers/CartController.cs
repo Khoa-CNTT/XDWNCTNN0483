@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Reflection.Metadata.Ecma335;
@@ -86,16 +86,19 @@ namespace Webshopping.Controllers
         }
         public async Task<IActionResult> Increase(int Id)
         {
+            ProductModel product = await _datacontext.Products.Where(p => p.Id == Id).FirstOrDefaultAsync();
             List<CartItemModels> cart = HttpContext.Session.GetJson<List<CartItemModels>>("cart");
             CartItemModels cartItems = cart.Where(c => c.ProductId == Id).FirstOrDefault();
 
-            if (cartItems.Quantity >= 1)
+            if (cartItems.Quantity >= 1 && product.Quantity > cartItems.Quantity )
             {
                 cartItems.Quantity++;
+                TempData["success"] = "Increase Product to cart Sucessfully! ";
             }
             else
             {
-                cart.RemoveAll(p => p.ProductId == Id);
+                cartItems.Quantity = product.Quantity;
+                TempData["success"] = "Maximum Product Quantity to cart Sucessfully! ";
             }
             if (cart.Count == 0)
             {

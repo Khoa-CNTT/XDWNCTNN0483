@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Webshopping.Models;
 
@@ -19,6 +19,10 @@ namespace Webshopping.Repository
         public DbSet<SliderModel> Slider { get; set; }
         public DbSet<ContactModel> Contact { get; set; }
         public DbSet<ShippingModel> Shippings { get; set; }
+        public DbSet<WishlistModel> Wishlists { get; set; }
+        public DbSet<CompareModel> Compares { get; set; }
+        public DbSet<ProductQuantityModel> ProductQuantities { get; set; }
+
         // public DbSet<UserModel> CustomUsers { get; set; }
     }
 }

@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
+
 using Newtonsoft.Json;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using Webshopping.Models;
 using Webshopping.Repository;
@@ -43,16 +45,22 @@ namespace Webshopping.Controllers
                 _dataContext.Add(orderItem);
                 _dataContext.SaveChanges();
 
+                //Tạo đơn hàng
                 List<CartItemModels> cartItem = HttpContext.Session.GetJson<List<CartItemModels>>("cart") ?? new List<CartItemModels>();
                 foreach (var cart in cartItem)
                 {
-                    var orderDetail = new OrderDetail();
+                    var orderDetail = new OrderDetail(); // Corrected variable name
                     orderDetail.UserName = UserEmail;
                     orderDetail.OrderCode = ordercode;
-                    orderDetail.ProductId = cart.ProductId;
-                    orderDetail.Quantity = cart.Quantity;
-                    orderDetail.Price = cart.Price;
-                    _dataContext.Add(orderDetail);
+                    orderDetail.ProductId = cart.ProductId; // Corrected variable name
+                    orderDetail.Price = cart.Price; // Corrected variable name
+                    orderDetail.Quantity = cart.Quantity; // Corrected variable name
+                                                          //update product quantity
+                    var product = await _dataContext.Products.Where(p => p.Id == cart.ProductId).FirstAsync();
+                    product.Quantity -= cart.Quantity;
+                    product.Sold += cart.Quantity;
+                    _dataContext.Update(product);
+                    _dataContext.Add(orderDetail); // Corrected variable name
                     _dataContext.SaveChanges();
 
                 }
