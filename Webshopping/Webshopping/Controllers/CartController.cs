@@ -31,9 +31,10 @@ namespace Webshopping.Controllers
             CartItemViewModel cartVM = new()
             {
                 CartItems = cartItems,
-                GrandTotal = cartItems.Sum(x => x.Price * x.Quantity),
-                ShippingPrice = shippingPrice,
+                GrandTotal = cartItems.Sum(x => x.Quantity * x.Price),
+                ShippingPrice = shippingPrice
             };
+
             return View(cartVM);
         }
         public IActionResult Checkout()
@@ -173,7 +174,7 @@ namespace Webshopping.Controllers
         public IActionResult RemoveShippingCookie()
         {
             Response.Cookies.Delete("ShippingPrice");
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Cart");
         }
     }
 }

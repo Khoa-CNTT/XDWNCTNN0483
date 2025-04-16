@@ -1,42 +1,83 @@
 ﻿@model IEnumerable<OrderDetail>
+
 @{
-    ViewData["Title"] = "Order Details";
-    int stt = 1;
+    ViewData["title"] = "Order Details";
+    decimal total = 0; // Store total amount
+    decimal subtotal = 0;
+    int stt = 0;
 }
 
-<h3>Chi tiết đơn hàng</h3>
-<table class="table" id="detailOrder">
-    <thead>
-        <tr>
-            <th scope="col">STT</th>
-            <th scope="col">Mã đơn hàng</th>
-            <th scope="col">Người đặt</th>
-            <th scope="col">Sản phẩm</th>
-            <th scope="col">Giá</th>
-            <th scope="col">Số lượng</th>
-            <th scope="col">Tổng tiền</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@stt</td>
-                <td>@item.OrderCode</td>
-                <td>@item.UserName</td>
-                <td>@item.Product?.Name</td> @* Hiển thị tên sản phẩm *@
-                <td>@item.Price.ToString("N0") đ</td>
-                <td>@item.Quantity</td>
-                <td>@(item.Price* item.Quantity) đ</td>
-            </tr>
-            stt++;
-        }
-    </tbody>
-</table>
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Order Details</title>
+</head>
+
+<body>
+
+    <h3>Chi tiết đơn hàng</h3>
+
+    <div class="table table-responsive">
+        <table class="table" id="detail_order">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Mã đơn hàng</th>
+                    <th>Tên người dùng</th>
+                    <th></th>
+                    <th>Product Price</th>
+                    <th>Quantity</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    subtotal = item.Quantity * item.Price; //số lượng * giá
+                    total += subtotal;
+                    <tr>
+                        <input type="hidden" asp-for="@item.OrderCode" class="getId" />
+                        <td>@stt</td>
+                        <td>@item.OrderCode</td>
+                        <td>@item.UserName</td>
+                        <td>@item.Product.Name</td>
+                        <td>@item.Price.ToString("#,##0 VNĐ")</td>
+                        <td>@item.Quantity</td>
+                        <td>@subtotal.ToString("#,##0 VNĐ")</td>
+                    </tr>
+                    stt++;
+                }
+                <tr>
+                    <td>Total:</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>Tổng : @total.ToString("#,##0 đ")</td>
+                    <td>Shipping : @ViewBag.ShippingCost.ToString("#,##0 đ")</td>
+                    <td>
+                        @if (@ViewBag.Status != 3)
+                        {
+                            <select class="form-control select-update-order">
+                                <option value="1">Đơn hàng mới</option>
+                                <option value="0">Đã xử lý</option>
+                            </select>
+                        }
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</body>
+
+</html>
 
 @section Scripts {
     <script>
-        new DataTable('#detailOrder', {
+        new DataTable('#detail_order', {
             layout: {
                 topStart: {
                     buttons: ['pdf', 'print']

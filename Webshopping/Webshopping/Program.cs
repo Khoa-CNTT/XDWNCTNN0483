@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Shopping_Tutorial.Repository;
 
- //using Shopping_Tutorial.Repositor
+//using Shopping_Tutorial.Repositor
 using Webshopping.Models;
 using Webshopping.Repository;
 
@@ -57,24 +57,26 @@ var app = builder.Build();
 app.UseStatusCodePagesWithRedirects("/Home/Error?statuscode={0}");
 
 // Seeding Data when is running Program
-// using (var scope = app.Services.CreateScope())
-// {
-//     var services = scope.ServiceProvider;
-//     var context = services.GetRequiredService<DataContext>();
-
-//     // Call the SeedData method
-//     SeedData.SeedingData(context);
-// }
-
-// Seeding roles
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<DataContext>();
-    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 
-    await SeedData.SeedingDataAsync(context, roleManager);
+    // Call the SeedData method
+    SeedData.SeedingData(context);
+    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+    await SeedData.SeedingDataAsync(context);
 }
+
+// Seeding roles
+// using (var scope = app.Services.CreateScope())
+// {
+//     var services = scope.ServiceProvider;
+//     var context = services.GetRequiredService<DataContext>();
+//     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+
+//     await SeedData.SeedingDataAsync(context, roleManager);
+// }
 
 app.UseSession();
 
