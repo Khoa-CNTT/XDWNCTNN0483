@@ -12,6 +12,7 @@
 			<th scope="col">Tên khách hàng</th>
 			<th scope="col">Ngày đặt hàng</th>
 			<th scope="col">Trạng thái</th>
+			<th scope="col">ngày tạo đơn</th>
 			<th scope="col">Thao tác</th>
 		</tr>
 	</thead>
@@ -34,6 +35,7 @@
 						<span class="text text-danger">Đơn hàng thành công</span>
 					}
 				</td>
+				<td>@item.CrateDate.ToString("dd/MM/yyyy ")</td>
 				<td>
 					<a asp-action="ViewOrder" class=" btn btn-warning btn-sm" asp-controller="Order"
 						asp-route-ordercode="@item.OrderCode">View Order</a>

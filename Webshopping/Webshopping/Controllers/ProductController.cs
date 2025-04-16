@@ -20,7 +20,7 @@ namespace Webshopping.Controllers
 		{
             return View();
 		}
-        public async Task<IActionResult> Detail(long Id)
+        public async Task<IActionResult> Detail(int Id)
         {
             if (Id == null) return RedirectToAction("Index");
 
