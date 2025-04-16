@@ -167,5 +167,13 @@ namespace Webshopping.Controllers
             }
             return Json(new { shippingPrice });
         }
+
+        [HttpPost]
+        [Route("Cart/RemoveShippingCookie")]
+        public IActionResult RemoveShippingCookie()
+        {
+            Response.Cookies.Delete("ShippingPrice");
+            return RedirectToAction("Index");
+        }
     }
 }

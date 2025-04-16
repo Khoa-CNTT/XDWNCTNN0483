@@ -15,7 +15,7 @@
 			<th scope="col">Thao tác</th>
 		</tr>
 	</thead>
-	<tbody>
+	<tbody id="tableBody">
 @foreach (var item in Model)
 {
 			<tr>
@@ -41,4 +41,16 @@
 						asp-route-id="@item.Id">Delete</a>
 				</td>
 			</tr>
+}
+
+
+@section Scripts {
+			<script>
+				$(document).ready(function () {
+					// Lặp qua từng dòng trong tbody và đánh số thứ tự
+					$('#tableBody tr').each(function (index) {
+						$(this).find('.index-col').text(index + 1);
+					});
+				});
+			</script>
 }

@@ -37,7 +37,7 @@
             <th scope="col">Thao tác</th>
         </tr>
     </thead>
-    <tbody id="productTableBody">
+    <tbody id="tableBody">
         @foreach (var item in Model)
         {
             <tr>
@@ -67,7 +67,7 @@
     <script>
         $(document).ready(function () {
             // Lặp qua từng dòng trong tbody và đánh số thứ tự
-            $('#categoryTableBody tr').each(function (index) {
+            $('#tableBody tr').each(function (index) {
                 $(this).find('.index-col').text(index + 1);
             });
         });
