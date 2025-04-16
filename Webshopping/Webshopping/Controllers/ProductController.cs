@@ -20,28 +20,28 @@ namespace Webshopping.Controllers
 		{
             return View();
 		}
-        public async Task<IActionResult> Details(int Id)
-		{
-            var product = _dataContext.Products
-        .Include(p => p.Category)
-        .Include(p => p.Brand)
-        .FirstOrDefault(p => p.Id == Id);
+        public async Task<IActionResult> Detail(long Id)
+        {
+            if (Id == null) return RedirectToAction("Index");
 
-            if (product == null)
-            {
-                return NotFound();
-            }
+            var productsById = _dataContext.Products.
+                Include(p => p.Ratings).
+                Where(p => p.Id == Id).FirstOrDefault(); //category = 4
+                                                         //related product
+
+
+            var relatedProducts = await _dataContext.Products
+            .Where(p => p.CategoryID == productsById.CategoryID && p.Id != productsById.Id)
+            .Take(4)
+            .ToListAsync();
+
+            ViewBag.RelatedProducts = relatedProducts;
 
             var viewModel = new ProductDetailsViewModel
             {
-                ProductDetails = product
-            };
+                ProductDetails = productsById,
 
-            ViewBag.RelatedProducts = _dataContext.Products
-                .Where(p => p.CategoryID == product.CategoryID && p.Id != product.Id)
-                .Include(p => p.Category)
-                .Include(p => p.Brand)
-                .ToList();
+            };
 
             return View(viewModel);
         }
