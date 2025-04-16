@@ -34,6 +34,9 @@ public class AccountController : Controller
             IdentityResult result = await _userManage.CreateAsync(newUser, model.Password);
             if (result.Succeeded)
             {
+                // Gán role "User" cho tài khoản mới tạo
+                await _userManage.AddToRoleAsync(newUser, "User");
+
                 TempData["success"] = "Đăng ký thành công.";
                 return RedirectToAction("Login", "Account");
             }

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
+
+using Newtonsoft.Json;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using Webshopping.Models;
@@ -26,11 +28,23 @@ namespace Webshopping.Controllers
                 var ordercode = Guid.NewGuid().ToString();
                 var orderItem = new OrderModel();
                 orderItem.OrderCode = ordercode;
+                var shippingPriceCookie = Request.Cookies["ShippingPrice"];
+                decimal shippingPrice = 0;
+
+                if (shippingPriceCookie != null)
+                {
+                    var shippingPriceJson = shippingPriceCookie;
+                    shippingPrice = JsonConvert.DeserializeObject<decimal>(shippingPriceJson);
+                }
+
+                orderItem.ShippingCost = shippingPrice;
                 orderItem.UserName = UserEmail;
                 orderItem.CrateDate = DateTime.Now;
                 orderItem.Status = 1;
+
                 _dataContext.Add(orderItem);
                 _dataContext.SaveChanges();
+
                 //Tạo đơn hàng
                 List<CartItemModels> cartItem = HttpContext.Session.GetJson<List<CartItemModels>>("cart") ?? new List<CartItemModels>();
                 foreach (var cart in cartItem)

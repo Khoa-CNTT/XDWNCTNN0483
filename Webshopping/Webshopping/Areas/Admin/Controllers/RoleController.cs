@@ -9,22 +9,22 @@ using Webshopping.Repository;
 
 namespace Webshopping.Areas.Admin.Controllers
 {
-[Area("Admin")]
+    [Area("Admin")]
     [Route("admin/Role")]
-public class RoleController : Controller
-{
-    private readonly DataContext _dataContext;
-    private readonly RoleManager<IdentityRole> _roleManager;
-
-    public RoleController(DataContext context, RoleManager<IdentityRole> roleManager)
+    public class RoleController : Controller
     {
-        _dataContext = context;
-        _roleManager = roleManager;
-    }
+        private readonly DataContext _dataContext;
+        private readonly RoleManager<IdentityRole> _roleManager;
+
+        public RoleController(DataContext context, RoleManager<IdentityRole> roleManager)
+        {
+            _dataContext = context;
+            _roleManager = roleManager;
+        }
         [HttpGet("Index")]
         public async Task<IActionResult> Index()
         {
-            return View(await _dataContext.Roles.OrderByDescending(p  => p.Id).ToListAsync());
+            return View(await _dataContext.Roles.OrderByDescending(p => p.Id).ToListAsync());
         }
         [HttpGet("Create")]
         public IActionResult Create()
@@ -34,7 +34,7 @@ public class RoleController : Controller
         [HttpGet("Edit")]
         public async Task<IActionResult> Edit(string id)
         {
-            if(string.IsNullOrEmpty(id))
+            if (string.IsNullOrEmpty(id))
             {
                 return NotFound();
             }
@@ -75,7 +75,7 @@ public class RoleController : Controller
         //GET: admin/brand/create
         [HttpPost("Create")]
         [ValidateAntiForgeryToken]
-        public async  Task<IActionResult>  Create(IdentityRole model)
+        public async Task<IActionResult> Create(IdentityRole model)
         {
             if (!_roleManager.RoleExistsAsync(model.Name).GetAwaiter().GetResult())
             {
@@ -86,7 +86,7 @@ public class RoleController : Controller
         [HttpPost("Delete")]
         public async Task<IActionResult> Delete(string id)
         {
-            if(string.IsNullOrEmpty(id))
+            if (string.IsNullOrEmpty(id))
             {
                 return NotFound();
             }
@@ -102,7 +102,7 @@ public class RoleController : Controller
                 TempData["success"] = "Xóa thành công";
             }
             catch (Exception ex)
-    {
+            {
                 ModelState.AddModelError("", "Xóa không thành công");
             }
             return Redirect("Index");

@@ -1,0 +1,190 @@
+@model IEnumerable<ShippingModel>
+@{
+    ViewData["title"] = "Create Shipping";
+    int key = 1;
+}
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<style type="text/css">
+    .css_select_div {
+        text-align: center;
+    }
+
+    .css_select {
+        display: inline-table;
+        width: 25%;
+        padding: 5px;
+        margin: 5px 2%;
+        border: solid 1px #686868;
+        border-radius: 5px;
+    }
+</style>
+
+<h3>Create Shipping</h3>
+
+<div class="col-md-9">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="form-group">
+        <label>Tỉnh thành</label>
+        <select class="css_select form-control" id="tinh" name="tinh" title="Chọn Tỉnh Thành">
+            <option value="0">Tỉnh Thành</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Quận huyện</label>
+        <select class="css_select form-control" id="quan" name="quan" title="Chọn Quận Huyện">
+            <option value="0">Quận Huyện</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Phường Xã</label>
+        <select class="css_select form-control" id="phuong" name="phuong" title="Chọn Phường Xã">
+            <option value="0">Phường Xã</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Giá</label>
+        <input id="price-shipping" type="number" placeholder="vd: 20000" min="1" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <button type="button" class="btn btn-primary btn-add-shipping">Create</button>
+    </div>
+
+    <h2>Shipping List</h2>
+
+    <table class="table table-striped" id="myTable">
+        <thead>
+            <tr>
+                <th>Tỉnh thành</th>
+                <th>Quận huyện</th>
+                <th>Phường Xã</th>
+                <th>Giá</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var shipping in ViewBag.Shippings)
+            {
+                <tr>
+                    <td>@shipping.City</td>
+                    <td>@shipping.Distric</td>
+                    <td>@shipping.Ward</td>
+                    <td>@shipping.Price.ToString("#,##0 VNĐ")</td>
+                    <td>
+                        <form asp-action="Delete" asp-controller="Shipping" method="post" style="display:inline"
+                            onsubmit="return confirmDelete();">
+                            <input type="hidden" name="id" value="@shipping.Id" />
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <script>
+        function confirmDelete() {
+            // Hiển thị cảnh báo xác nhận khi người dùng nhấn Xóa
+            return confirm("Bạn có chắc chắn muốn xóa mục này?");
+        }
+
+        $(document).ready(function () {
+            // Khởi tạo DataTable
+            $('#myTable').DataTable();
+
+            // Load tỉnh
+            $.getJSON('https://esgoo.net/api-tinhthanh/1/0.htm', function (data_tinh) {
+                if (data_tinh.error == 0) {
+                    $.each(data_tinh.data, function (key_tinh, val_tinh) {
+                        $("#tinh").append('<option value="' + val_tinh.id + '">' + val_tinh.full_name + '</option>');
+                    });
+
+                    $("#tinh").change(function () {
+                        var idtinh = $(this).val();
+                        $.getJSON('https://esgoo.net/api-tinhthanh/2/' + idtinh + '.htm', function (data_quan) {
+                            if (data_quan.error == 0) {
+                                $("#quan").html('<option value="0">Quận Huyện</option>');
+                                $("#phuong").html('<option value="0">Phường Xã</option>');
+                                $.each(data_quan.data, function (key_quan, val_quan) {
+                                    $("#quan").append('<option value="' + val_quan.id + '">' + val_quan.full_name + '</option>');
+                                });
+
+                                $("#quan").change(function () {
+                                    var idquan = $(this).val();
+                                    $.getJSON('https://esgoo.net/api-tinhthanh/3/' + idquan + '.htm', function (data_phuong) {
+                                        if (data_phuong.error == 0) {
+                                            $("#phuong").html('<option value="0">Phường Xã</option>');
+                                            $.each(data_phuong.data, function (key_phuong, val_phuong) {
+                                                $("#phuong").append('<option value="' + val_phuong.id + '">' + val_phuong.full_name + '</option>');
+                                            });
+                                        }
+                                    });
+                                });
+                            }
+                        });
+                    });
+                }
+            });
+
+            // Thêm shipping
+            $(".btn-add-shipping").click(function () {
+                var tinh = $("#tinh option:selected").text();
+                var quan = $("#quan option:selected").text();
+                var phuong = $("#phuong option:selected").text();
+                var price = $("#price-shipping").val();
+
+                if (tinh == '' || quan == '' || phuong == '' || price == '') {
+                    Swal.fire("Làm ơn không bỏ trống.");
+                } else {
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("StoreShipping", "Shipping")',  // Đảm bảo URL chính xác
+                        data: {
+                            tinh: tinh,
+                            quan: quan,
+                            phuong: phuong,
+                            price: price
+                        },
+                        success: function (result) {
+                            if (result.success) {
+                                Swal.fire("Thêm vận chuyển thành công");
+
+                                // Thêm hàng mới vào DataTable
+                                var table = $('#myTable').DataTable();
+                                table.row.add([
+                                    tinh,
+                                    quan,
+                                    phuong,
+                                    parseInt(price).toLocaleString('vi-VN') + " VNĐ",
+                                    `<form method="post" action="/Shipping/Delete" style="display:inline">
+                                                            <input type="hidden" name="id" value="${result.id}" />
+                                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                                          </form>`
+                                ]).draw();
+
+                                // Reset input
+                                $('#price-shipping').val('');
+                                $('#tinh').val(0);
+                                $('#quan').html('<option value="0">Quận Huyện</option>');
+                                $('#phuong').html('<option value="0">Phường Xã</option>');
+                            } else if (result.duplicate) {
+                                Swal.fire("Dữ liệu trùng lặp.");
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}

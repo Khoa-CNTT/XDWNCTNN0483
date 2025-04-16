@@ -9,8 +9,8 @@ using Microsoft.AspNetCore.Authorization;
 
 
 [Area("Admin")]
-[Route("Admin/Category")]
-[Authorize(Roles = "Publisher,Author,Admin")]
+[Route("admin/category/")]
+// [Authorize(Roles = "Publisher,Author,Admin")]
 public class CategoryController : Controller
 {
     private readonly DataContext _dataContext;
@@ -19,8 +19,7 @@ public class CategoryController : Controller
         _dataContext = context;
     }
 
-
-    [Route("Index")]
+    [HttpGet("")]
     public async Task<IActionResult> Index(int pg = 1)
     {
         List<CategoryModel> category = _dataContext.Categories.ToList(); //33 datas
@@ -47,17 +46,15 @@ public class CategoryController : Controller
         return View(data);
     }
 
-    [Route("Create")]
-
-    public IActionResult Create()
+    [HttpGet("create")]
+    public IActionResult Add()
     {
         return View();
     }
 
-    [Route("Create")]
-    [HttpPost]
+    [HttpPost("create")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(CategoryModel category)
+    public async Task<IActionResult> Add(CategoryModel category)
     {
         if (ModelState.IsValid)
         {
@@ -92,15 +89,14 @@ public class CategoryController : Controller
         return View(category);
     }
 
-    [Route("Edit")]
+    [HttpGet("edit/{Id}")]
     public async Task<IActionResult> Edit(int Id)
     {
         CategoryModel category = await _dataContext.Categories.FindAsync(Id);
         return View(category);
     }
 
-    [Route("Edit")]
-    [HttpPost]
+    [HttpPost("edit/{Id}")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(CategoryModel category)
     {
@@ -112,7 +108,6 @@ public class CategoryController : Controller
             await _dataContext.SaveChangesAsync();
             TempData["success"] = "Cập nhật danh mục thành công";
             return RedirectToAction("Index");
-
         }
         else
         {
@@ -131,13 +126,24 @@ public class CategoryController : Controller
         return View(category);
     }
 
-    public async Task<IActionResult> Delete(int Id)
+    [HttpPost]
+    public async Task<IActionResult> Delete(int id)
     {
-        CategoryModel category = await _dataContext.Categories.FindAsync(Id);
+        // Tìm sản phẩm theo ID
+        var catagory = await _dataContext.Categories.FindAsync(id);
 
-        _dataContext.Categories.Remove(category);
+        // Kiểm tra nếu sản phẩm không tồn tại
+        if (catagory == null)
+        {
+            TempData["error"] = "Danh mục không tồn tại!";
+            return RedirectToAction("Index");
+        }
+
+        // Xóa sản phẩm khỏi cơ sở dữ liệu
+        _dataContext.Categories.Remove(catagory);
         await _dataContext.SaveChangesAsync();
-        TempData["success"] = "Danh mục đã được xóa thành công";
+
+        TempData["success"] = "Danh mục đã được xóa thành công!";
         return RedirectToAction("Index");
     }
 }

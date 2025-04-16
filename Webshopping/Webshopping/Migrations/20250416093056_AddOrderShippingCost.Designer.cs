@@ -12,8 +12,8 @@ using Webshopping.Repository;
 namespace Webshopping.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250410092429_UpdateMigrationOrderAndOderDetailsSliders")]
-    partial class UpdateMigrationOrderAndOderDetailsSliders
+    [Migration("20250416093056_AddOrderShippingCost")]
+    partial class AddOrderShippingCost
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -283,6 +283,35 @@ namespace Webshopping.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("Webshopping.Models.ContactModel", b =>
+                {
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LogoImg")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Map")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Name");
+
+                    b.ToTable("Contact");
+                });
+
             modelBuilder.Entity("Webshopping.Models.OrderDetail", b =>
                 {
                     b.Property<int>("Id")
@@ -409,6 +438,31 @@ namespace Webshopping.Migrations
                         .IsUnique();
 
                     b.ToTable("Ratings");
+                });
+
+            modelBuilder.Entity("Webshopping.Models.ShippingModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("City")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Distric")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Ward")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Shippings");
                 });
 
             modelBuilder.Entity("Webshopping.Models.SliderModel", b =>

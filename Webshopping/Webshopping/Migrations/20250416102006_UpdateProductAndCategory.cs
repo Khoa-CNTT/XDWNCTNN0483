@@ -5,25 +5,25 @@
 namespace Webshopping.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class UpdateProductAndCategory : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<string>(
-                name: "Img",
-                table: "Products",
-                type: "nvarchar(max)",
+            migrationBuilder.AddColumn<decimal>(
+                name: "ShippingCost",
+                table: "Orders",
+                type: "decimal(18,2)",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: 0m);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Img",
-                table: "Products");
+                name: "ShippingCost",
+                table: "Orders");
         }
     }
 }

@@ -15,13 +15,15 @@ using Webshopping.Repository;
 [Authorize]
 public class UserController : Controller
 {
-    // private readonly DataContext _dataContext;
+    private readonly DataContext _dataContext;
     private readonly RoleManager<IdentityRole> _roleManager;
     private readonly UserManager<AppUserModel> _userManager;
 
-    public UserController(RoleManager<IdentityRole> roleManager, UserManager<AppUserModel> userManager)
+    public UserController(RoleManager<IdentityRole> roleManager, UserManager<AppUserModel> userManager
+    , DataContext dataContext
+    )
     {
-        // _dataContext = dataContext;
+        _dataContext = dataContext;
         _roleManager = roleManager;
         _userManager = userManager;
     }
@@ -30,28 +32,26 @@ public class UserController : Controller
     [HttpGet("")]
     public async Task<IActionResult> Index()
     {
-        // var userWithRole = await (from u in _dataContext.Users// truy vấn bảng user với entity với biến là u
+        var users = await _userManager.Users.ToListAsync();
 
-        //                               /* sử dụng (join) nối giữa 2 bảng là user và userrole
-        //                               * dựa trên khóa chính là Id của User với biến là u
-        //                               * và khóa ngoại là UserId của UserRole với biến là ur
-        //                               */
-        //                           join ur in _dataContext.UserRoles on u.Id equals ur.UserId
+        var userWithRoles = new List<dynamic>();
 
-        //                           /* sử dụng (join) nối giữa 2 bảng là userrole và role
-        //                           *  thông qua RoleId của bảng UserRoles và bảng Role là trường Id
-        //                           */
-        //                           join r in _dataContext.Roles on ur.RoleId equals r.Id
+        foreach (var user in users)
+        {
+            var roles = await _userManager.GetRolesAsync(user);
+            userWithRoles.Add(new
+            {
+                Id = user.Id,
+                UserName = user.UserName,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
+                RoleName = roles.FirstOrDefault() ?? "Chưa có vai trò"
+            });
+        }
 
-        //                           /*
-        //                             User: thông tin người dùng từ bảng Users.
-        //                             RoleName: tên vai trò từ bảng Roles.
-        //                           */
-        //                           select new { User = u, RoleName = r.Name }).ToListAsync();
-
-        var users = await _userManager.Users.OrderByDescending(user => user.Id).ToListAsync();
-        return View(users);  // Trả về danh sách AppUserModel
+        return View(userWithRoles);
     }
+
 
     // GET: admin/user/create
     [HttpGet("create")]

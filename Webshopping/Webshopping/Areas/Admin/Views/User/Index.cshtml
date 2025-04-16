@@ -1,4 +1,4 @@
-@model IEnumerable<AppUserModel>
+@model IEnumerable<dynamic>
 
 @{
     ViewData["title"] = "User Listed";
@@ -30,27 +30,31 @@
             <th scope="col">Tên tài khoản</th>
             <th scope="col">Email</th>
             <th scope="col">Số điện thoại</th>
+            <th scope="col">Vai trò</th>
             <th scope="col">Thao tác</th>
         </tr>
     </thead>
     <tbody id="userTableBody">
-        @foreach (var user in Model)
-        {
-            <tr>
-                <th class="index-col" scope="row"></th>
-                <td>@user.UserName</td>
-                <td>@user.Email</td>
-                <td>@user.PhoneNumber</td>
-                <td>
-                    <a asp-action="Edit" class="btn btn-sm btn-warning" asp-controller="user" asp-route-Id="@user.Id">
-                        Sửa
-                    </a>
-                    <form asp-action="Delete" asp-controller="user" asp-route-id="@user.Id" method="post"
-                        style="display: inline;">
-                        <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
-                    </form>
-                </td>
-            </tr>
+        @{
+            int index = 1;
+            foreach (var user in Model)
+            {
+                <tr>
+                    <td>@index</td>
+                    <td>@user.UserName</td>
+                    <td>@user.Email</td>
+                    <td>@user.PhoneNumber</td>
+                    <td>@user.RoleName</td>
+                    <td>
+                        <a class="btn btn-warning btn-sm" asp-action="Edit" asp-controller="User"
+                            asp-route-Id="@user.Id">Sứa</a>
+                        <form asp-action="Delete" asp-route-id="@user.Id" method="post" style="display: inline-block;">
+                            <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
+                        </form>
+                    </td>
+                </tr>
+                index++;
+            }
         }
     </tbody>
 </table>

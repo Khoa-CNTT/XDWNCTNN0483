@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Webshopping.Areas.Admin.Common;
-using Webshopping.Migrations;
+
 using Webshopping.Models;
 using Webshopping.Repository;
 

@@ -374,6 +374,9 @@ namespace Webshopping.Migrations
                     b.Property<string>("OrderCode")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<decimal>("ShippingCost")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
@@ -484,6 +487,31 @@ namespace Webshopping.Migrations
                         .IsUnique();
 
                     b.ToTable("Ratings");
+                });
+
+            modelBuilder.Entity("Webshopping.Models.ShippingModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("City")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Distric")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Ward")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Shippings");
                 });
 
             modelBuilder.Entity("Webshopping.Models.SliderModel", b =>
