@@ -20,7 +20,14 @@
                                 <p>@item.Name</p>
                                 <p>Danh mục: @item.Category.Name</p>
                                 <p>Thương hiệu: @item.Brand.Name</p>
-                                <a class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                @if (@item.Quantity > 0)
+                                {
+                                    <a class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm giỏ hàng</a>
+                                }
+                                else
+                                {
+                                    <Button class="btn btn-default"><i class="fa fa-shopping-cart"></i>hết hàng</Button>
+                                }
                             </div>
                             <div class="product-overlay">
                                 <div class="overlay-content">
