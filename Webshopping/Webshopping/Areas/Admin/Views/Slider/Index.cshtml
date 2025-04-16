@@ -22,7 +22,7 @@
 
 <a asp-area="admin" asp-action="Add" asp-controller="Slider" class="btn btn-primary btn-sm pt-1 mb-3">Thêm Slider</a>
 
-<table class="table" id="sliderTable">
+<table class="table" id="myTable">
     <thead>
         <tr>
             <th scope="col">#</th>
@@ -63,9 +63,12 @@
                         }
                     </td>
                     <td>
-                        <a asp-action="Edit" asp-controller="Slider" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Sửa</a>
-                        <form asp-action="Delete" asp-controller="Slider" asp-route-id="@item.Id" method="post" style="display:inline-block;">
-                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc muốn xóa không?');">Xóa</button>
+                        <a asp-action="Edit" asp-controller="Slider" asp-route-id="@item.Id"
+                            class="btn btn-sm btn-warning">Sửa</a>
+                        <form asp-action="Delete" asp-controller="Slider" asp-route-id="@item.Id" method="post"
+                            style="display:inline-block;">
+                            <button type="submit" class="btn btn-danger btn-sm"
+                                onclick="return confirm('Bạn có chắc muốn xóa không?');">Xóa</button>
                         </form>
                     </td>
                 </tr>

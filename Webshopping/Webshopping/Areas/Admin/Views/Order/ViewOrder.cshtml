@@ -5,7 +5,7 @@
 }
 
 <h3>Chi tiết đơn hàng</h3>
-<table class="table">
+<table class="table" id="detailOrder">
     <thead>
         <tr>
             <th scope="col">STT</th>
@@ -27,9 +27,47 @@
                 <td>@item.Product?.Name</td> @* Hiển thị tên sản phẩm *@
                 <td>@item.Price.ToString("N0") đ</td>
                 <td>@item.Quantity</td>
-                <td>@(item.Price * item.Quantity) đ</td>
+                <td>@(item.Price* item.Quantity) đ</td>
             </tr>
             stt++;
         }
     </tbody>
 </table>
+
+@section Scripts {
+    <script>
+        new DataTable('#detailOrder', {
+            layout: {
+                topStart: {
+                    buttons: ['pdf', 'print']
+                }
+            }
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('.select-update-order').change(function () {
+                var status = $(this).val(); //status = 1
+                var ordercode = $('.getId').val(); //
+                // alert(status);
+                // alert(ordercode);
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("UpdateOrder")",
+                    data: { status: status, ordercode: ordercode }, // Send data to the server
+
+                    success: function (result) {
+                        // Handle successful update
+                        if (result.success) {
+                            Swal.fire("Cập nhật đơn hàng thành công.");
+                        } else {
+                            Swal.fire("Cập nhật đơn hàng thất bại." + result.message);
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}
