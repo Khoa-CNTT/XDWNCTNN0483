@@ -18,6 +18,8 @@ namespace Webshopping.Repository
         public DbSet<OrderDetail> OrderDetails { get; set; }
 		public DbSet<SliderModel> Slider { get; set; }
         public DbSet<ContactModel> Contact { get; set; }
-		// public DbSet<UserModel> CustomUsers { get; set; }
-	}
+        public DbSet<WishlistModel> Wishlists { get; set; }
+        public DbSet<CompareModel> Compares { get; set; }
+        // public DbSet<UserModel> CustomUsers { get; set; }
+    }
 }

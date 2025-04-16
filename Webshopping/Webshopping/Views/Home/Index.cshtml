@@ -14,7 +14,7 @@
             <div class="col-sm-4">
                 <div class="product-image-wrapper">
 
-                    <d`iv class="single-products">
+                    <div class="single-products">
                         <a asp-action="Details" asp-controller="Product" asp-route-Id="@item.Id">
                             <div class="productinfo text-center">
 
@@ -38,20 +38,97 @@
 
                             </div> *@
                         </a>
-                    </d`iv>
+                    </div>
 
                     <div class="choose">
-                        <ul class="nav nav-pills nav-justified">
-                            <li><a href="#"><i class="fa fa-plus-square"></i>Add to wishlist</a></li>
-                            <li><a href="#"><i class="fa fa-plus-square"></i>Add to compare</a></li>
-                        </ul>
+                        @if(User.Identity?.IsAuthenticated ?? false)
+                        {
+                            <ul class="nav nav-pills nav-justified">
+                                <li><button class="btn btn-danger add-btn-wishlist" data-product_id="@item.Id">Yêu thích</button> </li>
+                                <li><button class="btn btn-primary add-btn-compare" data-product_id="@item.Id">so sánh</button></li>
+                            </ul>
+                        }
+                        
                     </div>
                 </div>
             </div>
         }
 
     </div><!--features_items-->
-
-
-
 </div>
+@section Scripts {
+	<script>
+		
+			$('.add-to-cart').click(function () {
+				var Id = $(this).data("product_id");
+
+				//alert(product_id);
+
+				$.ajax({
+					type: "POST",
+					url: "@Url.Action("Add","Cart")",
+					data: { Id: Id }, // Send data to the server
+
+					success: function (result) {
+						// Handle successful update
+						if (result) {
+
+							Swal.fire("Thêm giỏ hàng thành công.");
+						} 
+					}
+
+				});
+			});
+		
+	</script>
+    <!--add to wishlist-->
+    <script>
+
+        $('.add-btn-wishlist').click(function () {
+            var Id = $(this).data("product_id");
+
+            //alert(product_id);
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("AddWishlist", "Home")",
+                data: { Id: Id }, // Send data to the server
+
+                success: function (result) {
+                    // Handle successful update
+                    if (result) {
+
+                        Swal.fire("Thêm yêu thích thành công.");
+                    }
+                }
+
+            });
+        });
+
+    </script>
+    <!--add to compare-->
+    <script>
+
+        $('.add-btn-compare').click(function () {
+            var Id = $(this).data("product_id");
+
+            //alert(product_id);
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("AddCompare", "Home")",
+                data: { Id: Id }, // Send data to the server
+
+                success: function (result) {
+                    // Handle successful update
+                    if (result) {
+
+                        Swal.fire("Thêm sản phẩm so sánh thành công.");
+                    }
+                }
+
+            });
+        });
+
+    </script>
+}
