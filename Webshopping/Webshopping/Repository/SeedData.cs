@@ -40,12 +40,12 @@ namespace Shopping_Tutorial.Repository
         {
             _context.Database.Migrate();
 
-            // await SeedRolesAsync(roleManager); // Gọi hàm riêng để seed role
+             //await SeedRolesAsync(rolezManager); // Gọi hàm riêng để seed role
             await SeedOrdersAsync(_context); // gọi hàm seed order
         }
 
         // Hàm để seeding role
-        private static async Task SeedRolesAsync(RoleManager<IdentityRole> roleManager)
+        public static async Task SeedRolesAsync(RoleManager<IdentityRole> roleManager)
         {
             string[] roles = { "Admin", "User" };
 

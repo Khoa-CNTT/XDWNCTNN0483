@@ -57,26 +57,26 @@ var app = builder.Build();
 app.UseStatusCodePagesWithRedirects("/Home/Error?statuscode={0}");
 
 // Seeding Data when is running Program
+//using (var scope = app.Services.CreateScope())
+//{
+//    var services = scope.ServiceProvider;
+//    var context = services.GetRequiredService<DataContext>();
+
+//    // Call the SeedData method
+//    SeedData.SeedingData(context);
+//    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+//    //await SeedData.SeedingDataAsync(context);
+//}
+
+// Seeding roles
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<DataContext>();
-
-    // Call the SeedData method
-    SeedData.SeedingData(context);
     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-    await SeedData.SeedingDataAsync(context);
+
+    await SeedData.SeedRolesAsync( roleManager);
 }
-
-// Seeding roles
-// using (var scope = app.Services.CreateScope())
-// {
-//     var services = scope.ServiceProvider;
-//     var context = services.GetRequiredService<DataContext>();
-//     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-
-//     await SeedData.SeedingDataAsync(context, roleManager);
-// }
 
 app.UseSession();
 
