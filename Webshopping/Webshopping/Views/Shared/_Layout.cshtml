@@ -67,8 +67,7 @@
                         </div>
                         <div class="btn-group pull-right">
                             <div class="btn-group">
-                                <button type="button" class="btn btn-default dropdown-toggle usa"
-                                    data-toggle="dropdown">
+                                <button type="button" class="btn btn-default dropdown-toggle usa" data-toggle="dropdown">
                                     USA
                                     <span class="caret"></span>
                                 </button>
@@ -79,8 +78,7 @@
                             </div>
 
                             <div class="btn-group">
-                                <button type="button" class="btn btn-default dropdown-toggle usa"
-                                    data-toggle="dropdown">
+                                <button type="button" class="btn btn-default dropdown-toggle usa" data-toggle="dropdown">
                                     DOLLAR
                                     <span class="caret"></span>
                                 </button>
@@ -95,42 +93,31 @@
                         <div class="shop-menu pull-right">
                             <ul class="nav navbar-nav">
 
-                                <li>
-                                    <a asp-controller="cart" asp-action="Index">
-                                        <i class="fa fa-shopping-cart"></i>
-                                        Cart
-                                    </a>
-                                </li>
+
+                                <li><a asp-action="Index" asp-controller="Cart"><i class="fa fa-shopping-cart"></i> Cart</a></li>
+
                                 @if (User.Identity?.IsAuthenticated ?? false)
                                 {
-                                    <li><a><i class="fa fa-user"></i>Account</a></li>
+                                    <li><a asp-action="Index" asp-controller="Cart"><i class="fa fa-crosshairs"></i> Checkout</a></li>
+                                    <li><a asp-action="History" asp-controller="Account"><i class="fa fa-user"></i> Account</a></li>
                                     <li><a asp-action="Wishlist" asp-controller="Home"><i class="fa fa-heart"></i> Wishlist</a></li>
-                                    <li><a asp-action="Compare" asp-controller="Home"><i class="fa fa-star"></i>Compare</a></li>
-                                    <li><a asp-action="Index" asp-controller="Cart"><i class="fa fa-crosshairs"></i>Checkout</a></li>
-                                    <li>
-                                        <a asp-controller="Account" asp-action="Logout">
-                                            <i class="fa fa-lock"></i>
-                                            Hi, @User.Identity.Name, Đăng xuất
-                                        </a>
-                                    </li>
+                                    <li><a asp-action="Compare" asp-controller="Home"><i class="fa fa-star"></i> Compare</a></li>
+                                    <li><a asp-controller="Dashboard" asp-action="Index" asp-area="Admin"><i class="fa fa-lock"></i>Admin CMS</a></li>
+                                    <li><a asp-controller="Realtime" asp-action="Index"><i class="fa fa-comment"></i>Chat</a></li>
+                                    <li><a asp-controller="Account" asp-action="Logout"><i class="fa fa-lock"></i>Hi @User.Identity.Name Logout </a></li>
                                 }
                                 else
                                 {
-                                    <li>
-                                        <a asp-controller="Account" asp-action="Login">
-                                            <i class="fa fa-lock"></i>
-                                            Đăng nhập
-                                        </a>
-                                    </li>
+                                    <li><a asp-controller="Account" asp-action="Login"><i class="fa fa-lock"></i>Login</a></li>
                                 }
+
+
                             </ul>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <!--/header-middle-->
+        </div><!--/header-middle-->
 
         <div class="header-bottom">
             <!--header-bottom-->
@@ -365,15 +352,30 @@
 
     <!--/Footer-->
 
-
-
-    <script src="~/js/jquery.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+    <script src="~/js/jquery.js"></script>
     <script src="~/js/bootstrap.min.js"></script>
     <script src="~/js/jquery.scrollUp.min.js"></script>
     <script src="~/js/price-range.js"></script>
     <script src="~/js/jquery.prettyPhoto.js"></script>
     <script src="~/js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.all.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('#sort_by').on('change', function () {
+
+                var url = $(this).val();
+                // alert(url);
+                if (url) {
+                    window.location = url;
+                }
+                return false;
+            });
+
+        });
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 

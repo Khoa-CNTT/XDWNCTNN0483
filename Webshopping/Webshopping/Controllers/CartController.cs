@@ -22,6 +22,8 @@ namespace Webshopping.Controllers
             // Nhận shipping giá từ cookie
             var shippingPriceCookie = Request.Cookies["ShippingPrice"];
             decimal shippingPrice = 0;
+            //Nhận Coupon code từ cookie
+            var coupon_code = Request.Cookies["CouponTitle"];
 
             if (shippingPriceCookie != null)
             {
@@ -32,7 +34,8 @@ namespace Webshopping.Controllers
             {
                 CartItems = cartItems,
                 GrandTotal = cartItems.Sum(x => x.Quantity * x.Price),
-                ShippingPrice = shippingPrice
+                ShippingPrice = shippingPrice,
+                CouponCode=coupon_code
             };
 
             return View(cartVM);
@@ -179,5 +182,57 @@ namespace Webshopping.Controllers
             Response.Cookies.Delete("ShippingPrice");
             return RedirectToAction("Index", "Cart");
         }
+        // GET: Coupon
+        [HttpPost]
+        [Route("Cart/GetCoupon")]
+        public async Task<IActionResult> GetCoupon(CouponModel couponModel, string coupon_value)
+        {
+            var validCoupon = await _datacontext.Coupons
+                .FirstOrDefaultAsync(x => x.Name == coupon_value);
+
+            string couponTitle = validCoupon.Name + " | " + validCoupon?.description;
+
+            if (couponTitle != null)
+            {
+                TimeSpan remainingTime = validCoupon.DateExpire - DateTime.Now;
+                int daysRemaining = remainingTime.Days;
+
+                if (daysRemaining >= 0)
+                {
+                    try
+                    {
+                        var cookieOptions = new CookieOptions
+                        {
+                            HttpOnly = true,
+                            Expires = DateTimeOffset.UtcNow.AddMinutes(30),
+                            Secure = true,
+                            SameSite = SameSiteMode.Strict // Kiểm tra tính tương thích trình duyệt
+                        };
+
+                        Response.Cookies.Append("CouponTitle", couponTitle, cookieOptions);
+                        return Ok(new { success = true, message = "Coupon applied successfully" });
+                    }
+                    catch (Exception ex)
+                    {
+                        //trả về lỗi 
+                        Console.WriteLine($"Error adding apply coupon cookie: {ex.Message}");
+                        return Ok(new { success = false, message = "Coupon applied failed" });
+                    }
+                }
+                else
+                {
+
+                    return Ok(new { success = false, message = "Coupon has expired" });
+                }
+
+            }
+            else
+            {
+                return Ok(new { success = false, message = "Coupon not existed" });
+            }
+
+            return Json(new { CouponTitle = couponTitle });
+        }
+
     }
 }

@@ -1,0 +1,119 @@
+﻿@model CouponModel
+@{
+    ViewData["title"] = "Create Coupon";
+}
+
+<h3>Tạo mã giảm giá</h3>
+
+<div class="col-md-9">
+    <form asp-action="Add" autocomplete="off" asp-controller="Coupon" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label>Tên mã giảm giá</label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Mô tả</label>
+            <textarea asp-for="description" class="form-control"></textarea>
+            <span asp-validation-for="description" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>thời gian bắt đầu</label>
+            <input asp-for="DateStart" class="form-control" />
+            <span asp-validation-for="DateStart" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>thời hạn</label>
+            <input asp-for="DateExpire" class="form-control" />
+            <span asp-validation-for="DateExpire" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Trạng thái</label>
+            <select asp-for="Status" class="form-control">
+                <option value="1">Hiển thị</option>
+                <option value="0">Ẩn</option>
+            </select>
+            <span asp-validation-for="Status" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <button class="btn btn-primary">Thêm thương hiệu</button>
+        </div>
+    </form>
+    <h5>danh sách mã giảm giá</h5>
+    <table class="table table-striped" id="myTable">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Date Started</th>
+                <th>Date Expired</th>
+                <th>Quantity</th>
+                <th>Active</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var coupon in ViewBag.Coupons)
+            {
+                <tr>
+                    <td>@coupon.Name</td>
+                    <td>@coupon.Description</td>
+                    <td>@coupon.DateStart.ToString("dd-MM-yyyy")</td>
+                    <td>@coupon.DateExpired.ToString("dd-MM-yyyy")</td>
+                    <td>@coupon.Quantity</td>
+                    <td>
+                        @if (@coupon.Status == 1)
+                        {
+                            <select name="Status">
+                                <option selected value="1">Kích hoạt</option>
+                                <option value="0">Ẩn</option>
+                            </select>
+                        }
+                        else
+                        {
+                            <select name="Status">
+                                <option value="1">Kích hoạt</option>
+                                <option selected value="0">Ẩn</option>
+                            </select>
+                        }
+
+                    </td>
+
+                    <td>
+                        @if (coupon.DateExpired < DateTime.Now)
+                        {
+                            <span class="text text-danger">Expired</span>
+                        }
+                        else
+                        {
+                            TimeSpan remainingTime = coupon.DateExpired - DateTime.Now;
+                            int daysRemaining = remainingTime.Days;
+                            @if (daysRemaining == 0)
+                            {
+                                <span class="text text-danger">Today</span>
+                            }
+                            else
+                            {
+                                <span class="text text-success">@daysRemaining days left</span>
+                            }
+
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+   
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
