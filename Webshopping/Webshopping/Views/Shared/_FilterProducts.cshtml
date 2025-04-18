@@ -17,10 +17,13 @@
         <div class="col-md-5">
             <h5>Lọc theo giá</h5>
             <form asp-action="Index" asp-controller="Category">
-                <input type="text" id="amount" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
+                <p>
+                    <label for="amount">Price range:</label>
+                    <input type="text" id="amount" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
+                </p>
+                
                 <div id="slider-range"></div>
-                <button type="submit" name="locgia" data-current_url="@currentUrl"
-                    class="btn btn-danger btn-locgia">Lọc</button>
+                <button type="submit" name="locgia" data-current_url="@currentUrl" class="btn btn-danger btn-locgia">Lọc giá</button>
             </form>
         </div>
     </div>
