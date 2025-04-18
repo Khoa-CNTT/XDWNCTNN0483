@@ -4,7 +4,7 @@ using Webshopping.Models;
 using Webshopping.Models;
 using Webshopping.Repository;
 
-namespace Shopping_Tutorial.Repository
+namespace Webshopping.Repository
 {
     public class SeedData
     {
