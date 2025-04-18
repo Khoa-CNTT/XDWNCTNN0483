@@ -45,7 +45,7 @@ namespace Shopping_Tutorial.Repository
         }
 
         // Hàm để seeding role
-        private static async Task SeedRolesAsync(RoleManager<IdentityRole> roleManager)
+        public static async Task SeedRolesAsync(DataContext context, RoleManager<IdentityRole> roleManager)
         {
             string[] roles = { "Admin", "User" };
 
@@ -58,8 +58,8 @@ namespace Shopping_Tutorial.Repository
             }
         }
 
-        // 🆕 HÀM SEED ORDER VÀ ORDER DETAIL
-        private static async Task SeedOrdersAsync(DataContext _context)
+        // HÀM SEED ORDER VÀ ORDER DETAIL
+        public static async Task SeedOrdersAsync(DataContext _context)
         {
             if (!_context.Orders.Any())
             {
@@ -76,7 +76,7 @@ namespace Shopping_Tutorial.Repository
                     {
                         OrderCode = orderCode,
                         UserName = users[i].UserName,
-                        CrateDate = DateTime.Now.AddDays(-i), // tạo đơn hàng cách nhau 1 ngày
+                        CreatedDate = DateTime.Now.AddDays(-i), // tạo đơn hàng cách nhau 1 ngày
                         ShippingCost = 30000 + (i * 5000),
                         Status = 1
                     };

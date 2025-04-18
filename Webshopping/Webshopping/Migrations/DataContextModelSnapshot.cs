@@ -368,7 +368,7 @@ namespace Webshopping.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("CrateDate")
+                    b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("OrderCode")
@@ -398,6 +398,9 @@ namespace Webshopping.Migrations
 
                     b.Property<int>("BrandID")
                         .HasColumnType("int");
+
+                    b.Property<decimal>("CapitalPrice")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("CategoryID")
                         .HasColumnType("int");
@@ -539,6 +542,34 @@ namespace Webshopping.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Slider");
+                });
+
+            modelBuilder.Entity("Webshopping.Models.StatisticalModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Profit")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Revenue")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Sold")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Statisticals");
                 });
 
             modelBuilder.Entity("Webshopping.Models.WishlistModel", b =>

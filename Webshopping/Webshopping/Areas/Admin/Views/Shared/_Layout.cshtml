@@ -8,6 +8,7 @@
 	<meta name="author" content="">
 	<title>@ViewData["title"] - Admin Areas</title>
 	<link href="~/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
 	<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.17.2/dist/sweetalert2.min.css" rel="stylesheet" />
 	<link href="~/css/font-awesome.min.css" rel="stylesheet">
 	<link href="~/css/prettyPhoto.css" rel="stylesheet">
@@ -75,8 +76,10 @@
 						</div>
 						<div class="mainmenu pull-left">
 							<ul class="nav navbar-nav collapse navbar-collapse">
-								<li><a asp-controller="home" class="active">Home</a></li>
+								<li><a asp-controller="home" asp-action="Index" class="active">Home</a></li>
 								<li><a asp-controller="product" asp-action="Index">Sản phẩm</a></li>
+								<li><a asp-controller="Dashboard" asp-action="Index">Bảng điều khiển</a></li>
+
 								<li><a asp-controller="category" asp-action="Index">Danh mục</a></li>
 								<li><a asp-controller="brand" asp-action="Index">Thương hiệu</a></li>
 								<li><a asp-controller="Order" asp-action="Index">Đơn hàng</a> </li>
@@ -153,6 +156,8 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
 	<script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.html5.min.js"></script>
 	<script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.print.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
 
 	<script>
 		function() {

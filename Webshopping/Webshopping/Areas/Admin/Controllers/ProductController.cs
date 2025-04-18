@@ -195,7 +195,8 @@ public class ProductController : Controller
         existingProduct.Name = model.Name;
         existingProduct.Description = model.Description;
         existingProduct.Price = model.Price;
-        existingProduct.Slug = model.Slug;
+		existingProduct.CapitalPrice = model.CapitalPrice;
+		existingProduct.Slug = model.Slug;
         existingProduct.BrandID = model.BrandID;
         existingProduct.CategoryID = model.CategoryID;
 

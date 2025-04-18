@@ -12,8 +12,8 @@ using Webshopping.Repository;
 namespace Webshopping.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250416102006_UpdateProductAndCategory")]
-    partial class UpdateProductAndCategory
+    [Migration("20250418104536_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -283,6 +283,27 @@ namespace Webshopping.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("Webshopping.Models.CompareModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("Compares");
+                });
+
             modelBuilder.Entity("Webshopping.Models.ContactModel", b =>
                 {
                     b.Property<string>("Name")
@@ -350,7 +371,7 @@ namespace Webshopping.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("CrateDate")
+                    b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("OrderCode")
@@ -381,6 +402,9 @@ namespace Webshopping.Migrations
                     b.Property<int>("BrandID")
                         .HasColumnType("int");
 
+                    b.Property<decimal>("CapitalPrice")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<int>("CategoryID")
                         .HasColumnType("int");
 
@@ -397,8 +421,14 @@ namespace Webshopping.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
                     b.Property<string>("Slug")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Sold")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -407,6 +437,28 @@ namespace Webshopping.Migrations
                     b.HasIndex("CategoryID");
 
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("Webshopping.Models.ProductQuantityModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ProductQuantities");
                 });
 
             modelBuilder.Entity("Webshopping.Models.RatingModel", b =>
@@ -495,6 +547,55 @@ namespace Webshopping.Migrations
                     b.ToTable("Slider");
                 });
 
+            modelBuilder.Entity("Webshopping.Models.StatisticalModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Profit")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Revenue")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Sold")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Statisticals");
+                });
+
+            modelBuilder.Entity("Webshopping.Models.WishlistModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("Wishlists");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -546,6 +647,17 @@ namespace Webshopping.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Webshopping.Models.CompareModel", b =>
+                {
+                    b.HasOne("Webshopping.Models.ProductModel", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("Webshopping.Models.OrderDetail", b =>
                 {
                     b.HasOne("Webshopping.Models.ProductModel", "Product")
@@ -581,6 +693,17 @@ namespace Webshopping.Migrations
                     b.HasOne("Webshopping.Models.ProductModel", "Product")
                         .WithOne("Ratings")
                         .HasForeignKey("Webshopping.Models.RatingModel", "ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("Webshopping.Models.WishlistModel", b =>
+                {
+                    b.HasOne("Webshopping.Models.ProductModel", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

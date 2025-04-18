@@ -39,7 +39,7 @@ namespace Webshopping.Controllers
 
                 orderItem.ShippingCost = shippingPrice;
                 orderItem.UserName = UserEmail;
-                orderItem.CrateDate = DateTime.Now;
+                orderItem.CreatedDate = DateTime.Now;
                 orderItem.Status = 1;
 
                 _dataContext.Add(orderItem);
