@@ -102,14 +102,20 @@
                                 @if (User.Identity?.IsAuthenticated ?? false)
                                 {
                                     <li><a><i class="fa fa-user"></i>Account</a></li>
-                                    <li><a asp-action="Wishlist" asp-controller="Home"><i class="fa fa-heart"></i> Wishlist</a></li>
-                                    <li><a asp-action="Compare" asp-controller="Home"><i class="fa fa-star"></i>Compare</a></li>
-                                    <li><a asp-action="Index" asp-controller="Cart"><i class="fa fa-crosshairs"></i>Checkout</a></li>
+                                    <li><a asp-action="Wishlist" asp-controller="Home"><i class="fa fa-heart"></i>
+                                            Wishlist</a></li>
+                                    <li><a asp-action="Compare" asp-controller="Home"><i class="fa fa-star"></i>Compare</a>
+                                    </li>
+                                    <li><a asp-action="Index" asp-controller="Cart"><i
+                                                class="fa fa-crosshairs"></i>Checkout</a></li>
                                     <li>
-                                        <a asp-controller="Account" asp-action="Logout">
-                                            <i class="fa fa-lock"></i>
-                                            Hi, @User.Identity.Name, Đăng xuất
-                                        </a>
+                                        <form asp-action="Logout" method="post" asp-controller="Account"
+                                            class="form-inline">
+                                            <button type="submit" class="btn btn-link">
+                                                <i class="fa fa-lock"></i>
+                                                Hi, @User.Identity.Name, Đăng xuất
+                                            </button>
+                                        </form>
                                     </li>
                                 }
                                 else
@@ -184,8 +190,6 @@
     </header>
 
     <!--/header-->
-
-   
 
     <section>
         <div class="container">
