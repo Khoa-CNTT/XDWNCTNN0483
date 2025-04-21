@@ -1,19 +1,24 @@
 namespace Webshopping.Controllers;
 
+using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Webshopping.Models;
+using Webshopping.Repository;
 
 [Route("account/")]
 public class AccountController : Controller
 {
     private UserManager<AppUserModel> _userManage;
     private SignInManager<AppUserModel> _signInManage;
+    private readonly DataContext _dataContext;
 
-    public AccountController(UserManager<AppUserModel> userManage, SignInManager<AppUserModel> signInManage)
+    public AccountController(UserManager<AppUserModel> userManage, SignInManager<AppUserModel> signInManage, DataContext dataContext)
     {
         _userManage = userManage;
         _signInManage = signInManage;
+        _dataContext = dataContext;
     }
 
     // GET: account/register
@@ -21,6 +26,44 @@ public class AccountController : Controller
     public IActionResult Create()
     {
         return View();
+    }
+    [HttpGet("History")]
+    public async Task<IActionResult> History()
+    {
+        if ((bool)!User.Identity?.IsAuthenticated)
+        {
+            //Khi Người dùng chưa đăng nhập thì chuyển hướng về trang đăng nhập
+            return RedirectToAction("Login", "Account");
+        }
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var userEmail = User.FindFirstValue(ClaimTypes.Email);
+
+        var Orders = await _dataContext.Orders
+                .Where(od => od.UserName == userEmail).OrderByDescending(od => od.Id).ToListAsync();
+        ViewBag.UserEmail = userEmail;
+        return View(Orders);
+    }
+    [HttpGet("CancelOrder")]
+    public async Task<IActionResult> CancelOrder(string ordercode)
+    {
+        if ((bool)!User.Identity?.IsAuthenticated)
+        {
+            //Khi Người dùng chưa đăng nhập thì chuyển hướng về trang đăng nhập
+            return RedirectToAction("Login", "Account");
+        }
+        try
+        {
+            var order = await _dataContext.Orders.Where(o => o.OrderCode == ordercode).FirstAsync();
+            order.Status = 3;
+            _dataContext.Update(order);
+            await _dataContext.SaveChangesAsync();
+            TempData["Success"] = "Hủy đơn hàng thành công.";
+        }
+        catch (Exception ex)
+        {
+            return BadRequest("Đã xảy ra lỗi khi hủy đơn hàng.");
+        }
+        return RedirectToAction("History", "Account");
     }
 
     // POST: account/register

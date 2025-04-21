@@ -98,8 +98,7 @@
 
                                 @if (User.Identity?.IsAuthenticated ?? false)
                                 {
-                                    <li><a asp-action="Index" asp-controller="Cart"><i class="fa fa-crosshairs"></i> Checkout</a></li>
-                                    <li><a asp-action="History" asp-controller="Account"><i class="fa fa-user"></i> Account</a></li>
+                                    <li><a asp-action="History" asp-controller="Account"><i class="fa fa-user"></i>Account</a></li>
                                     <li><a asp-action="Wishlist" asp-controller="Home"><i class="fa fa-heart"></i> Wishlist</a></li>
                                     <li><a asp-action="Compare" asp-controller="Home"><i class="fa fa-star"></i> Compare</a></li>
                                     <li><a asp-controller="Dashboard" asp-action="Index" asp-area="Admin"><i class="fa fa-lock"></i>Admin CMS</a></li>

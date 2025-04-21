@@ -11,7 +11,7 @@ namespace Webshopping.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
+           /* migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
                 {
@@ -51,7 +51,7 @@ namespace Webshopping.Migrations
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
                 });
-
+*/
             migrationBuilder.CreateTable(
                 name: "Brands",
                 columns: table => new

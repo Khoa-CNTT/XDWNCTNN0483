@@ -1,110 +1,70 @@
 @model IEnumerable<OrderModel>
-
 @{
-	ViewData["title"] = "Order Models";
-	decimal total = 0; // Store total amount
-	decimal subtotal = 0;
-}
+    ViewData["title"] = "List Order";
 
+    
+
+}
 
 <!DOCTYPE html>
 
 <html>
-
 <head>
-	<meta name="viewport" content="width=device-width" />
-	<title>Order Details</title>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
 </head>
-
 <body>
-	<h3>Order Details</h3>
-	<div class="table table-responsive">
-		<table class="table" id="detail_order">
-			<thead>
-				<tr>
-					<th>Id</th>
-					<th>Mã đơn hàng</th>
-					<th>Phí vận chuyển</th>
-					<th>Mã giảm giá</th>
-					<th>Tên khách hàng</th>
-					<th>Tình trạng đơn hàng</th>
-					<th>Ngày tạo đơn</th>
-					<th>Thao tác</th>
-				</tr>
-			</thead>
-			<tbody>
-				@foreach (var item in Model)
-				{
-					<tr>
-						<td>@item.Id</td>
-						<td>@item.OrderCode</td>
-						<td>@item.ShippingCost.ToString("#,##0 đ")</td>
-						<td>@item.CouponCode</td>
-						<td>@item.UserName</td>
-						<td>
-							@if (item.Status == 1)
-							{
-								<span class="text text-success">Đơn hàng mới</span>
-							}
-							else if (item.Status == 2)
-							{
-								<span class="text text-success">Đã giao hàng</span>
-							}
-							else
-							{
+    <h3>List Order</h3>
 
-								<span class="text text-danger">Đã hủy</span>
-							}
-						</td>
-						<td>@item.CrateDate.ToString("dd-MM-yyyy")</td>
-						<td>
-							<a class="btn btn-warning btn-sm" asp-action="ViewOrder" asp-controller="Order" asp-route-ordercode="@item.OrderCode">View Order</a>
-							<a class="btn btn-danger btn-sm" asp-action="Delete" asp-controller="Order" asp-route-ordercode="@item.OrderCode">Delete</a>
+    
 
-						</td>
-					</tr>
-				}
-			</tbody>
-		</table>
+    <table class="table" id="myTable">
+        <thead>
+            <tr>
+				<th>Id</th>
+				<th>Mã đơn hàng</th>
+				<th>Phí vận chuyển</th>
+				<th>Mã giảm giá</th>
+				<th>Tên khách hàng</th>
+				<th>Tình trạng đơn hàng</th>
+				<th>Ngày tạo đơn</th>
+				<th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.OrderCode</td>
+                    <td>@item.ShippingCost.ToString("#,##0 đ")</td>
+                    <td>@item.CouponCode</td>
+                    <td>@item.UserName</td>
+                    <td>
+                        @if (item.Status == 1)
+                        {
+                            <span class="text text-success">Đơn hàng mới</span>
+                        }
+                        else if (item.Status == 2)
+                        {
+                            <span class="text text-success">Đã giao hàng</span>
+                        }
+                        else
+                        {
 
-	</div>
+                            <span class="text text-danger">Đã hủy</span>
+                        }
+                    </td>
+                    <td>@item.CrateDate.ToString("dd-MM-yyyy")</td>
+                    <td>
+                        <a class="btn btn-warning btn-sm" asp-action="ViewOrder" asp-controller="Order" asp-route-ordercode="@item.OrderCode">Chi tiết</a>
+                        <a class="btn btn-danger btn-sm" asp-action="Delete" asp-controller="Order" asp-route-ordercode="@item.OrderCode">Xóa</a>
+                       
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+   
 </body>
-
 </html>
-@section Scripts {
-	<script>
-		new DataTable('#detail_order', {
-			layout: {
-				topStart: {
-					buttons: ['pdf', 'print']
-				}
-			}
-		});
-	</script>
-
-	<script>
-		$(document).ready(function () {
-			$('.select-update-order').change(function () {
-				var status = $(this).val(); //status = 1
-				var ordercode = $('.getId').val(); //
-				// alert(status);
-				// alert(ordercode);
-
-				$.ajax({
-					type: "POST",
-					url: "@Url.Action("UpdateOrder")",
-					data: { status: status, ordercode: ordercode }, // Send data to the server
-
-					success: function (result) {
-						// Handle successful update
-						if (result.success) {
-							Swal.fire("Cập nhật đơn hàng thành công.");
-						} else {
-							Swal.fire("Cập nhật đơn hàng thất bại." + result.message);
-						}
-					}
-				});
-			});
-		});
-	</script>
-}
