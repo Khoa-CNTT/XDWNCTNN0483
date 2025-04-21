@@ -1,6 +1,9 @@
 @model IEnumerable<OrderModel>
 @{
-    ViewData["title"] = "List Order";
+	ViewData["title"] = "Order Models";
+	decimal total = 0; // Store total amount
+	decimal subtotal = 0;
+}
 
     
 
@@ -14,7 +17,7 @@
     <title>Index</title>
 </head>
 <body>
-    <h3>List Order</h3>
+    <h3>Danh sách đơn hàng</h3>
 
     
 
