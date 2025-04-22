@@ -105,7 +105,15 @@
                                     <li><a asp-action="Compare" asp-controller="Home"><i class="fa fa-star"></i> Compare</a></li>
                                     <li><a asp-controller="Dashboard" asp-action="Index" asp-area="Admin"><i class="fa fa-lock"></i>Admin CMS</a></li>
                                     <li><a asp-controller="Realtime" asp-action="Index"><i class="fa fa-comment"></i>Chat</a></li>
-                                    <li><a asp-controller="Account" asp-action="Logout"><i class="fa fa-lock"></i>Hi @User.Identity.Name Logout </a></li>
+                                    <li>
+                                        <form asp-action="Logout" method="post" asp-controller="Account"
+                                              class="form-inline">
+                                            <button type="submit" class="btn btn-link">
+                                                <i class="fa fa-lock"></i>
+                                                Hi, @User.Identity.Name, Đăng xuất
+                                            </button>
+                                        </form>
+                                    </li>
                                 }
                                 else
                                 {

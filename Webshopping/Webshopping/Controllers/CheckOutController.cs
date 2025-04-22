@@ -6,15 +6,19 @@ using System.Security.Claims;
 using Webshopping.Models;
 using Webshopping.Repository;
 using Webshopping.Repository.Shopping_Tutorial.Repository;
+using Microsoft.AspNetCore.Identity;
+using Webshopping.Areas.Admin.Repository;
 
 namespace Webshopping.Controllers
 {
     public class CheckOutController : Controller
     {
         private readonly DataContext _dataContext;
-        public CheckOutController(DataContext dataContext)
+        private readonly IEmailSender _emailSender;
+        public CheckOutController(IEmailSender emailSender, DataContext dataContext)
         {
             _dataContext = dataContext;
+            _emailSender = emailSender;
         }
         public async Task<IActionResult> Checkout()
         {
@@ -68,6 +72,7 @@ namespace Webshopping.Controllers
 
                 }
                 HttpContext.Session.Remove("cart");
+                //Gui mail cho người dùng   
                 TempData["success"] = "Checkout thành công,vui lòng đợi duyệt đơn hàng";
                 return RedirectToAction("Index", "Cart");
 
