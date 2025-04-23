@@ -9,6 +9,7 @@
 	<title>@ViewData["title"] - Admin Areas</title>
 	<link href="~/css/bootstrap.min.css" rel="stylesheet">
 	<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.17.2/dist/sweetalert2.min.css" rel="stylesheet" />
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet" />
 	<link href="~/css/font-awesome.min.css" rel="stylesheet">
 	<link href="~/css/prettyPhoto.css" rel="stylesheet">
 	<link href="~/css/price-range.css" rel="stylesheet">
@@ -75,12 +76,13 @@
 						</div>
 						<div class="mainmenu pull-left">
 							<ul class="nav navbar-nav collapse navbar-collapse">
-								<li><a asp-controller="home" class="active">Home</a></li>
+								<li><a asp-action="index" asp-controller="Home">Trang chủ</a></li>
 								<li><a asp-controller="product" asp-action="Index">Sản phẩm</a></li>
 								<li><a asp-controller="category" asp-action="Index">Danh mục</a></li>
 								<li><a asp-controller="brand" asp-action="Index">Thương hiệu</a></li>
 								<li><a asp-controller="Order" asp-action="Index">Đơn hàng</a> </li>
 								<li><a asp-controller="Shipping" asp-action="Index">Vận chuyển</a> </li>
+								<li><a asp-controller="Coupon" asp-action="Index">Mã giảm giá</a> </li>
 								<li><a asp-controller="Slider" asp-action="Index">Slider</a> </li>
 								<li><a asp-controller="Contact" asp-action="Index">Liên hệ</a> </li>
 								<li><a asp-controller="User" asp-action="Index">Người dùng</a> </li>

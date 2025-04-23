@@ -45,7 +45,7 @@ namespace Webshopping.Repository
         }
 
         // Hàm để seeding role
-        private static async Task SeedRolesAsync(RoleManager<IdentityRole> roleManager)
+        public static async Task SeedRolesAsync(RoleManager<IdentityRole> roleManager)
         {
             string[] roles = { "Admin", "User" };
 

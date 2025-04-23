@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using Webshopping.Models;
 using Webshopping.Repository;
-using Webshopping.Repository.Shopping_Tutorial.Repository;
+using Webshopping.Repository.Webshopping.Repository;
 
 namespace Webshopping.Controllers
 {
@@ -28,9 +28,11 @@ namespace Webshopping.Controllers
                 var ordercode = Guid.NewGuid().ToString();
                 var orderItem = new OrderModel();
                 orderItem.OrderCode = ordercode;
+                // nhận shipping
                 var shippingPriceCookie = Request.Cookies["ShippingPrice"];
                 decimal shippingPrice = 0;
-
+                //Nhận Coupon code từ cookie
+                var coupon_code = Request.Cookies["CouponTitle"];
                 if (shippingPriceCookie != null)
                 {
                     var shippingPriceJson = shippingPriceCookie;
@@ -38,6 +40,7 @@ namespace Webshopping.Controllers
                 }
 
                 orderItem.ShippingCost = shippingPrice;
+                orderItem.CouponCode = coupon_code;
                 orderItem.UserName = UserEmail;
                 orderItem.CrateDate = DateTime.Now;
                 orderItem.Status = 1;

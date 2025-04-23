@@ -12,7 +12,7 @@
         <input type="hidden" name="ProductId" Value="@ViewBag.Id" />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group">
-            <label>Tên số lượng</label>
+            <label>số lượng</label>
             <input min="1" value ="1" max="2000" asp-for="Quantity" class="form-control" />
             <span asp-validation-for="Quantity" class="text-danger"></span>
         </div>
@@ -50,7 +50,7 @@
             </tr>
         </tbody>
     </table>
-    <a asp-action="Index" asp-controller="Product">Trở về lại trang thêm số lượng sản phẩm</a>
+    <a asp-action="Index" asp-controller="Product">Trở về lại trang sản phẩm</a>
 </div>
 @section Scripts {
     @{
