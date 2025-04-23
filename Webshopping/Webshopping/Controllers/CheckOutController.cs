@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using Webshopping.Models;
 using Webshopping.Repository;
-using Webshopping.Repository.Shopping_Tutorial.Repository;
+using Webshopping.Repository.Webshopping.Repository;
 
 namespace Webshopping.Controllers
 {
