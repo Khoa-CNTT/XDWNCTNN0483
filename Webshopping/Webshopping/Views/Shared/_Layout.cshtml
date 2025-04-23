@@ -67,7 +67,8 @@
                         </div>
                         <div class="btn-group pull-right">
                             <div class="btn-group">
-                                <button type="button" class="btn btn-default dropdown-toggle usa" data-toggle="dropdown">
+                                <button type="button" class="btn btn-default dropdown-toggle usa"
+                                    data-toggle="dropdown">
                                     USA
                                     <span class="caret"></span>
                                 </button>
@@ -78,7 +79,8 @@
                             </div>
 
                             <div class="btn-group">
-                                <button type="button" class="btn btn-default dropdown-toggle usa" data-toggle="dropdown">
+                                <button type="button" class="btn btn-default dropdown-toggle usa"
+                                    data-toggle="dropdown">
                                     DOLLAR
                                     <span class="caret"></span>
                                 </button>
@@ -101,20 +103,44 @@
                                 </li>
                                 @if (User.Identity?.IsAuthenticated ?? false)
                                 {
-                                    <li><a><i class="fa fa-user"></i>Tài khoản</a></li>
-                                    <li><a asp-action="Wishlist" asp-controller="Home"><i class="fa fa-heart"></i>Yêu thích</a></li>
-                                    <li><a asp-action="Compare" asp-controller="Home"><i class="fa fa-star"></i>So sánh</a></li>
-                                    <li><a asp-action="Index" asp-controller="Cart"><i class="fa fa-crosshairs"></i>Thanh toán</a></li>
                                     <li>
-                                        <a asp-controller="Account" asp-action="Logout">
-                                            <i class="fa fa-lock"></i>
-                                            Hi, @User.Identity.Name, Đăng xuất
+                                        <a>
+                                            <i class="fa fa-user"></i>
+                                            Tài khoản
                                         </a>
+                                    </li>
+                                    <li>
+                                        <a asp-action="Wishlist" asp-controller="Home">
+                                            <i class="fa fa-heart"></i>Yêu thích
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a asp-action="Compare" asp-controller="Home">
+                                            <i class="fa fa-star"></i>
+                                            So sánh
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a asp-action="Index" asp-controller="Cart">
+                                            <i class="fa fa-crosshairs"></i>
+                                            Thanh toán
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <form asp-action="Logout" method="post" asp-controller="Account"
+                                            class="form-inline">
+                                            <button type="submit" class="btn btn-link">
+                                                <i class="fa fa-lock"></i>
+                                                Hi, @User.Identity.Name, Đăng xuất
+                                            </button>
+                                        </form>
                                     </li>
                                 }
                                 else
                                 {
-                                    <li><a asp-controller="Account" asp-action="Login"><i class="fa fa-lock"></i>Login</a></li>
+                                    <li><a asp-controller="Account" asp-action="Login"><i class="fa fa-lock"></i>Login</a>
+                                    </li>
                                 }
 
 
@@ -179,8 +205,6 @@
     </header>
 
     <!--/header-->
-
-   
 
     <section>
         <div class="container">

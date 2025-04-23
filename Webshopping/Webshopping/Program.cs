@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Webshopping.Models;
@@ -33,9 +35,6 @@ builder.Services.AddAuthentication(options =>
     //options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
 });
 
-
-builder.Services.AddRazorPages();
-
 builder.Services.Configure<IdentityOptions>(options =>
 {
     // Password settings.
@@ -48,6 +47,27 @@ builder.Services.Configure<IdentityOptions>(options =>
     // User settings.
     options.User.RequireUniqueEmail = false;
 });
+
+// đăng nhập google
+builder.Services.AddAuthentication(options =>
+{
+    // Xác định scheme mặc định cho toàn bộ hệ thống xác thực
+    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme; // Lưu phiên đăng nhập qua cookie
+    options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme; // Khi cần login sẽ redirect tới Google
+})
+.AddCookie() // Cần có để lưu phiên đăng nhập sau khi Google trả về
+.AddGoogle(options =>
+{
+    // Lấy thông tin từ appsettings.json (an toàn hơn hard-code)
+    options.ClientId = builder.Configuration["Authentication:Google:ClientId"];
+    options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+
+    // Đường dẫn Google sẽ redirect về sau khi đăng nhập thành công
+    options.CallbackPath = "/signin-google"; // Cực kỳ quan trọng! Phải giống với Google Developer Console
+});
+// kết thúc
+
+builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
