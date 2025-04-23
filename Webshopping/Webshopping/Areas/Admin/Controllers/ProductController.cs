@@ -238,21 +238,21 @@ public class ProductController : Controller
         TempData["success"] = "Sản phẩm đã được xóa thành công!";
         return RedirectToAction("Index");
     }
-        //add quantity
-        
-        [HttpGet("AddQuantity")]
-        public async Task<IActionResult> AddQuantity(int Id)
-        {
-            var productbyquantity = await _dataContext.ProductQuantities.Where(pq => pq.ProductId == Id).ToListAsync();
-            ViewBag.ProductByQuantity = productbyquantity;
-            ViewBag.Id= Id;
-            return View();
-            
-        }
+    //add quantity
+
+    [HttpGet("AddQuantity")]
+    public async Task<IActionResult> AddQuantity(int Id)
+    {
+        var productbyquantity = await _dataContext.ProductQuantities.Where(pq => pq.ProductId == Id).ToListAsync();
+        ViewBag.ProductByQuantity = productbyquantity;
+        ViewBag.Id = Id;
+        return View();
+
+    }
     [Route("StoreProductQuantity")]
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult StoreProductQuantity(ProductQuantityModel productQuantityModel, int Id)
+    public IActionResult StoreProductQuantity(ProductQuantityModel productQuantityModel)
     {
         // Get the product to update
         var product = _dataContext.Products.Find(productQuantityModel.ProductId);
@@ -264,7 +264,7 @@ public class ProductController : Controller
         product.Quantity += productQuantityModel.Quantity;
 
         productQuantityModel.Quantity = productQuantityModel.Quantity;
-        productQuantityModel.ProductId = Id;
+        productQuantityModel.ProductId = productQuantityModel.ProductId;
         productQuantityModel.Date = DateTime.Now;
 
 

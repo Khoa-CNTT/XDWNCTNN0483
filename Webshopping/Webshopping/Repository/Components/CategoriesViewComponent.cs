@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Webshopping.Repository;
 
-namespace Shopping_Tutorial.Repository.Components
+namespace Webshopping.Repository.Components
 {
     public class CategoriesViewComponent : ViewComponent
     {
