@@ -78,6 +78,27 @@ builder.Services.AddRazorPages();
 //  Connect VNPay  API
 builder.Services.AddScoped<IVnPayService, VnPayService>();
 
+// đăng nhập google
+builder.Services.AddAuthentication(options =>
+{
+    // Xác định scheme mặc định cho toàn bộ hệ thống xác thực
+    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme; // Lưu phiên đăng nhập qua cookie
+    options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme; // Khi cần login sẽ redirect tới Google
+})
+.AddCookie() // Cần có để lưu phiên đăng nhập sau khi Google trả về
+.AddGoogle(options =>
+{
+    // Lấy thông tin từ appsettings.json (an toàn hơn hard-code)
+    options.ClientId = builder.Configuration["Authentication:Google:ClientId"];
+    options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+
+    // Đường dẫn Google sẽ redirect về sau khi đăng nhập thành công
+    options.CallbackPath = "/signin-google"; // Cực kỳ quan trọng! Phải giống với Google Developer Console
+});
+// kết thúc
+
+builder.Services.AddRazorPages();
+
 var app = builder.Build();
 
 app.UseStatusCodePagesWithRedirects("/Home/Error?statuscode={0}");
