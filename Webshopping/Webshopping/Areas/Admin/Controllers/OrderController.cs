@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Shopping_Tutorial.Repository;
 using Webshopping.Repository;
 
 namespace Shopping_Tutorial.Areas.Admin.Controllers
@@ -21,7 +20,7 @@ namespace Shopping_Tutorial.Areas.Admin.Controllers
         {
             return View(await _dataContext.Orders.OrderByDescending(p => p.Id).ToListAsync());
         }
-        [HttpGet("Order/View")]
+        [HttpGet("View")]
         public async Task<IActionResult> ViewOrder(string ordercode)
         {
             var DetailsOrder = await _dataContext.OrderDetails.Include(od => od.Product)
@@ -32,6 +31,16 @@ namespace Shopping_Tutorial.Areas.Admin.Controllers
             ViewBag.ShippingCost = Order.ShippingCost;
             ViewBag.Status = Order.Status;
             return View(DetailsOrder);
+        }
+        [HttpGet("PaymentVnpayInfo")]
+        public async Task<IActionResult> PaymentVnpayInfo(string orderId)
+        {
+            var vnPayInfo = await _dataContext.VnInfos.FirstOrDefaultAsync(m => m.PaymentId == orderId);
+            if(vnPayInfo == null)
+            {
+                return NotFound();
+            }
+            return View(vnPayInfo);
         }
         [HttpPost("Update")]
         public async Task<IActionResult> UpdateOrder(string ordercode, int status)

@@ -61,7 +61,7 @@
 						<td class="cart_total">
 							<p class="cart_total_price">
 								@Model.CartItems.Where(x => x.ProductId == item.ProductId).Sum(x
-																=> x.Quantity* x.Price).ToString()
+																			=> x.Quantity * x.Price).ToString("#,##0 đ")
 							</p>
 						</td>
 
@@ -146,17 +146,17 @@
 										<input type="hidden" name="Amount" value="@Model.GrandTotal" />
 										<input type="hidden" name="OrderInfo" value="Thanh toán qua Momo Payment" />
 
-										<button class="btn btn-danger" name="PayUrl" type="submit">Pay with MoMo</button>
+										<button class="btn btn-danger" name="PayUrl" type="submit">Thanh toán qua MoMo</button>
 									</form>
 									<form method="POST" asp-action="CreatePaymentUrlVnpay" asp-controller="Payment">
 
 										<input type="hidden" name="Name" value="@User.Identity.Name" />
 										<input type="hidden" name="Amount" value="@Model.GrandTotal" />
 										<input type="hidden" name="OrderDescription"
-											value="Thanh toán qua Vnpay tại HieuTanStore" />
+											value="Đã thanh toán qua Vnpay tại Thong_Shopping" />
 										<input type="hidden" name="OrderType" value="other" />
 
-										<button class="btn btn-success" type="submit">Pay with Vnpay</button>
+										<button class="btn btn-success" type="submit">Thanh toán qua Vnpay</button>
 									</form>
 
 								</td>

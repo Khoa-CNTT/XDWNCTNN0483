@@ -1,11 +1,11 @@
 @model IEnumerable<OrderModel>
 @{
-	ViewData["title"] = "Order Models";
-	decimal total = 0; // Store total amount
-	decimal subtotal = 0;
+    ViewData["title"] = "Order Models";
+    decimal total = 0; // Store total amount
+    decimal subtotal = 0;
 }
 
-    
+
 
 <!DOCTYPE html>
 
@@ -17,19 +17,20 @@
 <body>
     <h3>Danh sách đơn hàng</h3>
 
-    
+
 
     <table class="table" id="myTable">
         <thead>
             <tr>
-				<th>Id</th>
-				<th>Mã đơn hàng</th>
-				<th>Phí vận chuyển</th>
-				<th>Mã giảm giá</th>
-				<th>Tên khách hàng</th>
-				<th>Tình trạng đơn hàng</th>
-				<th>Ngày tạo đơn</th>
-				<th>Thao tác</th>
+                <th>Id</th>
+                <th>Mã đơn hàng</th>
+                <th>Phí vận chuyển</th>
+                <th>Mã giảm giá</th>
+                <th>Tên khách hàng</th>
+                <th>Tình trạng đơn hàng</th>
+                <th>Phương thức thanh toán</th>
+                <th>Ngày tạo đơn</th>
+                <th>Thao tác</th>
             </tr>
         </thead>
         <tbody>
@@ -56,6 +57,48 @@
                             <span class="text text-danger">Đã hủy</span>
                         }
                     </td>
+                    <td>
+                        @{
+                            string text = item.PaymentMethod;
+                            string number_split = "";
+                            string text_split = "";
+
+                            if (!string.IsNullOrEmpty(text))
+                            {
+                                var parts = text.Split(" ");
+                                if (parts.Length == 2)
+                                {
+                                    text_split = parts[0];
+                                    number_split = parts[1];
+                                }
+                                else
+                                {
+                                    text_split = text;
+                                }
+                            }
+                        }
+                        @if (string.IsNullOrEmpty(item.PaymentMethod))
+                        {
+                            <span class="text text-primary">COD</span>
+                        }
+                        else
+                        {
+                            if (text_split == "MOMO")
+                            {
+                                @text_split
+                                <a asp-action="PaymentMomoInfo" asp-route-orderId="@number_split" asp-controller="Order"><span class="text text-danger">@number_split</span></a>
+                            }
+                            else if (text_split == "VnPay")
+                            {
+                                @text_split
+                                @if (!string.IsNullOrEmpty(number_split))
+                                {
+                                    <a asp-action="PaymentVnpayInfo" asp-route-orderId="@number_split" asp-controller="Order"><span class="text text-success">@number_split</span></a>
+                                }
+                            }
+                        }
+
+                    </td>
                     <td>@item.CrateDate.ToString("dd-MM-yyyy")</td>
                     <td>
                         <a class="btn btn-warning btn-sm" asp-action="ViewOrder" asp-controller="Order" asp-route-ordercode="@item.OrderCode">Chi tiết</a>
@@ -63,7 +106,7 @@
                        
                     </td>
                 </tr>
-            }
+               }
         </tbody>
     </table>
    

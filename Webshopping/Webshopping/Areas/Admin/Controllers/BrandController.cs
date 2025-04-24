@@ -11,7 +11,7 @@ using Webshopping.Repository;
 
 [Area("Admin")]
 [Route("Admin/Brand")]
-[Authorize(Roles = "Publisher,Author,Admin")]
+//[Authorize(Roles = "Admin")]
 public class BrandController : Controller
 {
     private readonly DataContext _dataContext;

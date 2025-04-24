@@ -5,22 +5,30 @@ using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using Webshopping.Models;
 using Webshopping.Repository;
-using Webshopping.Repository.Shopping_Tutorial.Repository;
+using Webshopping.Repository.Webshopping.Repository;
 using Microsoft.AspNetCore.Identity;
 using Webshopping.Areas.Admin.Repository;
+using Webshopping.Services.Vnpay;
+using System.Threading.Tasks;
 
 namespace Webshopping.Controllers
 {
     public class CheckOutController : Controller
     {
+        private readonly IVnPayService _vnPayService;
         private readonly DataContext _dataContext;
         private readonly IEmailSender _emailSender;
-        public CheckOutController(IEmailSender emailSender, DataContext dataContext)
+        public CheckOutController(IEmailSender emailSender, DataContext dataContext, IVnPayService vnPayService)
         {
             _dataContext = dataContext;
             _emailSender = emailSender;
+            _vnPayService = vnPayService;
         }
-        public async Task<IActionResult> Checkout()
+        public IActionResult Index()
+        {
+            return View();
+        }
+        public async Task<IActionResult> Checkout(string PaymentMethod, string PaymentId)
         {
             var UserEmail = User.FindFirstValue(ClaimTypes.Email);
             if (UserEmail == null)
@@ -42,10 +50,27 @@ namespace Webshopping.Controllers
                     var shippingPriceJson = shippingPriceCookie;
                     shippingPrice = JsonConvert.DeserializeObject<decimal>(shippingPriceJson);
                 }
+                else
+                {
+                    shippingPrice = 0;
+                }
 
                 orderItem.ShippingCost = shippingPrice;
                 orderItem.CouponCode = coupon_code;
                 orderItem.UserName = UserEmail;
+                orderItem.PaymentMethod = PaymentMethod + " " + PaymentId;
+                /*if (PaymentMethod != "MOMO" || PaymentMethod != "VnPay")
+                {
+                    orderItem.PaymentMethod = "COD";//COD
+                }
+                else if (PaymentMethod != "VnPay")
+                {
+                    orderItem.PaymentMethod = "VnPay" + " " + PaymentId;
+                }
+                else
+                {
+                    orderItem.PaymentMethod = "MOMO" + " " + PaymentMethod;
+                }*/
                 orderItem.CrateDate = DateTime.Now;
                 orderItem.Status = 1;
 
@@ -74,10 +99,41 @@ namespace Webshopping.Controllers
                 HttpContext.Session.Remove("cart");
                 //Gui mail cho người dùng   
                 TempData["success"] = "Checkout thành công,vui lòng đợi duyệt đơn hàng";
-                return RedirectToAction("Index", "Cart");
+                
 
             }
-            return View();
+            return RedirectToAction("History", "Account");
+            /*return View();*/
+        }
+        [HttpGet]
+        public async Task<IActionResult> PaymentCallbackVnpay()
+        {
+            var response = _vnPayService.PaymentExecute(Request.Query);
+            if (response.VnPayResponseCode == "00") //Giao dịch thành công luu vào db
+            {
+                var newVnpayInsert = new VnpayModel
+                {
+                    OrderId = response.OrderId,
+                    PaymentMethod = response.PaymentMethod,
+                    OrderDescription = response.OrderDescription,
+                    TransactionId = response.TransactionId,
+                    PaymentId = response.PaymentId,
+                    DateCreated = DateTime.Now
+                };
+                _dataContext.Add(newVnpayInsert);
+                await _dataContext.SaveChangesAsync();
+                //Tiến hành đặt đơn hàng khi thanh toán vnpay thành công
+                var PaymentMethod = response.PaymentMethod;
+                var PaymentId = response.PaymentId;
+                await Checkout(PaymentMethod, PaymentId);
+            }
+            else
+            {
+                TempData["success"] = "Giao dịch thành công";
+                return RedirectToAction("Index", "Cart");
+            }
+            //return Json(response);
+            return View(response);
         }
     }
 }

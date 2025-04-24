@@ -20,10 +20,11 @@
             <tr>
                 <th>Id</th>
                 <th>Mã đơn hàng</th>
+                <th>Tên</th>
                 <th>Shipping Cost</th>
                 @*                 <th>Coupon</th> *@
-                <th>Tên</th>
-                <th>Trạng thái</th>
+                <th>Phương thức thanh toán</th>
+                <th>Trạng thái</th
                 <th>Ngày</th>
                 <th>Thao tác</th>
             </tr>
@@ -34,9 +35,19 @@
                 <tr>
                     <td>@item.Id</td>
                     <td>@item.OrderCode</td>
+                    <td>@item.UserName</td>
                     <td>@item.ShippingCost.ToString("#,##0 đ")</td>
                     @*<td>@item.CouponCode</td> *@
-                    <td>@item.UserName</td>
+                    <td>
+                        @if(item.PaymentMethod == "COD" )
+                        {
+                            <span class="text text-primary">@item.PaymentMethod</span>
+                        }
+                        else if( item.PaymentMethod != "COD")
+                        {
+                            <span class="text text-success">@item.PaymentMethod</span>
+                        }
+                    </td>
                     <td>
                         @if (item.Status == 1)
                         {

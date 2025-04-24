@@ -12,5 +12,6 @@ namespace Webshopping.Models
         public string UserName { get; set; }
         public DateTime CrateDate { get; set; }
         public int Status { get; set; }
+        public string PaymentMethod { get; set; }
     }
 }

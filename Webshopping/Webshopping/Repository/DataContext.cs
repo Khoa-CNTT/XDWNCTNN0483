@@ -9,7 +9,7 @@ namespace Webshopping.Repository
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
 
-        }
+            }
         public DbSet<BrandModel> Brands { get; set; }
         public DbSet<ProductModel> Products { get; set; }
         public DbSet<RatingModel> Ratings { get; set; }
@@ -23,6 +23,7 @@ namespace Webshopping.Repository
         public DbSet<CompareModel> Compares { get; set; }
         public DbSet<ProductQuantityModel> ProductQuantities { get; set; }
         public DbSet<CouponModel> Coupons { get; set; }
+        public DbSet<VnpayModel> VnInfos { get; set; }
 
         // public DbSet<UserModel> CustomUsers { get; set; }
     }
