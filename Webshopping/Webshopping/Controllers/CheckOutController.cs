@@ -59,26 +59,12 @@ namespace Webshopping.Controllers
                 orderItem.CouponCode = coupon_code;
                 orderItem.UserName = UserEmail;
                 orderItem.PaymentMethod = PaymentMethod + " " + PaymentId;
-                /*if (PaymentMethod != "MOMO" || PaymentMethod != "VnPay")
-                {
-                    orderItem.PaymentMethod = "COD";//COD
-                }
-                else if (PaymentMethod != "VnPay")
-                {
-                    orderItem.PaymentMethod = "VnPay" + " " + PaymentId;
-                }
-                else
-                {
-                    orderItem.PaymentMethod = "MOMO" + " " + PaymentMethod;
-                }*/
                 orderItem.CrateDate = DateTime.Now;
                 orderItem.Status = 1;
-
                 _dataContext.Add(orderItem);
                 _dataContext.SaveChanges();
-
                 //Tạo đơn hàng
-                List<CartItemModels> cartItem = HttpContext.Session.GetJson<List<CartItemModels>>("cart") ?? new List<CartItemModels>();
+                List<CartItemModels> cartItem = HttpContext.Session.GetJson<List<CartItemModels>>("Cart") ?? new List<CartItemModels>();
                 foreach (var cart in cartItem)
                 {
                     var orderDetail = new OrderDetail(); // Corrected variable name
@@ -93,17 +79,14 @@ namespace Webshopping.Controllers
                     product.Sold += cart.Quantity;
                     _dataContext.Update(product);
                     _dataContext.Add(orderDetail); // Corrected variable name
-                    _dataContext.SaveChanges();
-
-                }
+                    await _dataContext.SaveChangesAsync();
+                }               
                 HttpContext.Session.Remove("cart");
                 //Gui mail cho người dùng   
                 TempData["success"] = "Checkout thành công,vui lòng đợi duyệt đơn hàng";
-                
-
+                return RedirectToAction("History", "Account");
             }
-            return RedirectToAction("History", "Account");
-            /*return View();*/
+           return View();
         }
         [HttpGet]
         public async Task<IActionResult> PaymentCallbackVnpay()

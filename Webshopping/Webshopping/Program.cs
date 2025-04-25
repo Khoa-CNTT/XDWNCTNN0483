@@ -54,7 +54,7 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.User.RequireUniqueEmail = false;
 });
 
-// đăng nhập google
+/*// đăng nhập google
 builder.Services.AddAuthentication(options =>
 {
     // Xác định scheme mặc định cho toàn bộ hệ thống xác thực
@@ -70,12 +70,12 @@ builder.Services.AddAuthentication(options =>
 
     // Đường dẫn Google sẽ redirect về sau khi đăng nhập thành công
     options.CallbackPath = "/signin-google"; // Cực kỳ quan trọng! Phải giống với Google Developer Console
-});
+});*/
 // kết thúc
 
 builder.Services.AddRazorPages();
 
-//  Connect VNPay  API
+//  Connect Vnpay  API
 builder.Services.AddScoped<IVnPayService, VnPayService>();
 
 // đăng nhập google

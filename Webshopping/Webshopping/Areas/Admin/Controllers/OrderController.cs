@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Webshopping.Models;
 using Webshopping.Repository;
 
 namespace Shopping_Tutorial.Areas.Admin.Controllers
