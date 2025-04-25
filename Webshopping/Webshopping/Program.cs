@@ -1,10 +1,13 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Shopping_Tutorial.Repository;
+using Webshopping.Repository;
+using Webshopping.Areas.Admin.Repository;
 
 //using Shopping_Tutorial.Repositor
 using Webshopping.Models;
-using Webshopping.Repository;
+using Webshopping.Services.Vnpay;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +16,8 @@ builder.Services.AddDbContext<DataContext>(options =>
 {
     options.UseSqlServer(builder.Configuration["ConnectionStrings:ConnectedDb"]);
 });
+//Add EmailSender
+builder.Services.AddTransient<IEmailSender, EmailSender>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -36,9 +41,6 @@ builder.Services.AddAuthentication(options =>
     //options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
 });
 
-
-builder.Services.AddRazorPages();
-
 builder.Services.Configure<IdentityOptions>(options =>
 {
     // Password settings.
@@ -51,6 +53,51 @@ builder.Services.Configure<IdentityOptions>(options =>
     // User settings.
     options.User.RequireUniqueEmail = false;
 });
+
+/*// đăng nhập google
+builder.Services.AddAuthentication(options =>
+{
+    // Xác định scheme mặc định cho toàn bộ hệ thống xác thực
+    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme; // Lưu phiên đăng nhập qua cookie
+    options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme; // Khi cần login sẽ redirect tới Google
+})
+.AddCookie() // Cần có để lưu phiên đăng nhập sau khi Google trả về
+.AddGoogle(options =>
+{
+    // Lấy thông tin từ appsettings.json (an toàn hơn hard-code)
+    options.ClientId = builder.Configuration["Authentication:Google:ClientId"];
+    options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+
+    // Đường dẫn Google sẽ redirect về sau khi đăng nhập thành công
+    options.CallbackPath = "/signin-google"; // Cực kỳ quan trọng! Phải giống với Google Developer Console
+});*/
+// kết thúc
+
+builder.Services.AddRazorPages();
+
+//  Connect Vnpay  API
+builder.Services.AddScoped<IVnPayService, VnPayService>();
+
+// đăng nhập google
+builder.Services.AddAuthentication(options =>
+{
+    // Xác định scheme mặc định cho toàn bộ hệ thống xác thực
+    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme; // Lưu phiên đăng nhập qua cookie
+    options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme; // Khi cần login sẽ redirect tới Google
+})
+.AddCookie() // Cần có để lưu phiên đăng nhập sau khi Google trả về
+.AddGoogle(options =>
+{
+    // Lấy thông tin từ appsettings.json (an toàn hơn hard-code)
+    options.ClientId = builder.Configuration["Authentication:Google:ClientId"];
+    options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+
+    // Đường dẫn Google sẽ redirect về sau khi đăng nhập thành công
+    options.CallbackPath = "/signin-google"; // Cực kỳ quan trọng! Phải giống với Google Developer Console
+});
+// kết thúc
+
+builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
@@ -65,18 +112,18 @@ app.UseStatusCodePagesWithRedirects("/Home/Error?statuscode={0}");
 //    // Call the SeedData method
 //    SeedData.SeedingData(context);
 //    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-//    //await SeedData.SeedingDataAsync(context);
+//    await SeedData.SeedingDataAsync(context);
 //}
 
 // Seeding roles
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
-    var context = services.GetRequiredService<DataContext>();
-    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+//using (var scope = app.Services.CreateScope())
+//{
+//    var services = scope.ServiceProvider;
+//    var context = services.GetRequiredService<DataContext>();
+//    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 
-    await SeedData.SeedRolesAsync( roleManager);
-}
+//    await SeedData.SeedRolesAsync( roleManager);
+//}
 
 app.UseSession();
 

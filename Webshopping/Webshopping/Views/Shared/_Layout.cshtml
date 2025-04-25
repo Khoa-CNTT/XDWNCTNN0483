@@ -8,7 +8,9 @@
     <meta name="author" content="">
     <title>Home | Myperfume</title>
     <link href="~/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.19.1/dist/sweetalert2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
     <link href="~/css/prettyPhoto.css" rel="stylesheet">
     <link href="~/css/price-range.css" rel="stylesheet">
     <link href="~/css/animate.css" rel="stylesheet">
@@ -96,39 +98,58 @@
                                 <li>
                                     <a asp-controller="cart" asp-action="Index">
                                         <i class="fa fa-shopping-cart"></i>
-                                        Cart
+                                        Giỏ hàng
                                     </a>
                                 </li>
                                 @if (User.Identity?.IsAuthenticated ?? false)
                                 {
-                                    <li><a asp-action="History" asp-controller="Account"><i class="fa fa-user"></i>Account</a></li>
-                                    <li><a asp-action="Wishlist" asp-controller="Home"><i class="fa fa-heart"></i> Wishlist</a></li>
-                                    <li><a asp-action="Compare" asp-controller="Home"><i class="fa fa-star"></i>Compare</a></li>
-                                    <li><a asp-action="Index" asp-controller="Cart"><i class="fa fa-crosshairs"></i>Checkout</a></li>
                                     <li>
-                                        <a asp-controller="Account" asp-action="Logout">
-                                            <i class="fa fa-lock"></i>
-                                            Hi, @User.Identity.Name, Đăng xuất
+                                        <a>
+                                            <a asp-action="History" asp-controller="Account">
+                                            <i class="fa fa-user"></i>
+                                            Tài khoản
                                         </a>
+                                    </li>
+                                    <li>
+                                        <a asp-action="Wishlist" asp-controller="Home">
+                                            <i class="fa fa-heart"></i>Yêu thích
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a asp-action="Compare" asp-controller="Home">
+                                            <i class="fa fa-star"></i>
+                                            So sánh
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a asp-action="Index" asp-controller="Cart">
+                                            <i class="fa fa-crosshairs"></i>
+                                            Thanh toán
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <form asp-action="Logout" method="post" asp-controller="Account"
+                                            class="form-inline">
+                                            <button type="submit" class="btn btn-link">
+                                                <i class="fa fa-lock"></i>
+                                                Hi, @User.Identity.Name, Đăng xuất
+                                            </button>
+                                        </form>
                                     </li>
                                 }
                                 else
                                 {
-                                    <li>
-                                        <a asp-controller="Account" asp-action="Login">
-                                            <i class="fa fa-lock"></i>
-                                            Đăng nhập
-                                        </a>
+                                    <li><a asp-controller="Account" asp-action="Login"><i class="fa fa-lock"></i>Login</a>
                                     </li>
                                 }
+                              
                             </ul>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <!--/header-middle-->
+        </div><!--/header-middle-->
 
         <div class="header-bottom">
             <!--header-bottom-->
@@ -146,17 +167,17 @@
                         </div>
                         <div class="mainmenu pull-left">
                             <ul class="nav navbar-nav collapse navbar-collapse">
-                                <li><a asp-controller="HOME" class="active">Home</a></li>
+                                <li><a asp-action="index" asp-controller="Home">Trang chủ</a></li>
                                 <li class="dropdown">
                                     <a asp-controller="Product" asp-action="Index">
-                                        Shop<i class="fa fa-angle-down"></i>
+                                        Cửa hàng<i class="fa fa-angle-down"></i>
                                     </a>
                                     <ul role="menu" class="sub-menu">
-                                        <li><a asp-controller="Category">Category</a></li>
-                                        <li><a asp-controller="Product" asp-action="Index">Product page</a></li>
-                                        <li><a asp-controller="Cart" asp-action="Checkout">Checkout</a></li>
-                                        <li><a asp-controller="Cart">Cart</a></li>
-                                        <li><a>Login</a></li>
+                                        <li><a asp-controller="Category" asp-action="Index">Danh mục</a></li>
+                                        <li><a asp-controller="Product" asp-action="Index">Sản phẩm</a></li>
+                                        <li><a asp-controller="Cart" asp-action="Checkout">Thanh toán</a></li>
+                                        <li><a asp-controller="Cart">giỏ hàng</a></li>
+                                        <li><a>Đăng nhập</a></li>
                                     </ul>
                                 </li>
                                 <li class="dropdown">
@@ -167,13 +188,13 @@
                                     </ul>
                                 </li>
                                 <li><a href="404.html">404</a></li>
-                                <li><a asp-controller="Home" asp-action="Contact">Contact</a></li>
+                                <li><a asp-controller="Home" asp-action="Contact">Liên hệ</a></li>
                             </ul>
                         </div>
                     </div>
                     <div class="col-sm-3">
                         <div class="search_box pull-right">
-                            <input type="text" placeholder="Search" />
+                            <input type="text" placeholder="Tìm kiếm" />
                         </div>
                     </div>
                 </div>
@@ -184,8 +205,6 @@
     </header>
 
     <!--/header-->
-
-   
 
     <section>
         <div class="container">
@@ -297,11 +316,11 @@
                         <div class="single-widget">
                             <h2>Quock Shop</h2>
                             <ul class="nav nav-pills nav-stacked">
-                                <li><a href="#">T-Shirt</a></li>
-                                <li><a href="#">Mens</a></li>
-                                <li><a href="#">Womens</a></li>
-                                <li><a href="#">Gift Cards</a></li>
-                                <li><a href="#">Shoes</a></li>
+                                <li><a href="#">Perfume</a></li>
+                                <li><a href="#">Perfume</a></li>
+                                <li><a href="#">Perfume</a></li>
+                                <li><a href="#">Perfume</a></li>
+                                <li><a href="#">Perfume</a></li>
                             </ul>
                         </div>
                     </div>
@@ -363,14 +382,30 @@
 
     <!--/Footer-->
 
-
-
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
     <script src="~/js/jquery.js"></script>
     <script src="~/js/bootstrap.min.js"></script>
     <script src="~/js/jquery.scrollUp.min.js"></script>
     <script src="~/js/price-range.js"></script>
     <script src="~/js/jquery.prettyPhoto.js"></script>
     <script src="~/js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.all.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('#sort_by').on('change', function () {
+
+                var url = $(this).val();
+                // alert(url);
+                if (url) {
+                    window.location = url;
+                }
+                return false;
+            });
+
+        });
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 
