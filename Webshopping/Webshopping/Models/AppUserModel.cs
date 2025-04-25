@@ -8,5 +8,6 @@ namespace Webshopping.Models
     {
         public string Occupation { get; set; }
         public string RoleId { set; get; }
+        public string Token { set; get; }
     }
 }
