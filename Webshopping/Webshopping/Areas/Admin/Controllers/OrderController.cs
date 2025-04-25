@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Webshopping.Models;
 using Webshopping.Repository;
 
-namespace Shopping_Tutorial.Areas.Admin.Controllers
+namespace Webshopping.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Route("admin/")]

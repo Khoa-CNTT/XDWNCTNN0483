@@ -40,7 +40,7 @@ namespace Webshopping.Repository
         {
             _context.Database.Migrate();
 
-            // await SeedRolesAsync(roleManager); // Gọi hàm riêng để seed role
+             //await SeedRolesAsync(rolezManager); // Gọi hàm riêng để seed role
             await SeedOrdersAsync(_context); // gọi hàm seed order
         }
 

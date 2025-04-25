@@ -1,11 +1,10 @@
 @model IEnumerable<OrderModel>
+
 @{
     ViewData["title"] = "Order Models";
     decimal total = 0; // Store total amount
     decimal subtotal = 0;
 }
-
-
 
 <!DOCTYPE html>
 
@@ -24,7 +23,7 @@
             <tr>
                 <th>Id</th>
                 <th>Mã đơn hàng</th>
-                <th>Phí vận chuyển</th>
+
                 <th>Mã giảm giá</th>
                 <th>Tên khách hàng</th>
                 <th>Tình trạng đơn hàng</th>
@@ -57,6 +56,7 @@
                             <span class="text text-danger">Đã hủy</span>
                         }
                     </td>
+                  
                     <td>
                         @{
                             string text = item.PaymentMethod;
@@ -97,8 +97,8 @@
                                 }
                             }
                         }
-
                     </td>
+                  
                     <td>@item.CrateDate.ToString("dd-MM-yyyy")</td>
                     <td>
                         <a class="btn btn-warning btn-sm" asp-action="ViewOrder" asp-controller="Order" asp-route-ordercode="@item.OrderCode">Chi tiết</a>
