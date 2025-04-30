@@ -61,7 +61,7 @@
 						<td class="cart_total">
 							<p class="cart_total_price">
 								@Model.CartItems.Where(x => x.ProductId == item.ProductId).Sum(x
-																			=> x.Quantity * x.Price).ToString("#,##0 đ")
+																=> x.Quantity* x.Price).ToString("#,##0 đ")
 							</p>
 						</td>
 
@@ -76,7 +76,8 @@
 								Grand Total: <p class="cart_total_price">@Model.GrandTotal.ToString("#,##0 đ")</p>
 								<form>
 									Coupon Code:
-									<input type="text" class="form-control coupon-value" /><span class="text text-success">@Model.CouponCode</span> <br />
+									<input type="text" class="form-control coupon-value" /><span
+										class="text text-success">@Model.CouponCode</span> <br />
 
 									<input type="button" value="Apply" class="btn btn-sm btn-primary btn-apply-coupon" />
 								</form>
@@ -92,25 +93,22 @@
 								}
 
 								<div class="form-group">
-									<label>Tỉnh thành phố</label>
-									<select class="css_select" id="tinh" name="tinh" class="form-control"
-										title="Chọn Tỉnh Thành">
+									<label>Tỉnh thành</label>
+									<select class="form-control select2" id="tinh" name="tinh" title="Chọn Tỉnh Thành">
 										<option value="0">Tỉnh Thành</option>
 									</select>
 								</div>
 
 								<div class="form-group">
 									<label>Quận huyện</label>
-									<select class="css_select" id="quan" name="quan" class="form-control"
-										title="Chọn Quận Huyện">
+									<select class="form-control select2" id="quan" name="quan" title="Chọn Quận Huyện">
 										<option value="0">Quận Huyện</option>
 									</select>
 								</div>
 
 								<div class="form-group">
 									<label>Phường Xã</label>
-									<select class="css_select" id="phuong" name="phuong" class="form-control"
-										title="Chọn Phường Xã">
+									<select class="form-control select2" id="phuong" name="phuong" title="Chọn Phường Xã">
 										<option value="0">Phường Xã</option>
 									</select>
 								</div>
@@ -185,30 +183,38 @@
 
 @section Scripts {
 	<script>
-            $(".btn-apply-coupon").click(function () {
-                var couponCode = $(".coupon-value").val();
-                // alert(couponCode);
-                if (couponCode == '') {
-                    Swal.fire("Làm ơn không bỏ trống.");
-                } else {
-                    $.ajax({
-                        type: "POST",
-                        url: "@Url.Action("GetCoupon", "Cart")",
-                        data: { coupon_value: coupon_value }, // Send data to the server
-                        success: function (result) {
-                            // Handle successful update
-                            if (result.success) {
-                                    Swal.fire("Thêm mã giảm giá thành công.");
-                                        location.reload();
-                            }else{
-                                    Swal.fire("Mã giảm giá không hợp lệ.");
-							}
-                        }
-                    });
-                }
-            })
-	<script>
+		$(".btn-apply-coupon").click(function () {
+			var couponCode = $(".coupon-value").val();
+			// alert(couponCode);
+			if (couponCode == '') {
+				Swal.fire("Làm ơn không bỏ trống.");
+			} else {
+				$.ajax({
+					type: "POST",
+					url: "@Url.Action("GetCoupon", "Cart")",
+					data: { coupon_value: coupon_value }, // Send data to the server
+					success: function (result) {
+						// Handle successful update
+						if (result.success) {
+							Swal.fire("Thêm mã giảm giá thành công.");
+							location.reload();
+						} else {
+							Swal.fire("Mã giảm giá không hợp lệ.");
+						}
+					}
+				});
+			}
+		})
+
 		$(document).ready(function () {
+
+			// Khởi tạo Select2 cho các dropdown
+			$('.select2').select2({
+				placeholder: "Chọn...",
+				allowClear: true,
+				width: '100%'
+			});
+
 			$(".btn-add-shipping").click(function () {
 				var tinh = $("#tinh").find('option:selected').text();
 				var quan = $("#quan").find('option:selected').text();
