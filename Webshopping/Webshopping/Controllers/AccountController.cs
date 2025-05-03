@@ -7,8 +7,8 @@ using Microsoft.AspNetCore.Identity;
 /*using Microsoft.AspNetCore.Identity.UI.Services;*/
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Webshopping.Areas.Admin.Repository;
 using Webshopping.Models;
+using Webshopping.Areas.Admin.Repository;
 using Webshopping.Repository;
 
 [Route("account/")]
@@ -21,7 +21,7 @@ public class AccountController : Controller
     private readonly DataContext _dataContext;
     private readonly IEmailSender _emailSender;
 
-    public AccountController(IEmailSender  emailSender, UserManager<AppUserModel> userManage, SignInManager<AppUserModel> signInManage, DataContext dataContext)
+    public AccountController(IEmailSender emailSender, UserManager<AppUserModel> userManage, SignInManager<AppUserModel> signInManage, DataContext dataContext)
     {
         _userManager = userManage;
         _signInManager = signInManage;
@@ -37,6 +37,7 @@ public class AccountController : Controller
     {
         return View();
     }
+
     [HttpGet("History")]
     public async Task<IActionResult> History()
     {
@@ -53,6 +54,7 @@ public class AccountController : Controller
         ViewBag.UserEmail = userEmail;
         return View(Orders);
     }
+
     [HttpGet("CancelOrder")]
     public async Task<IActionResult> CancelOrder(string ordercode)
     {
@@ -101,6 +103,7 @@ public class AccountController : Controller
 
         return View(model);
     }
+
     [HttpPost("Sendemail")]
     public async Task<IActionResult> SendMailForgetPass(AppUserModel user)
     {
@@ -130,11 +133,13 @@ public class AccountController : Controller
         TempData["success"] = "Chúng tôi đã được gửi đến địa chỉ email đã đăng ký của bạn kèm theo hướng dẫn đặt lại mật khẩu.";
         return RedirectToAction("ForgetPass", "Account");
     }
+
     [HttpGet("ForgetPass")]
     public async Task<IActionResult> ForgetPass(string returnUrl)
     {
         return View();
     }
+
     [HttpGet("NewPass")]
     public async Task<IActionResult> NewPass(AppUserModel user, string token)
     {
@@ -154,6 +159,7 @@ public class AccountController : Controller
         }
         return View();
     }
+
     [HttpPost("UpdateNewPassword")]
     public async Task<IActionResult> UpdateNewPassword(AppUserModel user, string token)
     {
@@ -301,5 +307,65 @@ public class AccountController : Controller
 
         // Chuyển về trang chính sau khi đăng nhập
         return RedirectToAction("Index", "Home");
+    }
+
+    [HttpGet("update-info-account")]
+    public async Task<IActionResult> UpdateInfoAccount()
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        var userById = await _userManage.Users.FirstOrDefaultAsync(u => u.Id == userId);
+        if (userById == null)
+        {
+            return NotFound();
+        }
+        return View(userById); // Trả về view
+    }
+
+    [HttpPost("update-info-account")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> UpdateInfoAccount(AppUserModel model, string newPassword)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(model); // Nếu có lỗi validation thì quay lại view
+        }
+
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var user = await _userManage.Users.FirstOrDefaultAsync(u => u.Id == userId);
+
+        if (user == null)
+        {
+            return NotFound();
+        }
+
+        // Cập nhật các thông tin
+        user.UserName = model.UserName;
+        user.Email = model.Email;
+        user.PhoneNumber = model.PhoneNumber;
+
+        // Nếu có mật khẩu mới, cập nhật mật khẩu
+        if (!string.IsNullOrEmpty(newPassword))
+        {
+            var passwordHasher = new PasswordHasher<AppUserModel>();
+            user.PasswordHash = passwordHasher.HashPassword(user, newPassword);  // Mã hóa mật khẩu mới
+        }
+
+        var result = await _userManage.UpdateAsync(user);
+
+        if (result.Succeeded)
+        {
+            // Cập nhật thành công, có thể redirect về profile hoặc trang khác
+            return RedirectToAction("Index", "Home");
+        }
+        else
+        {
+            // Nếu lỗi khi cập nhật (ví dụ trùng email), hiển thị lỗi ra
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+            return View(model);
+        }
     }
 }

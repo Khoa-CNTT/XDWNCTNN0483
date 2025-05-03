@@ -9,153 +9,160 @@ using Webshopping.Areas.Admin.Repository;
 using Webshopping.Models;
 using Webshopping.Services.Vnpay;
 
-var builder = WebApplication.CreateBuilder(args);
-
-//ConnectionDB
-builder.Services.AddDbContext<DataContext>(options =>
+public partial class Program
 {
-    options.UseSqlServer(builder.Configuration["ConnectionStrings:ConnectedDb"]);
-});
-//Add EmailSender
-builder.Services.AddTransient<IEmailSender, EmailSender>();
+    public static void Main(string[] args)
+    {
+        var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddControllersWithViews();
+        //ConnectionDB
+        builder.Services.AddDbContext<DataContext>(options =>
+    {
+        options.UseSqlServer(builder.Configuration["ConnectionStrings:ConnectedDb"]);
+    });
+        //Add EmailSender
+        builder.Services.AddTransient<IEmailSender, EmailSender>();
 
-builder.Services.AddDistributedMemoryCache();
+        // Add services to the container.
+        builder.Services.AddControllersWithViews();
 
-builder.Services.AddSession(options =>
-{
-    options.IdleTimeout = TimeSpan.FromMinutes(30);
-    options.Cookie.IsEssential = true;
-});
+        builder.Services.AddDistributedMemoryCache();
 
-//Khai bao Identity
-builder.Services.AddIdentity<AppUserModel, IdentityRole>()
-     .AddEntityFrameworkStores<DataContext>().AddDefaultTokenProviders();
+        builder.Services.AddSession(options =>
+        {
+            options.IdleTimeout = TimeSpan.FromMinutes(30);
+            options.Cookie.IsEssential = true;
+        });
 
-builder.Services.AddAuthentication(options =>
-{
-    //options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-    //options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-    //options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-});
+        //Khai bao Identity
+        builder.Services.AddIdentity<AppUserModel, IdentityRole>()
+             .AddEntityFrameworkStores<DataContext>().AddDefaultTokenProviders();
 
-builder.Services.Configure<IdentityOptions>(options =>
-{
-    // Password settings.
-    options.Password.RequireDigit = true;
-    options.Password.RequireLowercase = true;
-    options.Password.RequireNonAlphanumeric = false;
-    options.Password.RequireUppercase = false;
-    options.Password.RequiredLength = 4;
+        builder.Services.AddAuthentication(options =>
+        {
+            //options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            //options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            //options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+        });
 
-    // User settings.
-    options.User.RequireUniqueEmail = false;
-});
+        builder.Services.Configure<IdentityOptions>(options =>
+        {
+            // Password settings.
+            options.Password.RequireDigit = true;
+            options.Password.RequireLowercase = true;
+            options.Password.RequireNonAlphanumeric = false;
+            options.Password.RequireUppercase = false;
+            options.Password.RequiredLength = 4;
 
-/*// đăng nhập google
-builder.Services.AddAuthentication(options =>
-{
-    // Xác định scheme mặc định cho toàn bộ hệ thống xác thực
-    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme; // Lưu phiên đăng nhập qua cookie
-    options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme; // Khi cần login sẽ redirect tới Google
-})
-.AddCookie() // Cần có để lưu phiên đăng nhập sau khi Google trả về
-.AddGoogle(options =>
-{
-    // Lấy thông tin từ appsettings.json (an toàn hơn hard-code)
-    options.ClientId = builder.Configuration["Authentication:Google:ClientId"];
-    options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+            // User settings.
+            options.User.RequireUniqueEmail = false;
+        });
 
-    // Đường dẫn Google sẽ redirect về sau khi đăng nhập thành công
-    options.CallbackPath = "/signin-google"; // Cực kỳ quan trọng! Phải giống với Google Developer Console
-});*/
-// kết thúc
+        /*// đăng nhập google
+        builder.Services.AddAuthentication(options =>
+        {
+            // Xác định scheme mặc định cho toàn bộ hệ thống xác thực
+            options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme; // Lưu phiên đăng nhập qua cookie
+            options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme; // Khi cần login sẽ redirect tới Google
+        })
+        .AddCookie() // Cần có để lưu phiên đăng nhập sau khi Google trả về
+        .AddGoogle(options =>
+        {
+            // Lấy thông tin từ appsettings.json (an toàn hơn hard-code)
+            options.ClientId = builder.Configuration["Authentication:Google:ClientId"];
+            options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
 
-builder.Services.AddRazorPages();
+            // Đường dẫn Google sẽ redirect về sau khi đăng nhập thành công
+            options.CallbackPath = "/signin-google"; // Cực kỳ quan trọng! Phải giống với Google Developer Console
+        });*/
+        // kết thúc
 
-//  Connect Vnpay  API
-builder.Services.AddScoped<IVnPayService, VnPayService>();
+        builder.Services.AddRazorPages();
 
-// đăng nhập google
-builder.Services.AddAuthentication(options =>
-{
-    // Xác định scheme mặc định cho toàn bộ hệ thống xác thực
-    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme; // Lưu phiên đăng nhập qua cookie
-    options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme; // Khi cần login sẽ redirect tới Google
-})
-.AddCookie() // Cần có để lưu phiên đăng nhập sau khi Google trả về
-.AddGoogle(options =>
-{
-    // Lấy thông tin từ appsettings.json (an toàn hơn hard-code)
-    options.ClientId = builder.Configuration["Authentication:Google:ClientId"];
-    options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+        //  Connect Vnpay  API
+        builder.Services.AddScoped<IVnPayService, VnPayService>();
 
-    // Đường dẫn Google sẽ redirect về sau khi đăng nhập thành công
-    options.CallbackPath = "/signin-google"; // Cực kỳ quan trọng! Phải giống với Google Developer Console
-});
-// kết thúc
+        // đăng nhập google
+        builder.Services.AddAuthentication(options =>
+        {
+            // Xác định scheme mặc định cho toàn bộ hệ thống xác thực
+            options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme; // Lưu phiên đăng nhập qua cookie
+            options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme; // Khi cần login sẽ redirect tới Google
+        })
+        .AddCookie() // Cần có để lưu phiên đăng nhập sau khi Google trả về
+        .AddGoogle(options =>
+        {
+            // Lấy thông tin từ appsettings.json (an toàn hơn hard-code)
+            options.ClientId = builder.Configuration["Authentication:Google:ClientId"];
+            options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
 
-builder.Services.AddRazorPages();
+            // Đường dẫn Google sẽ redirect về sau khi đăng nhập thành công
+            options.CallbackPath = "/signin-google"; // Cực kỳ quan trọng! Phải giống với Google Developer Console
+        });
+        // kết thúc
 
-var app = builder.Build();
+        builder.Services.AddRazorPages();
 
-app.UseStatusCodePagesWithRedirects("/Home/Error?statuscode={0}");
+        var app = builder.Build();
 
-// Seeding Data when is running Program
-//using (var scope = app.Services.CreateScope())
-//{
-//    var services = scope.ServiceProvider;
-//    var context = services.GetRequiredService<DataContext>();
+        app.UseStatusCodePagesWithRedirects("/Home/Error?statuscode={0}");
 
-//    // Call the SeedData method
-//    SeedData.SeedingData(context);
-//    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-//    await SeedData.SeedingDataAsync(context);
-//}
+        // Seeding Data when is running Program
+        // using (var scope = app.Services.CreateScope())
+        // {
+        //     var services = scope.ServiceProvider;
+        //     var context = services.GetRequiredService<DataContext>();
 
-// Seeding roles
-//using (var scope = app.Services.CreateScope())
-//{
-//    var services = scope.ServiceProvider;
-//    var context = services.GetRequiredService<DataContext>();
-//    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+        //     // Call the SeedData method
+        //     SeedData.Seeding20Data(context);
+        //     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+        //     await SeedData.SeedingDataAsync(context);
+        //     await SeedData.SeedRolesAsync(roleManager);
+        // }
 
-//    await SeedData.SeedRolesAsync( roleManager);
-//}
+        // Seeding roles
+        // using (var scope = app.Services.CreateScope())
+        // {
+        //     var services = scope.ServiceProvider;
+        //     var context = services.GetRequiredService<DataContext>();
+        //     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 
-app.UseSession();
+        //     await SeedData.SeedRolesAsync(roleManager);
+        // }
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Home/Error");
+        app.UseSession();
+
+        // Configure the HTTP request pipeline.
+        if (!app.Environment.IsDevelopment())
+        {
+            app.UseExceptionHandler("/Home/Error");
+        }
+
+        app.UseStaticFiles();
+
+        app.UseRouting();
+        app.UseAuthentication();
+
+        app.UseAuthorization();
+
+        app.MapControllerRoute(
+            name: "Areas",
+            pattern: "{area:exists}/{controller=Product}/{action=Index}/{id?}");
+
+        app.MapControllerRoute(
+            name: "Category",
+            pattern: "/category/{Slug?}",
+            defaults: new { controller = "Category", action = "Index" });
+
+        app.MapControllerRoute(
+            name: "brand",
+            pattern: "/brand/{Slug?}",
+            defaults: new { controller = "brand", action = "Index" });
+
+        app.MapControllerRoute(
+            name: "default",
+            pattern: "{controller=Home}/{action=Index}/{id?}");
+
+        app.Run();
+    }
 }
-
-app.UseStaticFiles();
-
-app.UseRouting();
-app.UseAuthentication();
-
-app.UseAuthorization();
-
-app.MapControllerRoute(
-    name: "Areas",
-    pattern: "{area:exists}/{controller=Product}/{action=Index}/{id?}");
-
-app.MapControllerRoute(
-    name: "Category",
-    pattern: "/category/{Slug?}",
-    defaults: new { controller = "Category", action = "Index" });
-
-app.MapControllerRoute(
-    name: "brand",
-    pattern: "/brand/{Slug?}",
-    defaults: new { controller = "brand", action = "Index" });
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-
-app.Run();

@@ -25,6 +25,9 @@
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
+
+    <!-- CSS của Select2 -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 </head><!--/head-->
 
 <body>
@@ -106,9 +109,9 @@
                                     <li>
                                         <a>
                                             <a asp-action="History" asp-controller="Account">
-                                            <i class="fa fa-user"></i>
-                                            Tài khoản
-                                        </a>
+                                                <i class="fa fa-user"></i>
+                                                Tài khoản
+                                            </a>
                                     </li>
                                     <li>
                                         <a asp-action="Wishlist" asp-controller="Home">
@@ -143,7 +146,6 @@
                                     <li><a asp-controller="Account" asp-action="Login"><i class="fa fa-lock"></i>Login</a>
                                     </li>
                                 }
-
 
                             </ul>
                         </div>
@@ -392,6 +394,10 @@
     <script src="~/js/jquery.prettyPhoto.js"></script>
     <script src="~/js/main.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.all.min.js"></script>
+
+    <!-- JS của Select2 -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
     <script type="text/javascript">
         $(document).ready(function () {
 
