@@ -4,7 +4,7 @@ using Webshopping.Models;
 using Webshopping.Models;
 using Webshopping.Repository;
 
-namespace Shopping_Tutorial.Repository
+namespace Webshopping.Repository
 {
     public class SeedData
     {
@@ -76,7 +76,7 @@ namespace Shopping_Tutorial.Repository
                     {
                         OrderCode = orderCode,
                         UserName = users[i].UserName,
-                        CreatedDate = DateTime.Now.AddDays(-i), // tạo đơn hàng cách nhau 1 ngày
+                        CreateDate = DateTime.Now.AddDays(-i), // tạo đơn hàng cách nhau 1 ngày
                         ShippingCost = 30000 + (i * 5000),
                         Status = 1
                     };

@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Shopping_Tutorial.Repository;
+using Webshopping.Repository;
 using System.Globalization;
 using Webshopping.Models;
-using Webshopping.Repository;
 
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -17,10 +16,12 @@ namespace Webshopping.Areas.Admin.Controllers
 	{
 		private const int v = 2024;
 		private readonly DataContext _dataContext;
+
 		public DashboardController(DataContext context)
 		{
 			_dataContext = context;
 		}
+
 		[HttpGet("")]
 		public IActionResult Index()
 		{
@@ -34,21 +35,22 @@ namespace Webshopping.Areas.Admin.Controllers
 			ViewBag.CountUser = count_user;
 			return View();
 		}
+
 		[HttpPost]
 		[Route("SubmitFilterDate")]
 		public IActionResult SubmitFilterDate(string filterdate)
 		{
 			var dateselect = DateTime.Parse(filterdate).ToString("yyyy-MM-dd");
 			var chartData = _dataContext.Orders
-		   .Where(o => o.CreatedDate.ToString("yyyy-MM-dd") == dateselect) // Optional: Filter by date
+		   .Where(o => o.CreateDate.ToString("yyyy-MM-dd") == dateselect) // Optional: Filter by date
 		  .Join(_dataContext.OrderDetails,
 			  o => o.OrderCode,
 			  od => od.OrderCode,
 			  (o, od) => new StatisticalModel
 			  {
-				  DateCreated = o.CreatedDate,
+				  DateCreated = o.CreateDate,
 				  Revenue = od.Quantity * (int)od.Price, // Calculate revenue based on order details
-				  //orders = 1 // Assuming each order detail represents one order
+														 //orders = 1 // Assuming each order detail represents one order
 			  })
 		  .GroupBy(s => s.DateCreated)
 		  .Select(group => new StatisticalModel
@@ -61,6 +63,7 @@ namespace Webshopping.Areas.Admin.Controllers
 
 			return Json(chartData);
 		}
+
 		[HttpPost]
 		[Route("SelectFilterDate")]
 		public IActionResult SelectFilterDate(string filterdate)
@@ -76,16 +79,16 @@ namespace Webshopping.Areas.Admin.Controllers
 			if (filterdate == "last_month")
 			{
 				chartData = _dataContext.Orders
-			   .Where(o => o.CreatedDate > first && o.CreatedDate < today)
+			   .Where(o => o.CreateDate > first && o.CreateDate < today)
 
 			   .Join(_dataContext.OrderDetails,
 				 o => o.OrderCode,
 				 od => od.OrderCode,
 				 (o, od) => new StatisticalModel
 				 {
-					 DateCreated = o.CreatedDate,
+					 DateCreated = o.CreateDate,
 					 Revenue = od.Quantity * (int)od.Price, // Calculate revenue based on order details
-					 //orders = 1 // Assuming each order detail represents one order
+															//orders = 1 // Assuming each order detail represents one order
 				 })
 				 .GroupBy(s => s.DateCreated)
 				 .Select(group => new StatisticalModel
@@ -100,6 +103,7 @@ namespace Webshopping.Areas.Admin.Controllers
 
 			return Json(chartData);
 		}
+
 		[HttpPost]
 		[Route("GetChartData")]
 		public IActionResult GetChartData()
@@ -111,9 +115,9 @@ namespace Webshopping.Areas.Admin.Controllers
 			  od => od.OrderCode,
 			  (o, od) => new StatisticalModel
 			  {
-				  DateCreated = o.CreatedDate,
+				  DateCreated = o.CreateDate,
 				  Revenue = od.Quantity * (int)od.Price, // Calculate revenue based on order details
-				  //orders = 1 // Assuming each order detail represents one order
+														 //orders = 1 // Assuming each order detail represents one order
 			  })
 		  .GroupBy(s => s.DateCreated)
 		  .Select(group => new StatisticalModel

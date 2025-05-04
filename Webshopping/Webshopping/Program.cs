@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Shopping_Tutorial.Repository;
 
 //using Shopping_Tutorial.Repositor
 using Webshopping.Models;

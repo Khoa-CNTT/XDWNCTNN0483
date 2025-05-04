@@ -21,7 +21,7 @@ public class BrandController : Controller
     }
 
 
-    [Route("Index")]
+    [HttpGet("")]
     public async Task<IActionResult> Index(int pg = 1)
     {
         List<BrandModel> brand = _dataContext.Brands.ToList();
@@ -46,17 +46,15 @@ public class BrandController : Controller
         return View(data);
     }
 
-    [Route("Create")]
-
-    public IActionResult Create()
+    [HttpGet("create")]
+    public IActionResult Add()
     {
         return View();
     }
 
-    [Route("Create")]
-    [HttpPost]
+    [HttpPost("create")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(BrandModel brand)
+    public async Task<IActionResult> Add(BrandModel brand)
     {
         if (ModelState.IsValid)
         {
@@ -91,15 +89,14 @@ public class BrandController : Controller
         return View(brand);
     }
 
-    [Route("Edit")]
+    [HttpGet("Edit")]
     public async Task<IActionResult> Edit(int Id)
     {
         BrandModel brand = await _dataContext.Brands.FindAsync(Id);
         return View(brand);
     }
 
-    [Route("Edit")]
-    [HttpPost]
+    [HttpPost("Edit")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(BrandModel brand)
     {
@@ -129,7 +126,7 @@ public class BrandController : Controller
         return View(brand);
     }
 
-
+    [HttpPost]
     public async Task<IActionResult> Delete(int Id)
     {
         BrandModel brand = await _dataContext.Brands.FindAsync(Id);

@@ -2,7 +2,7 @@
 {
 	using Newtonsoft.Json;
 
-	namespace Shopping_Tutorial.Repository
+	namespace Webshopping.Repository
 	{
 		public static class SessionExtensions
 		{
