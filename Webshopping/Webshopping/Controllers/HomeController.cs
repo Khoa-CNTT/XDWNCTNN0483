@@ -124,7 +124,7 @@ namespace Webshopping.Controllers
             }
             else if (statuscode == 500)
             {
-                return View("ServerError");
+                return View("ServerError"); 
             }
             else
             {

@@ -31,21 +31,21 @@
 
     <div class="form-group">
         <label>Tỉnh thành</label>
-        <select class="css_select form-control" id="tinh" name="tinh" title="Chọn Tỉnh Thành">
+        <select class="form-control select2" id="tinh" name="tinh" title="Chọn Tỉnh Thành">
             <option value="0">Tỉnh Thành</option>
         </select>
     </div>
 
     <div class="form-group">
         <label>Quận huyện</label>
-        <select class="css_select form-control" id="quan" name="quan" title="Chọn Quận Huyện">
+        <select class="form-control select2" id="quan" name="quan" title="Chọn Quận Huyện">
             <option value="0">Quận Huyện</option>
         </select>
     </div>
 
     <div class="form-group">
         <label>Phường Xã</label>
-        <select class="css_select form-control" id="phuong" name="phuong" title="Chọn Phường Xã">
+        <select class="form-control select2" id="phuong" name="phuong" title="Chọn Phường Xã">
             <option value="0">Phường Xã</option>
         </select>
     </div>
@@ -102,6 +102,13 @@
         $(document).ready(function () {
             // Khởi tạo DataTable
             $('#myTable').DataTable();
+
+            // Khởi tạo Select2 cho các dropdown
+            $('.select2').select2({
+                placeholder: "Chọn...",
+                allowClear: true,
+                width: '100%'
+            });
 
             // Load tỉnh
             $.getJSON('https://esgoo.net/api-tinhthanh/1/0.htm', function (data_tinh) {
@@ -168,9 +175,9 @@
                                     phuong,
                                     parseInt(price).toLocaleString('vi-VN') + " VNĐ",
                                     `<form method="post" action="/Shipping/Delete" style="display:inline">
-                                                            <input type="hidden" name="id" value="${result.id}" />
-                                                            <button type="submit" class="btn btn-danger">Delete</button>
-                                                          </form>`
+                                                                                                    <input type="hidden" name="id" value="${result.id}" />
+                                                                                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                                                                                  </form>`
                                 ]).draw();
 
                                 // Reset input

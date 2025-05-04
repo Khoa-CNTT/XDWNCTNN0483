@@ -10,6 +10,7 @@
 	<link href="~/css/bootstrap.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
 	<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.17.2/dist/sweetalert2.min.css" rel="stylesheet" />
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet" />
 	<link href="~/css/font-awesome.min.css" rel="stylesheet">
 	<link href="~/css/prettyPhoto.css" rel="stylesheet">
 	<link href="~/css/price-range.css" rel="stylesheet">
@@ -29,6 +30,9 @@
 	@* DataTable libs css *@
 	<link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.dataTables.css">
 	<link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.2.2/css/buttons.dataTables.css">
+
+	<!-- CSS của Select2 -->
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 </head><!--/head-->
 
 <body>
@@ -84,6 +88,7 @@
 								<li><a asp-controller="brand" asp-action="Index">Thương hiệu</a></li>
 								<li><a asp-controller="Order" asp-action="Index">Đơn hàng</a> </li>
 								<li><a asp-controller="Shipping" asp-action="Index">Vận chuyển</a> </li>
+								<li><a asp-controller="Coupon" asp-action="Index">Mã giảm giá</a> </li>
 								<li><a asp-controller="Slider" asp-action="Index">Slider</a> </li>
 								<li><a asp-controller="Contact" asp-action="Index">Liên hệ</a> </li>
 								<li><a asp-controller="User" asp-action="Index">Người dùng</a> </li>
@@ -158,6 +163,9 @@
 	<script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.print.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+
+	<!-- JS của Select2 -->
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 	<script>
 		function() {
