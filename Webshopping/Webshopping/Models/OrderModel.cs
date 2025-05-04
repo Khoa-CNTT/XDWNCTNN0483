@@ -10,7 +10,7 @@ namespace Webshopping.Models
         public decimal ShippingCost { get; set; }
         public string CouponCode { get; set; }
         public string UserName { get; set; }
-        public DateTime CrateDate { get; set; }
+        public DateTime CreateDate { get; set; }
         public int Status { get; set; }
         public string PaymentMethod { get; set; }
     }

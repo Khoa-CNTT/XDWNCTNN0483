@@ -59,7 +59,7 @@ namespace Webshopping.Controllers
                 orderItem.CouponCode = coupon_code;
                 orderItem.UserName = UserEmail;
                 orderItem.PaymentMethod = PaymentMethod + " " + PaymentId;
-                orderItem.CrateDate = DateTime.Now;
+                orderItem.CreateDate = DateTime.Now;
                 orderItem.Status = 1;
                 _dataContext.Add(orderItem);
                 _dataContext.SaveChanges();
@@ -80,13 +80,13 @@ namespace Webshopping.Controllers
                     _dataContext.Update(product);
                     _dataContext.Add(orderDetail); // Corrected variable name
                     await _dataContext.SaveChangesAsync();
-                }               
+                }
                 HttpContext.Session.Remove("cart");
                 //Gui mail cho người dùng   
                 TempData["success"] = "Checkout thành công,vui lòng đợi duyệt đơn hàng";
                 return RedirectToAction("History", "Account");
             }
-           return View();
+            return View();
         }
         [HttpGet]
         public async Task<IActionResult> PaymentCallbackVnpay()
