@@ -9,7 +9,7 @@ namespace Webshopping.Areas.Admin.Controllers
 {
 	[Area("Admin")]
 	[Route("admin/contact/")]
-	[Authorize]
+	//[Authorize(Roles = "Publisher,Author,Admin")]
 	public class ContactController : Controller
 	{
 		private readonly DataContext _dataContext;
