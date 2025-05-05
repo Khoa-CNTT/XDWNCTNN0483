@@ -6,43 +6,27 @@ using Webshopping.Repository;
 
 namespace Webshopping.Areas.Admin.Controllers
 {
-	[Area("Admin")]
-	[Route("admin/order/")]
-	public class OrderController : Controller
-	{
-		private readonly DataContext _dataContext;
-		public OrderController(DataContext context)
-		{
-			_dataContext = context;
-		}
+    [Area("Admin")]
+    [Route("admin/")]
+    //[Authorize(Roles = "Publisher,Author,Admin")]
+    public class OrderController : Controller
+    {
+        private readonly DataContext _dataContext;
+        public OrderController(DataContext context)
+        {
+            _dataContext = context;
+        }
 
-		// GET: admin/order/
-		[HttpGet("")]
-		public async Task<IActionResult> Index()
-		{
-			var orderDetails = await _dataContext.OrderDetails
-							.Include(od => od.Product)
-							.ToListAsync();
-
-			// Nếu bạn cần thêm thông tin như shipping cost hay status, gán ViewBag ở đây
-			ViewBag.ShippingCost = 20000;
-			ViewBag.Status = 1;
-
-			return View(orderDetails);
-		}
-
-		[HttpGet("view/{ordercode}")]
-		public async Task<IActionResult> ViewOrder(string ordercode)
-		{
-			if (string.IsNullOrEmpty(ordercode))
-			{
-				return BadRequest("Mã đơn hàng không hợp lệ.");
-			}
-
-			var DetailsOrder = await _dataContext.OrderDetails
-				.Include(od => od.Product)
-				.Where(od => od.OrderCode == ordercode)
-				.ToListAsync();
+        [HttpGet("Order")]
+        public async Task<IActionResult> Index()
+        {
+            return View(await _dataContext.Orders.OrderByDescending(p => p.Id).ToListAsync());
+        }
+        [HttpGet("View")]
+        public async Task<IActionResult> ViewOrder(string ordercode)
+        {
+            var DetailsOrder = await _dataContext.OrderDetails.Include(od => od.Product)
+                .Where(od => od.OrderCode == ordercode).ToListAsync();
 
 			var Order = await _dataContext.Orders.FirstOrDefaultAsync(o => o.OrderCode == ordercode);
 

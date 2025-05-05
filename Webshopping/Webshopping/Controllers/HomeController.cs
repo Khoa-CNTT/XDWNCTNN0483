@@ -28,7 +28,7 @@ namespace Webshopping.Controllers
 
             var sliders = _dataContext.Slider.Where(s => s.Status == 1).ToList();
             ViewBag.Slider = sliders;
-			
+
             return View(products);
 
         }
@@ -55,9 +55,10 @@ namespace Webshopping.Controllers
         public async Task<IActionResult> Wishlist()
         {
             var wishlist_product = await (from w in _dataContext.Wishlists
-                                         join p in _dataContext.Products on w.ProductId equals p.Id
-                                         select new { Wishlists = w, Product = p })
-                                         .ToListAsync(); // Fixed: Added ToListAsync() to execute the query asynchronously
+                                          join p in _dataContext.Products on w.ProductId equals p.Id
+                                          select new { Product = p, Wishlists = w })
+                               .ToListAsync();
+
             return View(wishlist_product);
         }
         public async Task<IActionResult> DeleteWishlist(int Id)
@@ -70,13 +71,16 @@ namespace Webshopping.Controllers
             TempData["success"] = "Sản phẩm yêu thích đã được xóa thành công";
             return RedirectToAction("Wishlist", "Home");
         }
-
-        public async Task<IActionResult> AddWishlist(int Id, WishlistModel wishlist)
+        [HttpPost]
+        public async Task<IActionResult> AddWishlist(int Id, WishlistModel wishlistmodel)
         {
             var user = await _userManager.GetUserAsync(User);
-            wishlist.ProductId = Id;
-            wishlist.UserId = user.Id;
-            _dataContext.Wishlists. Add(wishlist);
+            var wishlistProduct = new WishlistModel
+            {
+                ProductId = Id, // Fixed: Assigning Id to ProductId instead of Product
+                UserId = user.Id
+            };
+            _dataContext.Wishlists.Add(wishlistProduct);
             try
             {
                 await _dataContext.SaveChangesAsync();
@@ -85,15 +89,18 @@ namespace Webshopping.Controllers
             catch (Exception)
             {
                 return StatusCode(500, "lỗi thêm vào danh sách yêu thích ");
-            }   
+            }
         }
-
-        public async Task<IActionResult> AddCompare(int Id, CompareModel compare)
+        [HttpPost]
+        public async Task<IActionResult> AddCompare(int Id, CompareModel Comparemodel)
         {
             var user = await _userManager.GetUserAsync(User);
-            compare.ProductId = Id;
-            compare.UserId = user.Id;
-            _dataContext.Compares.Add(compare);
+            var CompareProduct = new CompareModel
+            {
+                ProductId = Id, // Fixed: Assigning Id to ProductId instead of Product
+                UserId = user.Id
+            };
+            _dataContext.Compares.Add(CompareProduct);
             try
             {
                 await _dataContext.SaveChangesAsync();
@@ -110,12 +117,12 @@ namespace Webshopping.Controllers
             return View();
         }
 
-		public IActionResult Contact()
-		{
-			return View();
+        public IActionResult Contact()
+        {
+            return View();
 
-		}
-		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        }
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error(int statuscode)
         {
             if (statuscode == 404)
@@ -124,7 +131,7 @@ namespace Webshopping.Controllers
             }
             else if (statuscode == 500)
             {
-                return View("ServerError"); 
+                return View("ServerError");
             }
             else
             {
