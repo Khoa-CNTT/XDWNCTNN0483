@@ -1,0 +1,123 @@
+﻿﻿@{
+    ViewData["Title"] = "Dashboard";
+}
+<div class="row">
+    <div class="container-fluid">
+        <div class="col-md-12">
+            <h5>Thống kê số lượng</h5>
+            <ul>
+                <li>Tổng đơn hàng : @ViewBag.CountProduct</li>
+                <li>Tổng sản phẩm : @ViewBag.CountProduct</li>
+                <li>Tổng danh mục sản phẩm : @ViewBag.CountCategory</li>
+                <li>Tổng khách hàng : @ViewBag.CountUser</li>
+            </ul>
+        </div>
+        <div class="col-md-12">
+
+            <h5>Thống kê bán hàng</h5>
+            <div class="row">
+                <div class="col-md-4">
+                    <p>Lọc theo ngày tháng</p>
+                    <form>
+                        Ngày:
+
+                        <input type="text" class="form-control" id="datepicker">
+                        <button type="button" class="btn btn-primary btn-filter-date">Lọc theo ngày</button>
+                    </form>
+                </div>
+                <div class="col-md-4">
+                    <p>Lọc theo</p>
+                    <p>
+                        <select class="form-control filter-date">
+                            <option value="last_month">Tháng trước</option>
+                            <option value="this_month">Tháng này</option>
+                            <option value="all_year">Cả năm</option>
+                        </select>
+                    </p>
+                </div>
+            </div>
+
+            <div id="myfirstchart" style="height: 250px;"></div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.14.0/jquery-ui.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            var chartData = [];
+            var chart = new Morris.Line({
+                element: 'myfirstchart',
+                parseTime: false,
+                data: chartData,
+                xkey: 'date',
+
+                ykeys: ['revenue', 'orders'],
+
+                labels: ['Doanh thu', 'Đơn hàng']
+            });
+            //filter all data chart
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetChartData", "Dashboard")",
+                success: function (data) {
+                    chart.setData(data);
+                }
+            });
+            //submit filter date in chart
+            $(".filter-date").change(function () {
+                var filterdate = $(this).val();
+               // alert(filterdate);
+
+                $.ajax({
+                    type: "POST",
+                        url: "@Url.Action("SelectFilterDate", "Dashboard")",
+                    data: { filterdate: filterdate },
+                    success: function (data) {
+                        chart.setData(data);
+                    }
+                });
+            })
+
+            //select option filter data
+            $(".btn-filter-date").click(function () {
+                var filterdate = $("#datepicker").val();
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("SubmitFilterDate", "Dashboard")",
+                    data: { filterdate: filterdate },
+                    success: function (data) {
+                        chart.setData(data);
+                    }
+                });
+            })
+        });
+
+    </script>
+    <script>
+        $(function () {
+            $("#datepicker").datepicker({
+                dateFormat: 'yy-mm-dd', onSelect: function (datetext) {
+                    var d = new Date(); // for now
+
+                    var h = d.getHours();
+                    h = (h < 10) ? ("0" + h) : h;
+
+                    var m = d.getMinutes();
+                    m = (m < 10) ? ("0" + m) : m;
+
+                    var s = d.getSeconds();
+                    s = (s < 10) ? ("0" + s) : s;
+
+                    datetext = datetext + " " + h + ":" + m + ":" + s;
+
+                    $('#datepicker').val(datetext);
+                }
+            });
+        });
+    </script>
+}

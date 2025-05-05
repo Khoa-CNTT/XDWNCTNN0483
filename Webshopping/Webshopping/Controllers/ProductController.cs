@@ -9,17 +9,17 @@ using System.Drawing.Drawing2D;
 namespace Webshopping.Controllers
 {
     public class ProductController : Controller
-	{
-		
-		private readonly DataContext _dataContext;
-		public ProductController(DataContext context)
-			{
-				_dataContext = context;
-			}
+    {
+
+        private readonly DataContext _dataContext;
+        public ProductController(DataContext context)
+        {
+            _dataContext = context;
+        }
         public IActionResult Index()
-		{
+        {
             return View();
-		}
+        }
         public async Task<IActionResult> Detail(int Id)
         {
             if (Id == null) return RedirectToAction("Index");
@@ -50,7 +50,7 @@ namespace Webshopping.Controllers
         {
             if (ModelState.IsValid)
             {
-                
+
                 var ratingEntity = new RatingModel
                 {
                     ProductId = rating.ProductId,
@@ -90,6 +90,3 @@ namespace Webshopping.Controllers
     }
 
 }
-
-
-

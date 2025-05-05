@@ -17,7 +17,9 @@ namespace Webshopping.Models
         [Range(1, double.MaxValue, ErrorMessage = "Giá sản phẩm phải lớn hơn 0")]
         public decimal Price { get; set; }
         [Required(), Range(1, int.MaxValue, ErrorMessage = "Chọn thương hiệu")]
-        public int BrandID { get; set; }
+        public decimal CapitalPrice { get; set; }
+        [Required(ErrorMessage="Yêu cầu nhập giá vốn sản phẩm")]
+		public int BrandID { get; set; }
         [Required(), Range(1, int.MaxValue, ErrorMessage = "Chọn danh mục")]
         public int CategoryID { get; set; }
         public int Quantity { get; set; }
