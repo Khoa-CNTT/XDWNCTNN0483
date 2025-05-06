@@ -4,9 +4,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Webshopping.Repository;
 using Webshopping.Areas.Admin.Repository;
-
 using Webshopping.Models;
 using Webshopping.Services.Vnpay;
+using ChatBotGemini;
+using ChatBotGemini.Services;
 
 public partial class Program
 {
@@ -24,14 +25,21 @@ public partial class Program
 
         // Add services to the container.
         builder.Services.AddControllersWithViews();
+        builder.Configuration.AddJsonFile("appsettings.json");
+        builder.Services.Configure<GeminiOptions>(
+            builder.Configuration.GetSection("Gemini")
+        );
 
-        builder.Services.AddDistributedMemoryCache();
+        builder.Services.AddDistributedMemoryCache(); // Lưu session trong bộ nhớ (phù hợp cho dev/ứng dụng nhỏ)
 
         builder.Services.AddSession(options =>
         {
             options.IdleTimeout = TimeSpan.FromMinutes(30);
+            options.Cookie.HttpOnly = true; // Cookie chỉ truy cập được bởi server
             options.Cookie.IsEssential = true;
         });
+        // Đăng ký IHttpClientFactory
+        builder.Services.AddHttpClient<GeminiService>();
 
         //Khai bao Identity
         builder.Services.AddIdentity<AppUserModel, IdentityRole>()
@@ -135,7 +143,10 @@ public partial class Program
         if (!app.Environment.IsDevelopment())
         {
             app.UseExceptionHandler("/Home/Error");
+            app.UseHsts();
+
         }
+        app.UseHttpsRedirection();
 
         app.UseStaticFiles();
 
@@ -143,6 +154,8 @@ public partial class Program
         app.UseAuthentication();
 
         app.UseAuthorization();
+        app.UseSession();
+        app.MapControllers();
 
         app.MapControllerRoute(
             name: "Areas",
