@@ -19,7 +19,7 @@
 
                         <div class="productinfo text-center">
                             <a asp-action="Detail" asp-controller="Product" asp-route-Id="@item.Id">
-                                <img src="~/img/@item.Img" alt="@item.Name" width="100%" />
+                                <img src="~/img/@item.Img" alt="@item.Name" width="100%" height="200px" />
                                 <h2>@item.Price.ToString("#,##0 VNĐ")</h2>
                                 <p>@item.Name</p>
                                 <p>Danh mục: @item.Category.Name</p>
