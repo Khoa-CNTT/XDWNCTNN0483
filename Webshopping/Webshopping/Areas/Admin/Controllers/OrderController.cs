@@ -8,6 +8,7 @@ namespace Webshopping.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Route("admin/")]
+    //[Authorize(Roles = "Publisher,Author,Admin")]
     public class OrderController : Controller
     {
         private readonly DataContext _dataContext;
@@ -27,72 +28,76 @@ namespace Webshopping.Areas.Admin.Controllers
             var DetailsOrder = await _dataContext.OrderDetails.Include(od => od.Product)
                 .Where(od => od.OrderCode == ordercode).ToListAsync();
 
-            var Order = _dataContext.Orders.Where(o => o.OrderCode == ordercode).First();
+			var Order = await _dataContext.Orders.FirstOrDefaultAsync(o => o.OrderCode == ordercode);
 
-            ViewBag.ShippingCost = Order.ShippingCost;
-            ViewBag.Status = Order.Status;
-            return View(DetailsOrder);
-        }
-        [HttpGet("PaymentVnpayInfo")]
-        public async Task<IActionResult> PaymentVnpayInfo(string orderId)
-        {
-            var vnPayInfo = await _dataContext.VnInfos.FirstOrDefaultAsync(m => m.PaymentId == orderId);
-            if(vnPayInfo == null)
-            {
-                return NotFound();
-            }
-            return View(vnPayInfo);
-        }
-        [HttpPost("Update")]
-        public async Task<IActionResult> UpdateOrder(string ordercode, int status)
-        {
-            var order = await _dataContext.Orders.FirstOrDefaultAsync(o => o.OrderCode == ordercode);
+			if (Order == null)
+			{
+				return NotFound("Không tìm thấy đơn hàng.");
+			}
 
-            if (order == null)
-            {
-                return NotFound();
-            }
+			ViewBag.ShippingCost = Order.ShippingCost;
+			ViewBag.Status = Order.Status;
 
-            order.Status = status;
+			return View(DetailsOrder);
+		}
+		[HttpGet("PaymentVnpayInfo")]
+		public async Task<IActionResult> PaymentVnpayInfo(string orderId)
+		{
+			var vnPayInfo = await _dataContext.VnInfos.FirstOrDefaultAsync(m => m.PaymentId == orderId);
+			if (vnPayInfo == null)
+			{
+				return NotFound();
+			}
+			return View(vnPayInfo);
+		}
 
-            try
-            {
-                await _dataContext.SaveChangesAsync();
-                return Ok(new { success = true, message = "Trạng thái đơn hàng được cập nhật thành công" });
-            }
-            catch (Exception)
-            {
+		[HttpPost]
+		[Route("UpdateOrder")]
+		public async Task<IActionResult> UpdateOrder(string ordercode, int status)
+		{
+			var order = await _dataContext.Orders.FirstOrDefaultAsync(o => o.OrderCode == ordercode);
 
+			if (order == null)
+			{
+				return NotFound();
+			}
 
-                return StatusCode(500, "Đã xảy ra lỗi khi cập nhật trạng thái đơn hàng.");
-            }
-        }
-        [HttpGet("Delete")]
-        public async Task<IActionResult> Delete(string ordercode)
-        {
-            var order = await _dataContext.Orders.FirstOrDefaultAsync(o => o.OrderCode == ordercode);
+			order.Status = status;
 
-            if (order == null)
-            {
-                return NotFound();
-            }
-            try
-            {
+			try
+			{
+				await _dataContext.SaveChangesAsync();
+				return Ok(new { success = true, message = "Order status updated successfully" });
+			}
+			catch (Exception)
+			{
+				return StatusCode(500, "An error occurred while updating the order status.");
+			}
+		}
 
-                //delete order
-                _dataContext.Orders.Remove(order);
+		[HttpGet]
+		[Route("Delete")]
+		public async Task<IActionResult> Delete(string ordercode)
+		{
+			var order = await _dataContext.Orders.FirstOrDefaultAsync(o => o.OrderCode == ordercode);
 
+			if (order == null)
+			{
+				return NotFound();
+			}
+			try
+			{
+				//delete order
+				_dataContext.Orders.Remove(order);
+				await _dataContext.SaveChangesAsync();
 
-                await _dataContext.SaveChangesAsync();
+				return RedirectToAction("Index");
+			}
+			catch (Exception)
+			{
+				return StatusCode(500, "An error occurred while deleting the order.");
+			}
+		}
 
-                return RedirectToAction("Index");
-            }
-            catch (Exception)
-            {
-
-                return StatusCode(500, "Đã xảy ra lỗi khi xóa đơn hàng..");
-            }
-        }
-
-    }
+	}
 }

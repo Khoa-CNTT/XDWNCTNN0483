@@ -32,6 +32,7 @@
             <th scope="col">Đã bán</th>
             <th scope="col">Mô tả</th>
             <th scope="col">Giá của sản phẩm</th>
+            <th></th>
             <th scope="col">Hình ảnh</th>
             <th scope="col">Slug sản phẩm</th>
             <th scope="col">Danh múc</th>
@@ -50,10 +51,12 @@
                 <td><b>@item.Sold</b></td>
                 <td>@Html.Raw(item.Description)</td>
                 <td>@item.Price.ToString("#,##0 VNĐ")</td>
+                 <td>@item.CapitalPrice.ToString("#,##0 VNĐ")</td> 
                 <td><img src="/img/@item.Img" width="100"></td> @* lấy hình ảnh từ folder img *@
                 <td>@item.Slug</td>
                 <td>@item.Category.Name</td>
                 <td>@item.Brand.Name</td>
+
                 <td>
                     <a asp-action="Edit" class="btn btn-sm btn-warning" asp-controller="Product" asp-route-Id="@item.Id">
                         Sửa

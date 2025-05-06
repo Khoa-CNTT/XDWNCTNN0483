@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using Webshopping.Repository;
 using Webshopping.Areas.Admin.Repository;
 
-//using Shopping_Tutorial.Repositor
 using Webshopping.Models;
 using Webshopping.Services.Vnpay;
 
@@ -108,17 +107,17 @@ public partial class Program
         app.UseStatusCodePagesWithRedirects("/Home/Error?statuscode={0}");
 
         // Seeding Data when is running Program
-        // using (var scope = app.Services.CreateScope())
-        // {
-        //     var services = scope.ServiceProvider;
-        //     var context = services.GetRequiredService<DataContext>();
+        using (var scope = app.Services.CreateScope())
+        {
+            var services = scope.ServiceProvider;
+            var context = services.GetRequiredService<DataContext>();
 
-        //     // Call the SeedData method
-        //     SeedData.Seeding20Data(context);
-        //     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-        //     await SeedData.SeedingDataAsync(context);
-        //     await SeedData.SeedRolesAsync(roleManager);
-        // }
+            // Call the SeedData method
+            SeedData.Seeding20Data(context);
+            var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+            SeedData.SeedingDataAsync(context);
+            SeedData.SeedRolesAsync(roleManager);
+        }
 
         // Seeding roles
         // using (var scope = app.Services.CreateScope())

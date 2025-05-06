@@ -10,7 +10,11 @@ using Webshopping.Repository;
 namespace Webshopping.Areas.Admin.Controllers
 {
     [Area("Admin")]
+
     [Route("admin/Role")]
+    [Authorize(Roles = "Admin")]
+
+
     public class RoleController : Controller
     {
         private readonly DataContext _dataContext;
@@ -21,16 +25,19 @@ namespace Webshopping.Areas.Admin.Controllers
             _dataContext = context;
             _roleManager = roleManager;
         }
-        [HttpGet("Index")]
+
+        [HttpGet("")]
         public async Task<IActionResult> Index()
         {
             return View(await _dataContext.Roles.OrderByDescending(p => p.Id).ToListAsync());
         }
+
         [HttpGet("Create")]
         public IActionResult Create()
         {
             return View();
         }
+
         [HttpGet("Edit")]
         public async Task<IActionResult> Edit(string id)
         {
@@ -41,6 +48,7 @@ namespace Webshopping.Areas.Admin.Controllers
             var role = await _roleManager.FindByIdAsync(id);
             return View(role);
         }
+
         [HttpPost("Edit")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, IdentityRole model)
@@ -72,6 +80,7 @@ namespace Webshopping.Areas.Admin.Controllers
             }
             return View(model ?? new IdentityRole { Id = id });
         }
+
         //GET: admin/brand/create
         [HttpPost("Create")]
         [ValidateAntiForgeryToken]
@@ -83,6 +92,7 @@ namespace Webshopping.Areas.Admin.Controllers
             }
             return Redirect("Index");
         }
+
         [HttpPost("Delete")]
         public async Task<IActionResult> Delete(string id)
         {

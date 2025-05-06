@@ -22,7 +22,7 @@
                 <th>Mã đơn hàng</th>
                 <th>Tên</th>
                 <th>Shipping Cost</th>
-                @*                 <th>Coupon</th> *@
+                <th>Coupon</th>
                 <th>Phương thức thanh toán</th>
                 <th>Trạng thái</th>
                 <th>Ngày</th>
@@ -37,7 +37,7 @@
                    <td>@item.OrderCode</td>
                    <td>@item.UserName</td>
                    <td>@item.ShippingCost.ToString("#,##0 đ")</td>
-                   @*<td>@item.CouponCode</td> *@
+                   <td>@item.CouponCode</td>
                    <td>
                        @if(item.PaymentMethod == "COD" )
                        {
@@ -63,7 +63,7 @@
                            <span class="text text-danger">Đã hủy</span>
                        }
                    </td>
-                   <td>@item.CrateDate.ToString("dd-MM-yyyy")</td>
+                    <td>@item.CreateDate.ToString("dd-MM-yyyy")</td>
                    <td>
 
                        @if (item.Status != 3) // Kiểm tra nếu đơn hàng chưa bị hủy

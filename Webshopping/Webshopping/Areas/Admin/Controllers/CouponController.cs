@@ -25,10 +25,10 @@ namespace Webshopping.Areas.Admin.Controllers
         }
         
     
-    [Route("Create")]
+    [Route("Add")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CouponModel coupon)
+        public async Task<IActionResult> Add(CouponModel coupon)
         {
 
 

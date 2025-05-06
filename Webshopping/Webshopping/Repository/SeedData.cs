@@ -1,7 +1,7 @@
-﻿using Bogus;
+﻿
+using Bogus;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Webshopping.Models;
 using Webshopping.Models;
 using Webshopping.Repository;
 
@@ -77,7 +77,7 @@ namespace Webshopping.Repository
                     {
                         OrderCode = orderCode,
                         UserName = users[i].UserName,
-                        CrateDate = DateTime.Now.AddDays(-i), // tạo đơn hàng cách nhau 1 ngày
+                        CreateDate = DateTime.Now.AddDays(-i), // tạo đơn hàng cách nhau 1 ngày
                         ShippingCost = 30000 + (i * 5000),
                         Status = 1
                     };
