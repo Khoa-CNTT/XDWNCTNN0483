@@ -80,8 +80,8 @@ namespace Webshopping.Controllers
                     _dataContext.Update(product);
                     _dataContext.Add(orderDetail); // Corrected variable name
                     await _dataContext.SaveChangesAsync();
-                }
-                HttpContext.Session.Remove("cart");
+                }               
+                HttpContext.Session.Remove("Cart");
                 //Gui mail cho người dùng   
                 TempData["success"] = "Checkout thành công,vui lòng đợi duyệt đơn hàng";
                 return RedirectToAction("History", "Account");

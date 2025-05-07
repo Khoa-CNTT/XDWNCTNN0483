@@ -975,6 +975,7 @@ h2.title {
   border-top: 1px solid #F7F7F0;
 }
 
+
 .choose ul li a {
   color: #B3AFA8;
   font-family: 'Roboto', sans-serif;
@@ -1622,7 +1623,7 @@ h2.title {
 
 #cart_items .cart_info .cart_total_price {
   color: #FE980F;
-  font-size: 24px;
+  font-size: 20px;
 }
 
 .cart_product {
@@ -2392,10 +2393,13 @@ h2.title {
 }
 
 .btn.btn-primary {
-  background:#FE980F;
-  border: 0 none;
-  border-radius: 0;
-  margin-top: 16px;
+    width: 82px;
+    height: 34px;
+    font-size: 14px;
+    background: #FE980F;
+    border: 0 none;
+    border-radius: 5px;
+    margin-left: 78px;
 }
 
 .blank-arrow {
