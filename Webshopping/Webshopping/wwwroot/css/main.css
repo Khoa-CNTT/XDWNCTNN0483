@@ -2393,13 +2393,11 @@ h2.title {
 }
 
 .btn.btn-primary {
-    width: 82px;
-    height: 34px;
-    font-size: 14px;
-    background: #FE980F;
-    border: 0 none;
-    border-radius: 5px;
-    margin-left: 78px;
+	width: auto;
+	font-size: 14px;
+	background: #FE980F;
+	border: 0 none;
+	margin-right: auto;
 }
 
 .blank-arrow {
