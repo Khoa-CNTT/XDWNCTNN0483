@@ -5,7 +5,7 @@
     ViewData["title"] = "List Role";
 }
 
-<h3>List Role</h3>
+<h3>Danh sách vai trò</h3>
 
 @* @if (TempData["success"] != null)
 {
@@ -22,13 +22,13 @@
 }
  *@
 <!-- Your other content here -->
-<a asp-area="admin" asp-action="Create" asp-controller="Role" class="btn btn-primary btn-sm pt-1">Thêm Role</a>
+<a asp-area="admin" asp-action="Create" asp-controller="Role" class="btn btn-primary btn-sm pt-1">Thêm vai trò</a>
 <table class="table" id="myTable">
     <thead>
         <tr>
             <th scope="col">Id</th>
-            <th scope="col">Role Name</th>
-            <th scope="col">Role</th>
+            <th scope="col">Tên vai trò</th>
+            <th scope="col">Vai trò</th>
             <th scope="col">Thao tác</th>
         </tr>
     </thead>

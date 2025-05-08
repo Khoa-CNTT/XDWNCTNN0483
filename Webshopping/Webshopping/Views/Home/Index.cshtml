@@ -1,6 +1,5 @@
 ﻿@model IEnumerable<ProductModel>
 
-
 <partial name="_SliderPartial" />
 <div class="col-sm-3">
     @Html.Partial("_SidebarPartial")
@@ -8,15 +7,13 @@
 <div class="col-sm-9 padding-right">
     <div class="features_items">
         <!--features_items-->
-        <h2 class="title text-center">Features Items</h2>
+        <h2 class="title text-center">sản phẩm</h2>
         @foreach (var item in Model)
         {
 
             <div class="col-sm-4">
                 <div class="product-image-wrapper">
                     <div class="single-products">
-
-
                         <div class="productinfo text-center">
                             <a asp-action="Detail" asp-controller="Product" asp-route-Id="@item.Id">
                                 <img src="~/img/@item.Img" alt="@item.Name" width="100%" height="200px" />
@@ -47,8 +44,8 @@
                         @if (User.Identity?.IsAuthenticated ?? false)
                         {
                             <ul class="nav nav-pills nav-justified">
-                                <li><button class="btn btn-danger add-btn-wishlist" data-product_id="@item.Id">Yêu thích</button></li>
-                                <li><button class="btn btn-primary add-btn-compare" data-product_id="@item.Id">So sánh</button></li>
+                                <li style="text-align: center;"><button class="btn btn-danger add-btn-wishlist" data-product_id="@item.Id">Yêu thích</button></li>
+                                <li style="text-align: center;"><button class="btn btn-primary add-btn-compare" data-product_id="@item.Id">So sánh</button></li>
                             </ul>
                         }
                     </div>
