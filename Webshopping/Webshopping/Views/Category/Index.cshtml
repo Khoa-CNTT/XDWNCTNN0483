@@ -21,14 +21,17 @@
                                 <p>Thương hiệu: @item.Brand.Name</p>
                                 @if (@item.Quantity > 0)
                                 {
-                                    <a asp-action="Add" asp-controller="Cart" asp-route-Id="@item.Id" class="btn btn-default add-to-cart">
-                                        <i class="fa fa-shopping-cart"></i>Thêm giỏ hàng</a>
+                                    <a asp-action="Add" asp-controller="Cart" asp-route-Id="@item.Id"
+                                        class="btn btn-default add-to-cart">
+                                        <i class="fa fa-shopping-cart"></i>
+                                        Thêm giỏ hàng
+                                    </a>
                                 }
                                 else
                                 {
                                     <Button class="btn btn-default"><i class="fa fa-shopping-cart"></i>hết hàng</Button>
                                 }
-                                
+
                             </div>
                             @* <div class="product-overlay"> *@
                             @*     <div class="overlay-content"> *@
@@ -42,8 +45,17 @@
                     </a>
                     <div class="choose">
                         <ul class="nav nav-pills nav-justified">
-                            <li><a href="#"><i class="fa fa-plus-square"></i>Add to wishlist</a></li>
-                            <li><a href="#"><i class="fa fa-plus-square"></i>Add to compare</a></li>
+                            <li style="text-align: center;">
+                                <button class="btn btn-danger add-btn-wishlist" data-product_id="@item.Id">
+                                    Yêu thích
+                                </button>
+                            </li>
+                            <li style="text-align: center;">
+                                <button style="margin: 16px;" class="btn btn-primary add-btn-compare"
+                                    data-product_id="@item.Id">
+                                    So sánh
+                                </button>
+                            </li>
                         </ul>
                     </div>
                 </div>

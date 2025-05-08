@@ -11,10 +11,8 @@ namespace Webshopping.Areas.Admin.Controllers
 {
     [Area("Admin")]
 
-    [Route("admin/Role")]
+    [Route("admin/role")]
     [Authorize(Roles = "Admin")]
-
-
     public class RoleController : Controller
     {
         private readonly DataContext _dataContext;

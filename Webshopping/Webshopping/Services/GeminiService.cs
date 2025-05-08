@@ -8,8 +8,8 @@ namespace ChatBotGemini.Services
     public class GeminiService
     {
         private readonly HttpClient _httpClient;
-        public  string apiKey = "AIzaSyDKnla8sJUXCg9gpDFXW84-7TN7YS3ylnc";
-        public  string apiUrl = $"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyAHE6r_TifCeDRJiKYR_VZkLN3WuwBcbyA";
+        public string apiKey = "AIzaSyDKnla8sJUXCg9gpDFXW84-7TN7YS3ylnc";
+        public string apiUrl = $"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyAHE6r_TifCeDRJiKYR_VZkLN3WuwBcbyA";
 
         public GeminiService(HttpClient httpClient)
         {

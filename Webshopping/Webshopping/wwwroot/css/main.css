@@ -8,7 +8,7 @@
 
 body {
   font-family: 'Roboto', sans-serif;
-  background:;
+  /* background:; */
   position: relative;
   font-weight:400px;
 }
@@ -899,7 +899,7 @@ h2.title {
   transition: height 500ms ease 0s;
   width: 100%;
   display: block;
-  opacity:;
+  /* opacity:; */
 }
 
 .single-products:hover .product-overlay {
@@ -2238,7 +2238,7 @@ h2.title {
   float: left;
 }
 
-.blog-socials .btn.btn-primary{
+.blog-socials {
   margin-top: 0;
 }
 
@@ -2395,7 +2395,7 @@ h2.title {
   background:#FE980F;
   border: 0 none;
   border-radius: 0;
-  margin-top: 16px;
+  margin: 16px;
 }
 
 .blank-arrow {
