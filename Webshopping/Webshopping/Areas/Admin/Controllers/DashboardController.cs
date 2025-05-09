@@ -10,11 +10,12 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace Webshopping.Areas.Admin.Controllers
 {
 	[Area("Admin")]
+	[Route("admin/")]
 	[Route("admin/dashboard")]
 	[Authorize(Roles = "Publisher,Author,Admin")]
 	public class DashboardController : Controller
 	{
-		private const int v = 2024;
+		private const int v = 2025;
 		private readonly DataContext _dataContext;
 
 		public DashboardController(DataContext context)
@@ -42,8 +43,8 @@ namespace Webshopping.Areas.Admin.Controllers
 		{
 			var dateselect = DateTime.Parse(filterdate).ToString("yyyy-MM-dd");
 			var chartData = _dataContext.Orders
-		   .Where(o => o.CreateDate.ToString("yyyy-MM-dd") == dateselect) // Optional: Filter by date
-		  .Join(_dataContext.OrderDetails,
+		   	.Where(o => o.CreateDate.ToString("yyyy-MM-dd") == dateselect) // Optional: Filter by date
+			.Join(_dataContext.OrderDetails,
 			  o => o.OrderCode,
 			  od => od.OrderCode,
 			  (o, od) => new StatisticalModel

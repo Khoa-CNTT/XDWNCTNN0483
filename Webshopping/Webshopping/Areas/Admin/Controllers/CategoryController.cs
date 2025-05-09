@@ -7,7 +7,6 @@ using Webshopping.Repository;
 using Webshopping.Areas.Admin.Common;
 using Microsoft.AspNetCore.Authorization;
 
-
 [Area("Admin")]
 [Route("admin/category/")]
 [Authorize(Roles = "Publisher,Author,Admin")]

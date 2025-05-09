@@ -10,16 +10,16 @@ using Webshopping.Models;
 using Webshopping.Repository;
 
 [Area("Admin")]
-[Route("Admin/Brand")]
+[Route("admin/brand")]
 [Authorize(Roles = "Admin")]
 public class BrandController : Controller
 {
     private readonly DataContext _dataContext;
+
     public BrandController(DataContext context)
     {
         _dataContext = context;
     }
-
 
     [HttpGet("")]
     public async Task<IActionResult> Index(int pg = 1)
@@ -89,14 +89,14 @@ public class BrandController : Controller
         return View(brand);
     }
 
-    [HttpGet("Edit")]
+    [HttpGet("edit")]
     public async Task<IActionResult> Edit(int Id)
     {
         BrandModel brand = await _dataContext.Brands.FindAsync(Id);
         return View(brand);
     }
 
-    [HttpPost("Edit")]
+    [HttpPost("edit")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(BrandModel brand)
     {
@@ -107,7 +107,6 @@ public class BrandController : Controller
             await _dataContext.SaveChangesAsync();
             TempData["success"] = "Cập nhật thương hiệu thành công";
             return RedirectToAction("Index");
-
         }
         else
         {

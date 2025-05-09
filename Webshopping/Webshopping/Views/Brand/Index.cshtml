@@ -35,8 +35,17 @@
                         @if (User.Identity?.IsAuthenticated ?? false)
                         {
                             <ul class="nav nav-pills nav-justified">
-                                <li style="text-align: center;"><button class="btn btn-danger add-btn-wishlist" data-product_id="@item.Id">Yêu thích</button></li>
-                                <li style="text-align: center;"><button class="btn btn-primary add-btn-compare" data-product_id="@item.Id">So sánh</button></li>
+                                <li style="text-align: center;">
+                                    <button class="btn btn-danger add-btn-wishlist" data-product_id="@item.Id">
+                                        Yêu thích
+                                    </button>
+                                </li>
+
+                                <li style="text-align: center;">
+                                    <button class="btn btn-primary add-btn-compare" data-product_id="@item.Id">
+                                        So sánh
+                                    </button>
+                                </li>
                             </ul>
                         }
                     </div>

@@ -25,7 +25,8 @@
                             @* <a asp-action="Add" asp-controller="Cart" asp-route-Id="@item.Id" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a> *@
                             @if (@item.Quantity == 0)
                             {
-                                <button type="button" class="btn btn-default"><i class="fa fa-shopping-cart"></i>Hết hàng</button>
+                                <button type="button" class="btn btn-default"><i class="fa fa-shopping-cart"></i>Hết
+                                    hàng</button>
                             }
                             else
                             {
@@ -44,8 +45,17 @@
                         @if (User.Identity?.IsAuthenticated ?? false)
                         {
                             <ul class="nav nav-pills nav-justified">
-                                <li style="text-align: center;"><button class="btn btn-danger add-btn-wishlist" data-product_id="@item.Id">Yêu thích</button></li>
-                                <li style="text-align: center;"><button class="btn btn-primary add-btn-compare" data-product_id="@item.Id">So sánh</button></li>
+                                <li style="text-align: center;">
+                                    <button class="btn btn-danger add-btn-wishlist" data-product_id="@item.Id">
+                                        Yêu thích
+                                    </button>
+                                </li>
+                                <li style="text-align: center;">
+                                    <button style="margin: 16px;" class="btn btn-primary add-btn-compare"
+                                        data-product_id="@item.Id">
+                                        So sánh
+                                    </button>
+                                </li>
                             </ul>
                         }
                     </div>
@@ -150,4 +160,3 @@
         });
     </script>
 }
-
