@@ -760,11 +760,11 @@ h2.title:before{
   text-transform: uppercase;
 }
 
-.brands-name {
+/* .brands-name {
   border: 1px solid #F7F7F0;
   padding-bottom: 20px;
   padding-top: 15px;
-}
+} */
 
 
 .brands-name .nav-stacked li a {
@@ -899,7 +899,6 @@ h2.title {
   transition: height 500ms ease 0s;
   width: 100%;
   display: block;
-  /* opacity:; */
 }
 
 .single-products:hover .product-overlay {
@@ -974,6 +973,7 @@ h2.title {
 .choose {
   border-top: 1px solid #F7F7F0;
 }
+
 
 .choose ul li a {
   color: #B3AFA8;
@@ -1482,7 +1482,7 @@ h2.title {
 .login-form form button, .signup-form form button {
   background: #FE980F;
   border: medium none;
-  border-radius: 0;
+  border-radius: 5px;
   color: #FFFFFF;
   display: block;
   font-family: 'Roboto', sans-serif;
@@ -1622,7 +1622,7 @@ h2.title {
 
 #cart_items .cart_info .cart_total_price {
   color: #FE980F;
-  font-size: 24px;
+  font-size: 20px;
 }
 
 .cart_product {
@@ -2394,8 +2394,10 @@ h2.title {
 .btn.btn-primary {
   background:#FE980F;
   border: 0 none;
-  border-radius: 0;
   margin: 16px;
+  height: 34px;
+  font-size: 14px;
+  border-radius: 5px;
 }
 
 .blank-arrow {

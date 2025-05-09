@@ -3,23 +3,16 @@
 <h3>Giỏ hàng</h3>
 <section id="cart_items">
 	<div class="container">
-		<div class="breadcrumbs">
-			<ol class="breadcrumb">
-				<li>
-					<a href="#">Home</a>
-				</li>
-				<li class="active">Shopping Cart</li>
-			</ol>
-		</div>
+		
 		<div class="table-responsive cart_info">
 			<table class="table table-condensed">
 				<thead>
 					<tr class="cart_menu">
-						<td class="image">Item</td>
-						<td class="description"></td>
-						<td class="price">Price</td>
-						<td class="quantity">Quantity</td>
-						<td class="total">Total</td>
+						<td class="image">Hình ảnh</td>
+						<td class="description">Tên sản phẩm</td>
+						<td class="price">Đơn Giá</td>
+						<td class="quantity">Số lượng</td>
+						<td class="total">Số tiền</td>
 						<td></td>
 					</tr>
 				</thead>
@@ -28,63 +21,61 @@
 					{
 						@foreach (var item in Model.CartItems)
 						{
-					<tr>
-						<td class="cart_product">
-							<a href="">
-								<img src="~images/@item.Image" alt="">
-							</a>
-						</td>
-
-						<td class="cart_description">
-							<h4><a href="">@item.ProductName</a></h4>
-						</td>
-
-						<td class="cart_price">
-							<p>@item.Price</p>
-						</td>
-
-						<td>
-							<a class="btn btn-default btn-sn" asp-controller="Cart" asp-action="Increase"
-								asp-route-id="@item.ProductId"> + </a>
-							<input class="cart_quantity_input" type="text" name="quantity" value="@item.Quantity"
-								autocomplete="off" size="2">
-
-							<a class="btn btn-success btn-sn" asp-controller="Cart" asp-action="Decrease"
-								asp-route-id="@item.ProductId"> - </a>
-
-							<a class="btn btn-danger btn-sn" asp-controller="Cart" asp-action="Remove"
-								asp-route-id="@item.ProductId">
-								Remove
-							</a>
-						</td>
-
-						<td class="cart_total">
-							<p class="cart_total_price">
-								@Model.CartItems.Where(x => x.ProductId == item.ProductId).Sum(x
-																=> x.Quantity* x.Price).ToString("#,##0 đ")
-							</p>
-						</td>
-
-								<td class="cart_delete">
-									<a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
+							<tr>
+								<td class="cart_product">
+									<a href="">
+										<img src="~/img/@item.Image" alt="@item.ProductName" width="30%" />
+									</a>
 								</td>
+
+								<td class="cart_description">
+								<h4><a href="">@item.ProductName</a></h4>
+								</td>
+
+								<td class="cart_price">
+									<p>@item.Price.ToString("#,##0 VNĐ")</p>
+								</td>
+
+								<td>
+									<a class="btn btn-default btn-sn" asp-controller="Cart" asp-action="Increase"
+										asp-route-id="@item.ProductId"> + </a>
+									<input class="cart_quantity_input" type="text" name="quantity" value="@item.Quantity"
+										autocomplete="off" size="2">
+
+									<a class="btn btn-success btn-sn" asp-controller="Cart" asp-action="Decrease"
+										asp-route-id="@item.ProductId"> - </a>
+
+									<a class="btn btn-danger btn-sn" asp-controller="Cart" asp-action="Remove"
+										asp-route-id="@item.ProductId">
+										Xóa
+									</a>
+								</td>
+
+								<td class="cart_total">
+									<p class="cart_total_price">
+										@Model.CartItems.Where(x => x.ProductId == item.ProductId).Sum(x
+																			=> x.Quantity * x.Price).ToString("#,##0 VNĐ")
+									</p>
+								</td>
+
+
 							</tr>
-										}
+						}
 
 						<tr>
 							<td rowspan="5">
-								Grand Total: <p class="cart_total_price">@Model.GrandTotal.ToString("#,##0 đ")</p>
+								Tổng cộng: <p class="cart_total_price">@Model.GrandTotal.ToString("#,##0 VNĐ")</p>
 								<form>
-									Coupon Code:
+									Mã khuyến mãi:
 									<input type="text" class="form-control coupon-value" /><span
 										class="text text-success">@Model.CouponCode</span> <br />
 
 									<input type="button" value="Apply" class="btn btn-sm btn-primary btn-apply-coupon" />
 								</form>
 
-								Ship cost:
+								Giá ship:
 								<p class="cart_total_price">
-									@Model.ShippingPrice.ToString("#,##0 đ")
+									@Model.ShippingPrice.ToString("#,##0 VNĐ")
 								</p>
 
 								@if (@Model.ShippingPrice > 0)
@@ -171,7 +162,7 @@
 					{
 						<tr>
 							<td colspan="5">
-								<h4>Your cart is Empty</h4>
+								<h4>Giỏ hàng đang trống</h4>
 							</td>
 						</tr>
 					}

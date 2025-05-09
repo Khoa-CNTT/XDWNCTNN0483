@@ -127,7 +127,6 @@
                                     <li><a asp-controller="Account" asp-action="Login"><i class="fa fa-lock"></i>Login</a>
                                     </li>
                                 }
-
                             </ul>
                         </div>
                     </div>
@@ -162,7 +161,6 @@
                                         <li><a asp-controller="Cart" asp-action="Checkout">Thanh toán</a></li>
                                         <li><a asp-controller="Cart">giỏ hàng</a></li>
                                         @if (User.Identity?.IsAuthenticated ?? false)
-                                        
                                         {
                                             <li>
                                                 <a asp-action="Logout" method="post" asp-controller="Account">
@@ -263,12 +261,12 @@
     <!-- Chatbox Container -->
     <div id="gemini-chatbox">
         <div id="chatbox-header">
-            <span>Wellness Bot</span>
+            <span>Perfume Bot</span>
             <button id="chatbox-close-btn">×</button>
         </div>
         <div id="chatbox-messages">
             <!-- Tin nhắn sẽ được thêm vào đây bằng JavaScript -->
-            <div class="message bot-message">Welcome to Wellness & Lifestyle! Tôi có thể giúp gì cho bạn?</div>
+            <div class="message bot-message">Welcome to Myperfume! Tôi có thể giúp gì cho bạn?</div>
         </div>
         <div id="chatbox-input-area">
             <input type="text" id="chatbox-input" placeholder="Nhập câu hỏi của bạn...">

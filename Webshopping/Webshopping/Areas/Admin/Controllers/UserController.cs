@@ -12,7 +12,7 @@ using Webshopping.Repository;
 
 [Area("Admin")]
 [Route("admin/user/")]
-//[Authorize(Roles = "Admin")]
+[Authorize(Roles = "Admin")]
 public class UserController : Controller
 {
     private readonly DataContext _dataContext;

@@ -29,8 +29,8 @@
                     <th>Tên người dùng</th>
                     <th>Tên sản phẩm</th>
                     <th>Đơn giá</th>
-                    <th>Quantity</th>
-                    <th>Subtotal</th>
+                    <th>Số lượng</th>
+                    <th>Tổng</th>
                 </tr>
             </thead>
             <tbody>
@@ -51,18 +51,19 @@
                     stt++;
                 }
                 <tr>
-                    <td>Total:</td>
+                    <td><h4>Tổng</h4></td>
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td>Tổng : @total.ToString("#,##0 đ")</td>
-                    <td>Shipping : @ViewBag.ShippingCost.ToString("#,##0 đ")</td>
+                    <td>Tổng hóa đơn : @total.ToString("#,##0 đ")</td>
+                    <td>Chi phí vận chuyển : @ViewBag.ShippingCost.ToString("#,##0 đ")</td>
                     <td>
                         @if (@ViewBag.Status != 3)
                         {
                             <select class="form-control select-update-order">
                                 <option value="1">Đơn hàng mới</option>
-                                <option value="0">Đã xử lý</option>
+                                <option value="2">Đã xử lý</option>
+                                <option value="0">Đã hủy</option>
                             </select>
                         }
                     </td>

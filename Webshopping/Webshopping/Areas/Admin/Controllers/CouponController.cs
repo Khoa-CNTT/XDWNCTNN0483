@@ -9,7 +9,6 @@ namespace Webshopping.Areas.Admin.Controllers
     [Area("Admin")]
     [Route("admin/coupon")]
     [Authorize(Roles = "Admin")]
-
     public class CouponController : Controller
     {
         private readonly DataContext _dataContext;
@@ -17,6 +16,9 @@ namespace Webshopping.Areas.Admin.Controllers
         {
             _dataContext = context;
         }
+
+        [HttpGet("")]
+        [HttpGet("Index")]
         public async Task<IActionResult> Index()
         {
             var coupon_list = await _dataContext.Coupons.ToListAsync();

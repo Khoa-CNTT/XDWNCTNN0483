@@ -5,16 +5,16 @@
 
 <body>
 	<h3>thanh toán vnpay</h3>
-	<a class="btn btn-primary" asp-action="Index" asp-controller="Order">Trở về trang đơn hàng</a>
+	
 	<table class="table" id="myTable">
 		<thead>
 			<tr>
-				<th>TransactionId</th>
-				<th>OrderDescription</th>
-				<th>OrderId</th>
-				<th>PaymentMethod</th>
-				<th>PaymentId</th>
-				<th>date</th>
+				<th>Id</th>
+				<th>Mô tả</th>
+				<th>Mã đơn hàng</th>
+				<th>Phương thức thanh toán</th>
+				<th>Mã thanh toán</th>
+				<th>Ngày tạo</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -28,4 +28,5 @@
 			</tr>
 		</tbody>
 	</table>
+	<a class="btn btn-danger btn-sm" asp-action="Index" asp-controller="Order">Trở về trang đơn hàng</a>
 </body>
