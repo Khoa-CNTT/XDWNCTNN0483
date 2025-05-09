@@ -8,10 +8,11 @@ using Webshopping.Models;
 using Webshopping.Services.Vnpay;
 using ChatBotGemini;
 using ChatBotGemini.Services;
+using System.Threading.Tasks;
 
 public partial class Program
 {
-    public static void Main(string[] args)
+    public static async Task Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
 
@@ -123,8 +124,8 @@ public partial class Program
             // Call the SeedData method
             SeedData.Seeding20Data(context);
             var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-            SeedData.SeedingDataAsync(context);
-            SeedData.SeedRolesAsync(roleManager);
+            await SeedData.SeedingDataAsync(context);
+            await SeedData.SeedRolesAsync(roleManager);
         }
 
         // Seeding roles

@@ -8,7 +8,7 @@
 
 body {
   font-family: 'Roboto', sans-serif;
-  background:;
+  /* background:; */
   position: relative;
   font-weight:400px;
 }
@@ -760,11 +760,11 @@ h2.title:before{
   text-transform: uppercase;
 }
 
-.brands-name {
+/* .brands-name {
   border: 1px solid #F7F7F0;
   padding-bottom: 20px;
   padding-top: 15px;
-}
+} */
 
 
 .brands-name .nav-stacked li a {
@@ -899,7 +899,7 @@ h2.title {
   transition: height 500ms ease 0s;
   width: 100%;
   display: block;
-  opacity:;
+  
 }
 
 .single-products:hover .product-overlay {
@@ -1483,7 +1483,7 @@ h2.title {
 .login-form form button, .signup-form form button {
   background: #FE980F;
   border: medium none;
-  border-radius: 0;
+  border-radius: 5px;
   color: #FFFFFF;
   display: block;
   font-family: 'Roboto', sans-serif;
@@ -2393,11 +2393,13 @@ h2.title {
 }
 
 .btn.btn-primary {
-	width: auto;
-	font-size: 14px;
-	background: #FE980F;
-	border: 0 none;
-	margin-right: auto;
+    /* width: 82px; */
+    height: 34px;
+    font-size: 14px;
+    background: #FE980F;
+    border: 0 none;
+    border-radius: 5px;
+   
 }
 
 .blank-arrow {
@@ -2521,5 +2523,46 @@ h2.title {
 .contact-info .social-networks ul li a:hover{
   color: #FE980F;
 }
+/*************************
+******* Tài khoản CSS ********
+**************************/
 
+.nav-dropdown {
+	position: relative;
+	list-style: none;
+}
+.nav-dropdown .dropdown-menu {
+		display: none;
+		position: absolute;
+		top: 100%;
+		left: 0;
+		background: white;
+		padding: 10px 0;
+		box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+		min-width: 200px;
+		z-index: 1000;
+}
+/*Hiện menu khi hover */
+.nav-dropdown:hover .dropdown-menu {
+		display: block;
+}
+/* Style cho liên kết menu chính */
+.nav-link {
+	text-decoration: none;
+	padding: 10px 15px;
+	display: inline-block;
+	color: #333;
+}
+/* Style cho từng mục trong menu con */
+.dropdown-item {
+	display: block;
+	padding: 8px 15px;
+	color: #333;
+	text-decoration: none;
+}
+
+.dropdown-item:hover {
+		background-color: #f0f0f0;
+		color: #000;
+}
 

@@ -30,28 +30,20 @@
                                 }
                                 
                             </div>
-                            @* <div class="product-overlay"> *@
-                            @*     <div class="overlay-content"> *@
-                            @*         <h2>$@item.Price</h2> *@
-                            @*         <p>@item.Name</p> *@
-                            @*         <p>@item.Description</p> *@
-                            @*     </div> *@
-                            @* </div> *@
-
                         </div>
                     </a>
                     <div class="choose">
-                        <ul class="nav nav-pills nav-justified">
-                            <li><a href="#"><i class="fa fa-plus-square"></i>Add to wishlist</a></li>
-                            <li><a href="#"><i class="fa fa-plus-square"></i>Add to compare</a></li>
-                        </ul>
+                        @if (User.Identity?.IsAuthenticated ?? false)
+                        {
+                            <ul class="nav nav-pills nav-justified">
+                                 <li style="text-align: center;"><button class="btn btn-danger add-btn-wishlist" data-product_id="@item.Id">Yêu thích</button></li>
+                                <li style="text-align: center;"><button class="btn btn-primary add-btn-compare" data-product_id="@item.Id">So sánh</button></li>
+                            </ul>
+                        }
                     </div>
                 </div>
             </div>
         }
 
     </div><!--features_items-->
-
-
-
 </div>

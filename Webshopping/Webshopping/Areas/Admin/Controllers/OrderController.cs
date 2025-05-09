@@ -8,8 +8,8 @@ namespace Webshopping.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Route("admin/")]
-    //[Authorize(Roles = "Publisher,Author,Admin")]
-    public class OrderController : Controller
+	[Authorize(Roles = "Publisher,Author,Admin")]
+	public class OrderController : Controller
     {
         private readonly DataContext _dataContext;
         public OrderController(DataContext context)

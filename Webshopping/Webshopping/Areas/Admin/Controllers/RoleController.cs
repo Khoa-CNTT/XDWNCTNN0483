@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Models.Enums;
 using Webshopping.Areas.Admin.Common;
 using Webshopping.Models;
 using Webshopping.Repository;
@@ -10,11 +11,8 @@ using Webshopping.Repository;
 namespace Webshopping.Areas.Admin.Controllers
 {
     [Area("Admin")]
-
     [Route("admin/Role")]
     [Authorize(Roles = "Admin")]
-
-
     public class RoleController : Controller
     {
         private readonly DataContext _dataContext;
@@ -26,19 +24,22 @@ namespace Webshopping.Areas.Admin.Controllers
             _roleManager = roleManager;
         }
 
-        [HttpGet("")]
+        [Route("Index")]
         public async Task<IActionResult> Index()
         {
             return View(await _dataContext.Roles.OrderByDescending(p => p.Id).ToListAsync());
         }
 
-        [HttpGet("Create")]
+        [HttpGet]
+        [Route("Create")]
         public IActionResult Create()
         {
+
             return View();
         }
 
-        [HttpGet("Edit")]
+        [HttpGet]
+        [Route("Edit")]
         public async Task<IActionResult> Edit(string id)
         {
             if (string.IsNullOrEmpty(id))
@@ -80,9 +81,8 @@ namespace Webshopping.Areas.Admin.Controllers
             }
             return View(model ?? new IdentityRole { Id = id });
         }
-
-        //GET: admin/brand/create
-        [HttpPost("Create")]
+        [HttpPost]
+        [Route("Create")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(IdentityRole model)
         {

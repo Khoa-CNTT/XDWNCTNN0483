@@ -87,13 +87,16 @@
                                 </li>
                                 @if (User.Identity?.IsAuthenticated ?? false)
                                 {
-                                    <li>
-                                        <a>
-                                            <a asp-action="History" asp-controller="Account">
-                                                <i class="fa fa-user"></i>
-                                                Tài khoản
-                                            </a>
+                                    <li class="nav-dropdown">
+                                        <a asp-controller="Home" asp-action="Index" class="nav-link">
+                                            Tài Khoản <i class="fa fa-angle-down"></i>
+                                        </a>
+                                        <ul role="menu" class="dropdown-menu">
+                                            <li><a asp-controller="Account" asp-action="History" class="dropdown-item">Lịch sử đơn hàng</a></li>
+                                            <li><a asp-controller="Account" asp-action="History" class="dropdown-item">Tài khoản cá nhân</a></li>
+                                        </ul>
                                     </li>
+
                                     <li>
                                         <a asp-action="Wishlist" asp-controller="Home">
                                             <i class="fa fa-heart"></i>Yêu thích
@@ -127,7 +130,6 @@
                                     <li><a asp-controller="Account" asp-action="Login"><i class="fa fa-lock"></i>Login</a>
                                     </li>
                                 }
-
                             </ul>
                         </div>
                     </div>
@@ -162,7 +164,6 @@
                                         <li><a asp-controller="Cart" asp-action="Checkout">Thanh toán</a></li>
                                         <li><a asp-controller="Cart">giỏ hàng</a></li>
                                         @if (User.Identity?.IsAuthenticated ?? false)
-                                        
                                         {
                                             <li>
                                                 <a asp-action="Logout" method="post" asp-controller="Account">
@@ -263,12 +264,12 @@
     <!-- Chatbox Container -->
     <div id="gemini-chatbox">
         <div id="chatbox-header">
-            <span>Wellness Bot</span>
+            <span>Perfume Bot</span>
             <button id="chatbox-close-btn">×</button>
         </div>
         <div id="chatbox-messages">
             <!-- Tin nhắn sẽ được thêm vào đây bằng JavaScript -->
-            <div class="message bot-message">Welcome to Wellness & Lifestyle! Tôi có thể giúp gì cho bạn?</div>
+            <div class="message bot-message">Welcome to Myperfume! Tôi có thể giúp gì cho bạn?</div>
         </div>
         <div id="chatbox-input-area">
             <input type="text" id="chatbox-input" placeholder="Nhập câu hỏi của bạn...">
