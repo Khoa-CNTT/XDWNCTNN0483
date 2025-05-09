@@ -1,9 +1,11 @@
 ﻿@using Webshopping.Models.ViewModel
+
 @model CartItemViewModel
+
 <h3>Giỏ hàng</h3>
 <section id="cart_items">
 	<div class="container">
-		
+
 		<div class="table-responsive cart_info">
 			<table class="table table-condensed">
 				<thead>
@@ -21,46 +23,46 @@
 					{
 						@foreach (var item in Model.CartItems)
 						{
-							<tr>
-								<td class="cart_product">
-									<a href="">
-										<img src="~/img/@item.Image" alt="@item.ProductName" width="30%" />
-									</a>
-								</td>
+					<tr>
+						<td class="cart_product">
+							<a href="">
+								<img src="~/img/@item.Image" alt="@item.ProductName" width="30%" />
+							</a>
+						</td>
 
-								<td class="cart_description">
-								<h4><a href="">@item.ProductName</a></h4>
-								</td>
+						<td class="cart_description">
+							<h4><a href="">@item.ProductName</a></h4>
+						</td>
 
-								<td class="cart_price">
-									<p>@item.Price.ToString("#,##0 VNĐ")</p>
-								</td>
+						<td class="cart_price">
+							<p>@item.Price.ToString("#,##0 VNĐ")</p>
+						</td>
 
-								<td>
-									<a class="btn btn-default btn-sn" asp-controller="Cart" asp-action="Increase"
-										asp-route-id="@item.ProductId"> + </a>
-									<input class="cart_quantity_input" type="text" name="quantity" value="@item.Quantity"
-										autocomplete="off" size="2">
+						<td>
+							<a class="btn btn-default btn-sn" asp-controller="Cart" asp-action="Increase"
+								asp-route-id="@item.ProductId"> + </a>
+							<input class="cart_quantity_input" type="text" name="quantity" value="@item.Quantity"
+								autocomplete="off" size="2">
 
-									<a class="btn btn-success btn-sn" asp-controller="Cart" asp-action="Decrease"
-										asp-route-id="@item.ProductId"> - </a>
+							<a class="btn btn-success btn-sn" asp-controller="Cart" asp-action="Decrease"
+								asp-route-id="@item.ProductId"> - </a>
 
-									<a class="btn btn-danger btn-sn" asp-controller="Cart" asp-action="Remove"
-										asp-route-id="@item.ProductId">
-										Xóa
-									</a>
-								</td>
+							<a class="btn btn-danger btn-sn" asp-controller="Cart" asp-action="Remove"
+								asp-route-id="@item.ProductId">
+								Xóa
+							</a>
+						</td>
 
-								<td class="cart_total">
-									<p class="cart_total_price">
-										@Model.CartItems.Where(x => x.ProductId == item.ProductId).Sum(x
-																			=> x.Quantity * x.Price).ToString("#,##0 VNĐ")
-									</p>
-								</td>
+						<td class="cart_total">
+							<p class="cart_total_price">
+								@Model.CartItems.Where(x => x.ProductId == item.ProductId).Sum(x
+																=> x.Quantity* x.Price).ToString("#,##0 VNĐ")
+							</p>
+						</td>
 
 
 							</tr>
-						}
+										}
 
 						<tr>
 							<td rowspan="5">
