@@ -10,12 +10,12 @@
 <!DOCTYPE html>
 
 <html>
-
+    
 <head>
     <meta name="viewport" content="width=device-width" />
 
 </head>
-
+    
 <body>
     <h3>Danh sách đơn hàng của @ViewBag.UserEmail</h3>
 
@@ -73,8 +73,9 @@
                         @if (item.Status != 3) // Kiểm tra nếu đơn hàng chưa bị hủy
                         {
                             <a onclick="return confirm('Bạn xác nhận muốn hủy?')" class="btn btn-danger btn-sm"
-                                asp-action="CancelOrder" asp-controller="Account" asp-route-ordercode="@item.OrderCode">Hủy đơn
-                                hàng</a>
+                                asp-action="CancelOrder" asp-controller="Account" asp-route-ordercode="@item.OrderCode">
+                                Hủy đơn hàng
+                            </a>
                         }
                         else
                         {
