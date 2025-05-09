@@ -6,27 +6,29 @@ using Webshopping.Repository;
 
 namespace Webshopping.Areas.Admin.Controllers
 {
-    [Area("Admin")]
-    [Route("admin/")]
+	[Area("Admin")]
+	[Route("admin/order/")]
 	[Authorize(Roles = "Publisher,Author,Admin")]
 	public class OrderController : Controller
-    {
-        private readonly DataContext _dataContext;
-        public OrderController(DataContext context)
-        {
-            _dataContext = context;
-        }
+	{
+		private readonly DataContext _dataContext;
 
-        [HttpGet("Order")]
-        public async Task<IActionResult> Index()
-        {
-            return View(await _dataContext.Orders.OrderByDescending(p => p.Id).ToListAsync());
-        }
-        [HttpGet("View")]
-        public async Task<IActionResult> ViewOrder(string ordercode)
-        {
-            var DetailsOrder = await _dataContext.OrderDetails.Include(od => od.Product)
-                .Where(od => od.OrderCode == ordercode).ToListAsync();
+		public OrderController(DataContext context)
+		{
+			_dataContext = context;
+		}
+
+		[HttpGet("")]
+		public async Task<IActionResult> Index()
+		{
+			return View(await _dataContext.Orders.OrderByDescending(p => p.Id).ToListAsync());
+		}
+
+		[HttpGet("view")]
+		public async Task<IActionResult> ViewOrder(string ordercode)
+		{
+			var DetailsOrder = await _dataContext.OrderDetails.Include(od => od.Product)
+				.Where(od => od.OrderCode == ordercode).ToListAsync();
 
 			var Order = await _dataContext.Orders.FirstOrDefaultAsync(o => o.OrderCode == ordercode);
 
@@ -40,6 +42,7 @@ namespace Webshopping.Areas.Admin.Controllers
 
 			return View(DetailsOrder);
 		}
+
 		[HttpGet("PaymentVnpayInfo")]
 		public async Task<IActionResult> PaymentVnpayInfo(string orderId)
 		{

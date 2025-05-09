@@ -50,7 +50,7 @@ namespace Webshopping.Areas.Admin.Controllers
             return View(role);
         }
 
-        [HttpPost("Edit")]
+        [HttpPost("edit")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, IdentityRole model)
         {
@@ -90,22 +90,24 @@ namespace Webshopping.Areas.Admin.Controllers
             {
                 _roleManager.CreateAsync(new IdentityRole(model.Name)).GetAwaiter().GetResult();
             }
-            return Redirect("Index");
+            return RedirectToAction("Index");
         }
 
-        [HttpPost("Delete")]
+        [HttpPost("delete")]
         public async Task<IActionResult> Delete(string id)
         {
             if (string.IsNullOrEmpty(id))
             {
                 return NotFound();
             }
+
             var role = await _roleManager.FindByIdAsync(id);
             if (role == null)
             {
                 return NotFound();
             }
-            // không có thông  báo
+
+            // không có thông báo
             try
             {
                 await _roleManager.DeleteAsync(role);
@@ -115,7 +117,8 @@ namespace Webshopping.Areas.Admin.Controllers
             {
                 ModelState.AddModelError("", "Xóa không thành công");
             }
-            return Redirect("Index");
+
+            return RedirectToAction("Index");
         }
 
     }

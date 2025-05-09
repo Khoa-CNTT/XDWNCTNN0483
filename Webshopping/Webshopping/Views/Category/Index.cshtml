@@ -21,25 +21,34 @@
                                 <p>Thương hiệu: @item.Brand.Name</p>
                                 @if (@item.Quantity > 0)
                                 {
-                                    <a asp-action="Add" asp-controller="Cart" asp-route-Id="@item.Id" class="btn btn-default add-to-cart">
-                                        <i class="fa fa-shopping-cart"></i>Thêm giỏ hàng</a>
+                                    <a asp-action="Add" asp-controller="Cart" asp-route-Id="@item.Id"
+                                        class="btn btn-default add-to-cart">
+                                        <i class="fa fa-shopping-cart"></i>
+                                        Thêm giỏ hàng
+                                    </a>
                                 }
                                 else
                                 {
                                     <Button class="btn btn-default"><i class="fa fa-shopping-cart"></i>hết hàng</Button>
                                 }
-                                
+
                             </div>
                         </div>
                     </a>
                     <div class="choose">
-                        @if (User.Identity?.IsAuthenticated ?? false)
-                        {
-                            <ul class="nav nav-pills nav-justified">
-                                 <li style="text-align: center;"><button class="btn btn-danger add-btn-wishlist" data-product_id="@item.Id">Yêu thích</button></li>
-                                <li style="text-align: center;"><button class="btn btn-primary add-btn-compare" data-product_id="@item.Id">So sánh</button></li>
-                            </ul>
-                        }
+                        <ul class="nav nav-pills nav-justified">
+                            <li style="text-align: center;">
+                                <button class="btn btn-danger add-btn-wishlist" data-product_id="@item.Id">
+                                    Yêu thích
+                                </button>
+                            </li>
+                            <li style="text-align: center;">
+                                <button style="margin: 16px;" class="btn btn-primary add-btn-compare"
+                                    data-product_id="@item.Id">
+                                    So sánh
+                                </button>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>

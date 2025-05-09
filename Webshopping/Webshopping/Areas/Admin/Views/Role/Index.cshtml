@@ -32,11 +32,11 @@
             <th scope="col">Thao tác</th>
         </tr>
     </thead>
-    <tbody id="categoryTableBody">
+    <tbody id="tableBody">
         @foreach (var item in Model)
         {
             <tr>
-                <td>@item.Id</td>
+                <td class="index-col"></td>
                 <td>@item.Name</td>
                 <td>@item.NormalizedName</td>
 
@@ -57,7 +57,7 @@
 @section Scripts {
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            const rows = document.querySelectorAll("#categoryTableBody tr");
+            const rows = document.querySelectorAll("#tableBody tr");
             rows.forEach((row, index) => {
                 const indexCell = row.querySelector(".index-col");
                 if (indexCell) {

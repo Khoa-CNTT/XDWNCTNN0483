@@ -7,7 +7,7 @@ using Webshopping.Repository;
 namespace Webshopping.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Route("Admin/Coupon")]
+    [Route("admin/coupon")]
     [Authorize(Roles = "Admin")]
     public class CouponController : Controller
     {
@@ -25,9 +25,8 @@ namespace Webshopping.Areas.Admin.Controllers
             ViewBag.Coupons = coupon_list;
             return View();
         }
-        
-    
-    [Route("Add")]
+
+        [Route("Add")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Add(CouponModel coupon)
@@ -59,6 +58,5 @@ namespace Webshopping.Areas.Admin.Controllers
             }
             return View();
         }
-       
     }
 }
