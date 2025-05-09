@@ -8,7 +8,7 @@ using Webshopping.Repository;
 
 [Area("Admin")]
 [Route("admin/shipping/")]
-// [Authorize]
+[Authorize(Roles = "Admin")]
 public class ShippingController : Controller
 {
     private readonly DataContext _dataContext;

@@ -4,15 +4,15 @@
     ViewData["title"] = "Edit Role";
 }
 
-<h3>Sửa Role</h3>
+<h3>Chỉnh sửa vai trò</h3>
 
 <div class="col-md-9">
     <form asp-action="Edit" enctype="multipart/form-data">
         <input type="hidden" asp-for="Id" />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-		
+
         <div class="form-group">
-            <label>Name</label>
+            <label>Tên vai trò</label>
             <input asp-for="Name" class="form-control" />
             <span asp-validation-for="Name" class="text-danger"></span>
         </div>
@@ -20,7 +20,7 @@
             <button class="btn btn-primary">Cập nhật</button>
         </div>
     </form>
-    <a asp-action="Index">Trở về lại trang Role</a>
+    <a asp-action="Index">Trở về</a>
 </div>
 @section Scripts {
     @{

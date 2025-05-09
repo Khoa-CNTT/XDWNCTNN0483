@@ -14,7 +14,7 @@
 			<!--product-details-->
 			<div class="col-sm-5">
 				<div class="view-product">
-					<img src="~/media/products/@Model.ProductDetails.Img" alt="" width="100px" height="200px" />
+					<img src="~/img/@Model.ProductDetails.Img" alt="" width="100px" height="200px" />
 					<h3>ZOOM</h3>
 				</div>
 				<div id="similar-product" class="carousel slide" data-ride="carousel">
@@ -36,7 +36,6 @@
 						<i class="fa fa-angle-right"></i>
 					</a>
 				</div>
-
 			</div>
 			<div class="col-sm-7">
 				<div class="product-information">
@@ -74,9 +73,9 @@
 			<!--category-tab-->
 			<div class="col-sm-12">
 				<ul class="nav nav-tabs">
-					<li><a href="#details" data-toggle="tab">Details</a></li>
-					<li><a href="#companyprofile" data-toggle="tab">Company Profile</a></li>
-					<li><a href="#tag" data-toggle="tab">Tag</a></li>
+					<li><a href="#details" data-toggle="tab">Chi tiết</a></li>
+					<li><a href="#companyprofile" data-toggle="tab">Thông tin</a></li>
+					<li><a href="#tag" data-toggle="tab">Thẻ</a></li>
 					<li class="active"><a href="#reviews" data-toggle="tab">Đánh giá (5)</a></li>
 				</ul>
 			</div>
@@ -90,11 +89,8 @@
 					else
 					{
 						<p>Không có mô tả cho sản phẩm này.</p>
-					}
-
-					
+					}	
 				</div>
-
 				<div class="tab-pane fade" id="companyprofile">
 					 @foreach (var relatedProduct in ViewBag.RelatedProducts as IEnumerable<ProductModel>)
     {
@@ -102,16 +98,16 @@
 						<div class="product-image-wrapper">
 							<div class="single-products">
 								<div class="productinfo text-center">
-									<img src="images/home/gallery1.jpg" alt="" />
-									<h2>$56</h2>
-									<p>Easy Polo Black Edition</p>
+									<img src="~/img/@Model.ProductDetails.Img" alt="" />
+									<h2>@Model.ProductDetails.CapitalPrice</h2>
+									<p>@Model.ProductDetails.Name</p>
 									<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
 								</div>
 							</div>
 						</div>
 					</div>
 	}
-					
+@* 					
 
 				</div>
 
@@ -164,7 +160,7 @@
 							</div>
 						</div>
 					</div>
-				</div>
+				</div> *@
 
 				<div class="tab-pane fade active in" id="reviews">
 					<div class="col-sm-12">
@@ -173,7 +169,6 @@
 							<li><a href=""><i class="fa fa-clock-o"></i>12:41 PM</a></li>
 							<li><a href=""><i class="fa fa-calendar-o"></i>04/2025</a></li>
 						</ul>
-						<p>Có thể viết gì cũng đươc</p>
 						<p><b>Hãy viết đánh giá</b></p>
 
 						
@@ -210,7 +205,7 @@
 
 		<div class="recommended_items">
 			<!--recommended_items-->
-			<h2 class="title text-center">Related Products</h2>
+			<h2 class="title text-center">Gợi ý sản phẩm</h2>
 
 			<div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
 				<div class="carousel-inner">
@@ -231,12 +226,8 @@
 												<p>Danh mục: @relatedProduct.Category.Name</p>
 												<p>Thương hiệu: @relatedProduct.Brand.Name</p>
 											</a>
-											
 										</div>
-
-
 									</div>
-									
 								</div>
 						</div>
 	}
@@ -251,9 +242,7 @@
 					<i class="fa fa-angle-right"></i>
 				</a>
 			</div>
-
 		</div><!--/recommended_items-->
-
 	</div>
 </div>
 @section Scripts {

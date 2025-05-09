@@ -9,40 +9,42 @@ namespace Webshopping.Areas.Admin.Controllers
 {
 	[Area("Admin")]
 	[Route("admin/contact/")]
-	[Authorize]
+	[Authorize(Roles = "Publisher,Author,Admin")]
 	public class ContactController : Controller
 	{
 		private readonly DataContext _dataContext;
 		private readonly IWebHostEnvironment _webHostEnvironment;
 
-		public ContactController(DataContext dataContext,IWebHostEnvironment webHostEnvironment)
+		public ContactController(DataContext dataContext, IWebHostEnvironment webHostEnvironment)
 		{
 			_dataContext = dataContext;
 			_webHostEnvironment = webHostEnvironment;
-			
 		}
 
+		[HttpGet("")]
 		public IActionResult Index()
 		{
 			var contact = _dataContext.Contact.ToList();
 			return View(contact);
 		}
-		[HttpGet("Edit")]
+
+		[HttpGet("edit")]
 		public async Task<IActionResult> Edit()
 		{
-		
-			ContactModel contact =  _dataContext.Contact.FirstOrDefault();
+
+			ContactModel contact = _dataContext.Contact.FirstOrDefault();
 			if (contact == null)
 			{
 				return NotFound(); // Return 404 if the product is not found
 			}
 			return View(contact);
 		}
+
 		[HttpPost("edit")]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Edit(ContactModel contact)
 		{
-			var existingContact =_dataContext.Contact.FirstOrDefault();
+			var existingContact = _dataContext.Contact.FirstOrDefault();
 			if (existingContact == null)
 			{
 				return NotFound();
@@ -102,5 +104,3 @@ namespace Webshopping.Areas.Admin.Controllers
 	}
 
 }
-
-

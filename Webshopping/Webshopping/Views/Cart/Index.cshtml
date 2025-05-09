@@ -1,25 +1,20 @@
 ﻿@using Webshopping.Models.ViewModel
+
 @model CartItemViewModel
+
 <h3>Giỏ hàng</h3>
 <section id="cart_items">
 	<div class="container">
-		<div class="breadcrumbs">
-			<ol class="breadcrumb">
-				<li>
-					<a href="#">Home</a>
-				</li>
-				<li class="active">Shopping Cart</li>
-			</ol>
-		</div>
+
 		<div class="table-responsive cart_info">
 			<table class="table table-condensed">
 				<thead>
 					<tr class="cart_menu">
-						<td class="image">Item</td>
-						<td class="description"></td>
-						<td class="price">Price</td>
-						<td class="quantity">Quantity</td>
-						<td class="total">Total</td>
+						<td class="image">Hình ảnh</td>
+						<td class="description">Tên sản phẩm</td>
+						<td class="price">Đơn Giá</td>
+						<td class="quantity">Số lượng</td>
+						<td class="total">Số tiền</td>
 						<td></td>
 					</tr>
 				</thead>
@@ -31,7 +26,7 @@
 					<tr>
 						<td class="cart_product">
 							<a href="">
-								<img src="~images/@item.Image" alt="">
+								<img src="~/img/@item.Image" alt="@item.ProductName" width="30%" />
 							</a>
 						</td>
 
@@ -40,7 +35,7 @@
 						</td>
 
 						<td class="cart_price">
-							<p>@item.Price</p>
+							<p>@item.Price.ToString("#,##0 VNĐ")</p>
 						</td>
 
 						<td>
@@ -54,36 +49,35 @@
 
 							<a class="btn btn-danger btn-sn" asp-controller="Cart" asp-action="Remove"
 								asp-route-id="@item.ProductId">
-								Remove
+								Xóa
 							</a>
 						</td>
 
 						<td class="cart_total">
 							<p class="cart_total_price">
 								@Model.CartItems.Where(x => x.ProductId == item.ProductId).Sum(x
-																=> x.Quantity* x.Price).ToString()
+																=> x.Quantity* x.Price).ToString("#,##0 VNĐ")
 							</p>
 						</td>
 
-								<td class="cart_delete">
-									<a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
-								</td>
+
 							</tr>
 										}
 
 						<tr>
 							<td rowspan="5">
-								Grand Total: <p class="cart_total_price">@Model.GrandTotal.ToString("#,##0 đ")</p>
+								Tổng cộng: <p class="cart_total_price">@Model.GrandTotal.ToString("#,##0 VNĐ")</p>
 								<form>
-									Coupon Code:
-									<input type="text" class="form-control coupon-value" /><span class="text text-success">@Model.CouponCode</span> <br />
+									Mã khuyến mãi:
+									<input type="text" class="form-control coupon-value" /><span
+										class="text text-success">@Model.CouponCode</span> <br />
 
 									<input type="button" value="Apply" class="btn btn-sm btn-primary btn-apply-coupon" />
 								</form>
 
-								Ship cost:
+								Giá ship:
 								<p class="cart_total_price">
-									@Model.ShippingPrice.ToString("#,##0 đ")
+									@Model.ShippingPrice.ToString("#,##0 VNĐ")
 								</p>
 
 								@if (@Model.ShippingPrice > 0)
@@ -92,25 +86,22 @@
 								}
 
 								<div class="form-group">
-									<label>Tỉnh thành phố</label>
-									<select class="css_select" id="tinh" name="tinh" class="form-control"
-										title="Chọn Tỉnh Thành">
+									<label>Tỉnh thành</label>
+									<select class="form-control select2" id="tinh" name="tinh" title="Chọn Tỉnh Thành">
 										<option value="0">Tỉnh Thành</option>
 									</select>
 								</div>
 
 								<div class="form-group">
 									<label>Quận huyện</label>
-									<select class="css_select" id="quan" name="quan" class="form-control"
-										title="Chọn Quận Huyện">
+									<select class="form-control select2" id="quan" name="quan" title="Chọn Quận Huyện">
 										<option value="0">Quận Huyện</option>
 									</select>
 								</div>
 
 								<div class="form-group">
 									<label>Phường Xã</label>
-									<select class="css_select" id="phuong" name="phuong" class="form-control"
-										title="Chọn Phường Xã">
+									<select class="form-control select2" id="phuong" name="phuong" title="Chọn Phường Xã">
 										<option value="0">Phường Xã</option>
 									</select>
 								</div>
@@ -146,17 +137,17 @@
 										<input type="hidden" name="Amount" value="@Model.GrandTotal" />
 										<input type="hidden" name="OrderInfo" value="Thanh toán qua Momo Payment" />
 
-										<button class="btn btn-danger" name="PayUrl" type="submit">Pay with MoMo</button>
+										<button class="btn btn-danger" name="PayUrl" type="submit">Thanh toán qua MoMo</button>
 									</form>
 									<form method="POST" asp-action="CreatePaymentUrlVnpay" asp-controller="Payment">
 
 										<input type="hidden" name="Name" value="@User.Identity.Name" />
 										<input type="hidden" name="Amount" value="@Model.GrandTotal" />
 										<input type="hidden" name="OrderDescription"
-											value="Thanh toán qua Vnpay tại HieuTanStore" />
+											value="Đã thanh toán qua Vnpay tại Thong_Shopping" />
 										<input type="hidden" name="OrderType" value="other" />
 
-										<button class="btn btn-success" type="submit">Pay with Vnpay</button>
+										<button class="btn btn-success" type="submit">Thanh toán qua Vnpay</button>
 									</form>
 
 								</td>
@@ -173,7 +164,7 @@
 					{
 						<tr>
 							<td colspan="5">
-								<h4>Your cart is Empty</h4>
+								<h4>Giỏ hàng đang trống</h4>
 							</td>
 						</tr>
 					}
@@ -185,30 +176,38 @@
 
 @section Scripts {
 	<script>
-            $(".btn-apply-coupon").click(function () {
-                var couponCode = $(".coupon-value").val();
-                // alert(couponCode);
-                if (couponCode == '') {
-                    Swal.fire("Làm ơn không bỏ trống.");
-                } else {
-                    $.ajax({
-                        type: "POST",
-                        url: "@Url.Action("GetCoupon", "Cart")",
-                        data: { coupon_value: coupon_value }, // Send data to the server
-                        success: function (result) {
-                            // Handle successful update
-                            if (result.success) {
-                                    Swal.fire("Thêm mã giảm giá thành công.");
-                                        location.reload();
-                            }else{
-                                    Swal.fire("Mã giảm giá không hợp lệ.");
-							}
-                        }
-                    });
-                }
-            })
-	<script>
+		$(".btn-apply-coupon").click(function () {
+			var couponCode = $(".coupon-value").val();
+			// alert(couponCode);
+			if (couponCode == '') {
+				Swal.fire("Làm ơn không bỏ trống.");
+			} else {
+				$.ajax({
+					type: "POST",
+					url: "@Url.Action("GetCoupon", "Cart")",
+					data: { coupon_value: coupon_value }, // Send data to the server
+					success: function (result) {
+						// Handle successful update
+						if (result.success) {
+							Swal.fire("Thêm mã giảm giá thành công.");
+							location.reload();
+						} else {
+							Swal.fire("Mã giảm giá không hợp lệ.");
+						}
+					}
+				});
+			}
+		})
+
 		$(document).ready(function () {
+
+			// Khởi tạo Select2 cho các dropdown
+			$('.select2').select2({
+				placeholder: "Chọn...",
+				allowClear: true,
+				width: '100%'
+			});
+
 			$(".btn-add-shipping").click(function () {
 				var tinh = $("#tinh").find('option:selected').text();
 				var quan = $("#quan").find('option:selected').text();

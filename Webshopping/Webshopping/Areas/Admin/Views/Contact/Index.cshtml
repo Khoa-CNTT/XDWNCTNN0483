@@ -1,4 +1,5 @@
-﻿@model IEnumerable<ContactModel>
+@using Webshopping.Models;
+@model IEnumerable<ContactModel>
 
 @{
     ViewData["title"] = "Contact Info";
@@ -48,10 +49,10 @@
                 <td>@item.Phone</td>
 
                 <td>
-                    <a asp-action="Edit" asp-controller="contact"  class="btn btn-sm btn-warning">
+                    <a asp-action="Edit" asp-controller="contact" class="btn btn-sm btn-warning">
                         Sửa
                     </a>
-                    
+
                 </td>
             </tr>
         }

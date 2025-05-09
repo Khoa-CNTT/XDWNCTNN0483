@@ -1,4 +1,6 @@
-﻿@model CouponModel
+﻿@using Webshopping.Models;
+
+@model CouponModel
 @{
     ViewData["title"] = "Create Coupon";
 }
@@ -49,13 +51,13 @@
     <table class="table table-striped" id="myTable">
         <thead>
             <tr>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Date Started</th>
-                <th>Date Expired</th>
-                <th>Quantity</th>
-                <th>Active</th>
-                <th>Status</th>
+                <th>Mã giảm giá</th>
+                <th>Mô tả</th>
+                <th>Ngày bắt đầu</th>
+                <th>Thời hạn</th>
+                <th>Số lượng</th>
+                <th>Thao tác</th>
+                <th>Trạng thái</th>
             </tr>
         </thead>
         <tbody>
@@ -63,9 +65,9 @@
             {
                 <tr>
                     <td>@coupon.Name</td>
-                    <td>@coupon.Description</td>
+                    <td>@coupon.description</td>
                     <td>@coupon.DateStart.ToString("dd-MM-yyyy")</td>
-                    <td>@coupon.DateExpired.ToString("dd-MM-yyyy")</td>
+                    <td>@coupon.DateExpire.ToString("dd-MM-yyyy")</td>
                     <td>@coupon.Quantity</td>
                     <td>
                         @if (@coupon.Status == 1)
@@ -86,21 +88,21 @@
                     </td>
 
                     <td>
-                        @if (coupon.DateExpired < DateTime.Now)
+                        @if (coupon.DateExpire < DateTime.Now)
                         {
                             <span class="text text-danger">Expired</span>
                         }
                         else
                         {
-                            TimeSpan remainingTime = coupon.DateExpired - DateTime.Now;
+                            TimeSpan remainingTime = coupon.DateExpire - DateTime.Now;
                             int daysRemaining = remainingTime.Days;
                             @if (daysRemaining == 0)
                             {
-                                <span class="text text-danger">Today</span>
+                                <span class="text text-danger">Hôm nay</span>
                             }
                             else
                             {
-                                <span class="text text-success">@daysRemaining days left</span>
+                                <span class="text text-success">@daysRemaining Ngày còn lại</span>
                             }
 
                         }
@@ -110,7 +112,7 @@
         </tbody>
     </table>
 
-   
+
 </div>
 @section Scripts {
     @{

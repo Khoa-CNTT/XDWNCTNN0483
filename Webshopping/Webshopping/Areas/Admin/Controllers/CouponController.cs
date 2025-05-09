@@ -7,9 +7,8 @@ using Webshopping.Repository;
 namespace Webshopping.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Route("Admin/Coupon")]
+    [Route("admin/coupon")]
     [Authorize(Roles = "Admin")]
-
     public class CouponController : Controller
     {
         private readonly DataContext _dataContext;
@@ -17,18 +16,20 @@ namespace Webshopping.Areas.Admin.Controllers
         {
             _dataContext = context;
         }
+
+        [HttpGet("")]
+        [HttpGet("Index")]
         public async Task<IActionResult> Index()
         {
             var coupon_list = await _dataContext.Coupons.ToListAsync();
             ViewBag.Coupons = coupon_list;
             return View();
         }
-        
-    
-    [Route("Create")]
+
+        [Route("Add")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CouponModel coupon)
+        public async Task<IActionResult> Add(CouponModel coupon)
         {
 
 
@@ -57,6 +58,5 @@ namespace Webshopping.Areas.Admin.Controllers
             }
             return View();
         }
-       
     }
 }

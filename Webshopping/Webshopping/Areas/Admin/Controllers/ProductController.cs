@@ -13,7 +13,7 @@ using Webshopping.Models;
 using Webshopping.Repository;
 
 [Area("Admin")]
-[Authorize]
+[Authorize(Roles = "Admin")]
 [Route("admin/product/")]
 public class ProductController : Controller
 {
@@ -139,23 +139,36 @@ public class ProductController : Controller
             return NotFound();
         }
 
+        // Gán lại SelectList
         ViewBag.Categories = new SelectList(_dataContext.Categories, "Id", "Name", model.CategoryID);
         ViewBag.Brands = new SelectList(_dataContext.Brands, "Id", "Name", model.BrandID);
 
-        // Tạo slug từ tên sản phẩm
-        model.Slug = SlugGenerate.GenerateSlug(model.Name);
-
-        // Kiểm tra trùng Slug (nhưng không tính sản phẩm hiện tại)
-        var slugExists = await _dataContext.Products
-            .AnyAsync(p => p.Slug == model.Slug && p.Id != id);
-        if (slugExists)
+        // Nếu tên sản phẩm bị thay đổi, mới generate lại Slug và kiểm tra trùng
+        if (!string.Equals(existingProduct.Name, model.Name, StringComparison.OrdinalIgnoreCase))
         {
-            ModelState.AddModelError("Slug", "Tên sản phẩm đã tồn tại trong hệ thống (trùng Slug).");
-            return View(model);
+            model.Slug = SlugGenerate.GenerateSlug(model.Name);
+
+            var slugExists = await _dataContext.Products
+                .AnyAsync(p => p.Slug == model.Slug && p.Id != id);
+
+            if (slugExists)
+            {
+                ModelState.AddModelError("Slug", "Tên sản phẩm đã tồn tại trong hệ thống (trùng Slug).");
+                return View(model);
+            }
+
+            existingProduct.Slug = model.Slug;
         }
 
-        // Nếu có ảnh mới được upload
-        if (model.ImageUpload != null)
+        // Cập nhật các trường khác
+        existingProduct.Name = model.Name;
+        existingProduct.Description = model.Description;
+        existingProduct.Price = model.Price;
+        existingProduct.BrandID = model.BrandID;
+        existingProduct.CategoryID = model.CategoryID;
+
+        // Xử lý ảnh
+        if (model.ImageUpload != null && model.ImageUpload.Length > 0)
         {
             var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
             var fileExtension = Path.GetExtension(model.ImageUpload.FileName).ToLower();
@@ -167,15 +180,13 @@ public class ProductController : Controller
             }
 
             var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img");
-            if (!Directory.Exists(uploadsFolder))
-            {
-                Directory.CreateDirectory(uploadsFolder);
-            }
+            Directory.CreateDirectory(uploadsFolder);
 
             var random = new Random();
-            var fileName = $"img{random.Next(1000, 9999)}{fileExtension}";
-            var filePath = Path.Combine(uploadsFolder, fileName);
+            var randomNumber = random.Next(1, 9999);  // Sinh số ngẫu nhiên từ 1000 đến 9999
+            var fileName = $"img{randomNumber}{fileExtension}"; // Tên tệp mới là img{random số}{extension}
 
+            var filePath = Path.Combine(uploadsFolder, fileName);
             using (var stream = new FileStream(filePath, FileMode.Create))
             {
                 await model.ImageUpload.CopyToAsync(stream);
@@ -183,21 +194,10 @@ public class ProductController : Controller
 
             existingProduct.Img = fileName;
         }
-
-        // Nếu không upload ảnh, giữ ảnh cũ
-        // Nếu chưa có ảnh (Img rỗng), gán mặc định
-        if (string.IsNullOrEmpty(existingProduct.Img))
+        else if (string.IsNullOrEmpty(existingProduct.Img))
         {
-            existingProduct.Img = "1.jpg";
+            existingProduct.Img = "default.png";
         }
-
-        // Cập nhật các trường thông tin
-        existingProduct.Name = model.Name;
-        existingProduct.Description = model.Description;
-        existingProduct.Price = model.Price;
-        existingProduct.Slug = model.Slug;
-        existingProduct.BrandID = model.BrandID;
-        existingProduct.CategoryID = model.CategoryID;
 
         _dataContext.Products.Update(existingProduct);
         await _dataContext.SaveChangesAsync();

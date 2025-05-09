@@ -1,3 +1,5 @@
+@using Webshopping.Models;
+
 @model IEnumerable<CategoryModel>
 
 @{
@@ -27,19 +29,19 @@
 </head>
 
 <body>
-    <h3>List Category</h3>
+    <h3>Danh MụcMục</h3>
 
     <a class="btn btn-primary" asp-action="Create" asp-controller="Category">Add Category</a>
 
     <table class="table" id="myTable">
         <thead>
             <tr>
-                <th>#</th>
-                <th>Category Name</th>
-                <th>Category Description</th>
-                <th>Category Slug</th>
-                <th>Category Status</th>
-                <th>Action</th>
+                <th>ID</th>
+                <th>Tên danh mục</th>
+                <th>Mô tả</th>
+                <th>Slug danh mục</th>
+                <th>Trạng thái</th>
+                <th>Thao tác</th>
             </tr>
         </thead>
         <tbody>

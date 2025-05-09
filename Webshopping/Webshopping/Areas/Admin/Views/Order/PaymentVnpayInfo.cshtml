@@ -1,0 +1,34 @@
+﻿@using Webshopping.Models
+
+@model VnpayModel
+@{
+	ViewData["Title"] = "Thông tin thanh toán VnPay";
+}
+
+<body>
+	<h3>thanh toán vnpay</h3>
+
+	<table class="table" id="myTable">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Mô tả</th>
+				<th>Mã đơn hàng</th>
+				<th>Phương thức thanh toán</th>
+				<th>Mã thanh toán</th>
+				<th>Ngày tạo</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>@Model.TransactionId</td>
+				<td>@Model.OrderDescription</td>
+				<td>@Model.OrderId</td>
+				<td>@Model.PaymentMethod</td>
+				<td>@Model.PaymentId</td>
+				<td>@Model.DateCreated</td>
+			</tr>
+		</tbody>
+	</table>
+	<a class="btn btn-danger btn-sm" asp-action="Index" asp-controller="Order">Trở về trang đơn hàng</a>
+</body>

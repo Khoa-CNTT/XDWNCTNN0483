@@ -6,103 +6,101 @@ using Webshopping.Repository;
 
 namespace Webshopping.Areas.Admin.Controllers
 {
-    [Area("Admin")]
-    [Route("admin/order/")]
-    public class OrderController : Controller
-    {
-        private readonly DataContext _dataContext;
-        public OrderController(DataContext context)
-        {
-            _dataContext = context;
-        }
+	[Area("Admin")]
+	[Route("admin/order/")]
+	[Authorize(Roles = "Publisher,Author,Admin")]
+	public class OrderController : Controller
+	{
+		private readonly DataContext _dataContext;
 
-        // GET: admin/order/
-        [HttpGet("")]
-        public async Task<IActionResult> Index()
-        {
-            var orderDetails = await _dataContext.OrderDetails
-                            .Include(od => od.Product)
-                            .ToListAsync();
+		public OrderController(DataContext context)
+		{
+			_dataContext = context;
+		}
 
-            // Nếu bạn cần thêm thông tin như shipping cost hay status, gán ViewBag ở đây
-            ViewBag.ShippingCost = 20000;
-            ViewBag.Status = 1;
+		[HttpGet("")]
+		public async Task<IActionResult> Index()
+		{
+			return View(await _dataContext.Orders.OrderByDescending(p => p.Id).ToListAsync());
+		}
 
-            return View(orderDetails);
-        }
+		[HttpGet("view")]
+		public async Task<IActionResult> ViewOrder(string ordercode)
+		{
+			var DetailsOrder = await _dataContext.OrderDetails.Include(od => od.Product)
+				.Where(od => od.OrderCode == ordercode).ToListAsync();
 
-        [HttpGet("view/{ordercode}")]
-        public async Task<IActionResult> ViewOrder(string ordercode)
-        {
-            if (string.IsNullOrEmpty(ordercode))
-            {
-                return BadRequest("Mã đơn hàng không hợp lệ.");
-            }
+			var Order = await _dataContext.Orders.FirstOrDefaultAsync(o => o.OrderCode == ordercode);
 
-            var DetailsOrder = await _dataContext.OrderDetails
-                .Include(od => od.Product)
-                .Where(od => od.OrderCode == ordercode)
-                .ToListAsync();
+			if (Order == null)
+			{
+				return NotFound("Không tìm thấy đơn hàng.");
+			}
 
-            var Order = await _dataContext.Orders.FirstOrDefaultAsync(o => o.OrderCode == ordercode);
+			ViewBag.ShippingCost = Order.ShippingCost;
+			ViewBag.Status = Order.Status;
 
-            if (Order == null)
-            {
-                return NotFound("Không tìm thấy đơn hàng.");
-            }
+			return View(DetailsOrder);
+		}
 
-            ViewBag.ShippingCost = Order.ShippingCost;
-            ViewBag.Status = Order.Status;
+		[HttpGet("PaymentVnpayInfo")]
+		public async Task<IActionResult> PaymentVnpayInfo(string orderId)
+		{
+			var vnPayInfo = await _dataContext.VnInfos.FirstOrDefaultAsync(m => m.PaymentId == orderId);
+			if (vnPayInfo == null)
+			{
+				return NotFound();
+			}
+			return View(vnPayInfo);
+		}
 
-            return View(DetailsOrder);
-        }
+		[HttpPost]
+		[Route("UpdateOrder")]
+		public async Task<IActionResult> UpdateOrder(string ordercode, int status)
+		{
+			var order = await _dataContext.Orders.FirstOrDefaultAsync(o => o.OrderCode == ordercode);
 
-        [HttpPost]
-        [Route("UpdateOrder")]
-        public async Task<IActionResult> UpdateOrder(string ordercode, int status)
-        {
-            var order = await _dataContext.Orders.FirstOrDefaultAsync(o => o.OrderCode == ordercode);
+			if (order == null)
+			{
+				return NotFound();
+			}
 
-            if (order == null)
-            {
-                return NotFound();
-            }
+			order.Status = status;
 
-            order.Status = status;
+			try
+			{
+				await _dataContext.SaveChangesAsync();
+				return Ok(new { success = true, message = "Order status updated successfully" });
+			}
+			catch (Exception)
+			{
+				return StatusCode(500, "An error occurred while updating the order status.");
+			}
+		}
 
-            try
-            {
-                await _dataContext.SaveChangesAsync();
-                return Ok(new { success = true, message = "Order status updated successfully" });
-            }
-            catch (Exception)
-            {
-                return StatusCode(500, "An error occurred while updating the order status.");
-            }
-        }
+		[HttpGet]
+		[Route("Delete")]
+		public async Task<IActionResult> Delete(string ordercode)
+		{
+			var order = await _dataContext.Orders.FirstOrDefaultAsync(o => o.OrderCode == ordercode);
 
-        [HttpGet]
-        [Route("Delete")]
-        public async Task<IActionResult> Delete(string ordercode)
-        {
-            var order = await _dataContext.Orders.FirstOrDefaultAsync(o => o.OrderCode == ordercode);
+			if (order == null)
+			{
+				return NotFound();
+			}
+			try
+			{
+				//delete order
+				_dataContext.Orders.Remove(order);
+				await _dataContext.SaveChangesAsync();
 
-            if (order == null)
-            {
-                return NotFound();
-            }
-            try
-            {
-                //delete order
-                _dataContext.Orders.Remove(order);
-                await _dataContext.SaveChangesAsync();
+				return RedirectToAction("Index");
+			}
+			catch (Exception)
+			{
+				return StatusCode(500, "An error occurred while deleting the order.");
+			}
+		}
 
-                return RedirectToAction("Index");
-            }
-            catch (Exception)
-            {
-                return StatusCode(500, "An error occurred while deleting the order.");
-            }
-        }
-    }
+	}
 }

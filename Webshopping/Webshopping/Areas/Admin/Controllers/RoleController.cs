@@ -10,7 +10,9 @@ using Webshopping.Repository;
 namespace Webshopping.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Route("admin/Role")]
+
+    [Route("admin/role")]
+    [Authorize(Roles = "Admin")]
     public class RoleController : Controller
     {
         private readonly DataContext _dataContext;
@@ -21,17 +23,20 @@ namespace Webshopping.Areas.Admin.Controllers
             _dataContext = context;
             _roleManager = roleManager;
         }
-        [HttpGet("Index")]
+
+        [HttpGet("")]
         public async Task<IActionResult> Index()
         {
             return View(await _dataContext.Roles.OrderByDescending(p => p.Id).ToListAsync());
         }
-        [HttpGet("Create")]
+
+        [HttpGet("create")]
         public IActionResult Create()
         {
             return View();
         }
-        [HttpGet("Edit")]
+
+        [HttpGet("edit")]
         public async Task<IActionResult> Edit(string id)
         {
             if (string.IsNullOrEmpty(id))
@@ -41,7 +46,8 @@ namespace Webshopping.Areas.Admin.Controllers
             var role = await _roleManager.FindByIdAsync(id);
             return View(role);
         }
-        [HttpPost("Edit")]
+
+        [HttpPost("edit")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, IdentityRole model)
         {
@@ -72,8 +78,9 @@ namespace Webshopping.Areas.Admin.Controllers
             }
             return View(model ?? new IdentityRole { Id = id });
         }
+
         //GET: admin/brand/create
-        [HttpPost("Create")]
+        [HttpPost("create")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(IdentityRole model)
         {
@@ -81,21 +88,24 @@ namespace Webshopping.Areas.Admin.Controllers
             {
                 _roleManager.CreateAsync(new IdentityRole(model.Name)).GetAwaiter().GetResult();
             }
-            return Redirect("Index");
+            return RedirectToAction("Index");
         }
-        [HttpPost("Delete")]
+
+        [HttpPost("delete")]
         public async Task<IActionResult> Delete(string id)
         {
             if (string.IsNullOrEmpty(id))
             {
                 return NotFound();
             }
+
             var role = await _roleManager.FindByIdAsync(id);
             if (role == null)
             {
                 return NotFound();
             }
-            // không có thông  báo
+
+            // không có thông báo
             try
             {
                 await _roleManager.DeleteAsync(role);
@@ -105,7 +115,8 @@ namespace Webshopping.Areas.Admin.Controllers
             {
                 ModelState.AddModelError("", "Xóa không thành công");
             }
-            return Redirect("Index");
+
+            return RedirectToAction("Index");
         }
 
     }
