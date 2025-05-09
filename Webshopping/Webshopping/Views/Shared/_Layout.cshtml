@@ -87,13 +87,16 @@
                                 </li>
                                 @if (User.Identity?.IsAuthenticated ?? false)
                                 {
-                                    <li>
-                                        <a>
-                                            <a asp-action="History" asp-controller="Account">
-                                                <i class="fa fa-user"></i>
-                                                Tài khoản
-                                            </a>
+                                    <li class="nav-dropdown">
+                                        <a asp-controller="Home" asp-action="Index" class="nav-link">
+                                            Tài Khoản <i class="fa fa-angle-down"></i>
+                                        </a>
+                                        <ul role="menu" class="dropdown-menu">
+                                            <li><a asp-controller="Account" asp-action="History" class="dropdown-item">Lịch sử đơn hàng</a></li>
+                                            <li><a asp-controller="Account" asp-action="History" class="dropdown-item">Tài khoản cá nhân</a></li>
+                                        </ul>
                                     </li>
+
                                     <li>
                                         <a asp-action="Wishlist" asp-controller="Home">
                                             <i class="fa fa-heart"></i>Yêu thích

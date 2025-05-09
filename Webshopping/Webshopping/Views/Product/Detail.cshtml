@@ -8,7 +8,6 @@
 	<div class="col-sm-3">
 		<partial name="_SidebarPartial" />
 	</div>
-
 	<div class="col-sm-9 padding-right">
 		<div class="product-details">
 			<!--product-details-->
@@ -73,10 +72,10 @@
 			<!--category-tab-->
 			<div class="col-sm-12">
 				<ul class="nav nav-tabs">
-					<li><a href="#details" data-toggle="tab">Chi tiết</a></li>
+					<li class ="active"><a href="#details" data-toggle="tab">Chi tiết</a></li>
 					<li><a href="#companyprofile" data-toggle="tab">Thông tin</a></li>
 					<li><a href="#tag" data-toggle="tab">Thẻ</a></li>
-					<li class="active"><a href="#reviews" data-toggle="tab">Đánh giá (5)</a></li>
+					<li><a href="#reviews" data-toggle="tab">Đánh giá (5)</a></li>
 				</ul>
 			</div>
 			<div class="tab-content">
@@ -93,7 +92,7 @@
 				</div>
 				<div class="tab-pane fade" id="companyprofile">
 					 @foreach (var relatedProduct in ViewBag.RelatedProducts as IEnumerable<ProductModel>)
-    {
+					{
 					<div class="col-sm-3">
 						<div class="product-image-wrapper">
 							<div class="single-products">
@@ -106,7 +105,8 @@
 							</div>
 						</div>
 					</div>
-	}
+					}
+				</div>
 @* 					
 
 				</div>
@@ -169,9 +169,7 @@
 							<li><a href=""><i class="fa fa-clock-o"></i>12:41 PM</a></li>
 							<li><a href=""><i class="fa fa-calendar-o"></i>04/2025</a></li>
 						</ul>
-						<p><b>Hãy viết đánh giá</b></p>
-
-						
+						<p><b>Hãy viết đánh giá</b></p>					
 						<form autocomplete="off" asp-action="CommentProduct" asp-controller="Product" method="POST">
 							<span>
 								<input asp-for="@Model.ProductDetails.Id" name="ProductId" type="hidden" />
@@ -198,6 +196,7 @@
 							</button>
 						</form>
 					</div>
+
 				</div>
 
 			</div>

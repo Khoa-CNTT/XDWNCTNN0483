@@ -10,7 +10,7 @@ using Webshopping.Models;
 using Webshopping.Repository;
 
 [Area("Admin")]
-[Route("admin/brand")]
+[Route("Admin/Brand")]
 [Authorize(Roles = "Admin")]
 public class BrandController : Controller
 {

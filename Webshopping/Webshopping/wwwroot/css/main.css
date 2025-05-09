@@ -2521,5 +2521,46 @@ h2.title {
 .contact-info .social-networks ul li a:hover{
   color: #FE980F;
 }
+/*************************
+******* Tài khoản CSS ********
+**************************/
 
+.nav-dropdown {
+	position: relative;
+	list-style: none;
+}
+.nav-dropdown .dropdown-menu {
+		display: none;
+		position: absolute;
+		top: 100%;
+		left: 0;
+		background: white;
+		padding: 10px 0;
+		box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+		min-width: 200px;
+		z-index: 1000;
+}
+/*Hiện menu khi hover */
+.nav-dropdown:hover .dropdown-menu {
+		display: block;
+}
+/* Style cho liên kết menu chính */
+.nav-link {
+	text-decoration: none;
+	padding: 10px 15px;
+	display: inline-block;
+	color: #333;
+}
+/* Style cho từng mục trong menu con */
+.dropdown-item {
+	display: block;
+	padding: 8px 15px;
+	color: #333;
+	text-decoration: none;
+}
+
+.dropdown-item:hover {
+		background-color: #f0f0f0;
+		color: #000;
+}
 
