@@ -1,4 +1,6 @@
-﻿@model IEnumerable<OrderDetail>
+﻿@using Webshopping.Models
+
+@model IEnumerable<OrderDetail>
 
 @{
     ViewData["title"] = "Order Details";
@@ -51,7 +53,9 @@
                     stt++;
                 }
                 <tr>
-                    <td><h4>Tổng</h4></td>
+                    <td>
+                        <h4>Tổng</h4>
+                    </td>
                     <td></td>
                     <td></td>
                     <td></td>
