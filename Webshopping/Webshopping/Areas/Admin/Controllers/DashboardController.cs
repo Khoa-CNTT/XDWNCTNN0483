@@ -51,7 +51,6 @@ namespace Webshopping.Areas.Admin.Controllers
 								{
 									DateCreated = o.CreateDate,
 									Revenue = od.Quantity * (int)od.Price, // Calculate revenue based on order details
-																		   //orders = 1 // Assuming each order detail represents one order
 								})
 		  			.GroupBy(s => s.DateCreated)
 					.Select(group => new StatisticalModel
@@ -127,6 +126,20 @@ namespace Webshopping.Areas.Admin.Controllers
 				.ToList();
 
 			return Json(chartData);
+		}
+
+		[HttpPost("get-user-chart-data")]
+		public JsonResult GetUserChartData()
+		{
+			var chartData = _dataContext.Users
+				.GroupBy(u => u.CreatedDate.Date)
+				.Select(g => new
+				{
+					date = g.Key.ToString("yyyy-MM-dd"),
+					count = g.Count()
+				}).ToList();
+
+			return Json(chartData); // không bọc thêm object nào
 		}
 	}
 }

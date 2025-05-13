@@ -4,7 +4,7 @@
     ViewData["Title"] = "List Slider";
 }
 
-<h3>Slider</h3>
+<h3>Danh sách thanh trượt</h3>
 
 @if (TempData["success"] != null)
 {
@@ -20,7 +20,9 @@
     </div>
 }
 
-<a asp-area="admin" asp-action="Add" asp-controller="Slider" class="btn btn-primary btn-sm pt-1 mb-3">Thêm Slider</a>
+<a asp-area="admin" asp-action="Add" asp-controller="Slider" class="btn btn-primary btn-sm pt-1 mb-3">
+    Thêm thanh trượt
+</a>
 
 <table class="table" id="myTable">
     <thead>

@@ -85,7 +85,14 @@ public class AccountController : Controller
     {
         if (ModelState.IsValid)
         {
-            AppUserModel newUser = new AppUserModel { UserName = model.Username, Email = model.Email, PhoneNumber = model.PhoneNumber };
+            AppUserModel newUser = new AppUserModel
+            {
+                UserName = model.Username,
+                Email = model.Email,
+                PhoneNumber = model.PhoneNumber,
+                CreatedDate = DateTime.Now // Thêm dòng này
+            };
+
             IdentityResult result = await _userManager.CreateAsync(newUser, model.Password);
             if (result.Succeeded)
             {

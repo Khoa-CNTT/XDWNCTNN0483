@@ -24,7 +24,7 @@
     }
 </style>
 
-<h3>Create Shipping</h3>
+<h3>Tạo phí vận chuyển</h3>
 
 <div class="col-md-9">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -175,9 +175,9 @@
                                     phuong,
                                     parseInt(price).toLocaleString('vi-VN') + " VNĐ",
                                     `<form method="post" action="/Shipping/Delete" style="display:inline">
-                                                                                                    <input type="hidden" name="id" value="${result.id}" />
-                                                                                                    <button type="submit" class="btn btn-danger">Delete</button>
-                                                                                                  </form>`
+                                                                                                        <input type="hidden" name="id" value="${result.id}" />
+                                                                                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                                                                                      </form>`
                                 ]).draw();
 
                                 // Reset input
