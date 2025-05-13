@@ -1,6 +1,6 @@
 namespace Webshopping.Models;
 
-using System.ComponentModel.DataAnnotations;
+using global::System.ComponentModel.DataAnnotations;
 
 public class UserModel
 {
@@ -12,6 +12,8 @@ public class UserModel
     public string Email { set; get; }
     [DataType(DataType.Password), Required(ErrorMessage = "Vui lòng nhập mật khẩu")]
     public string Password { set; get; }
-    [DataType(DataType.PhoneNumber), Required(ErrorMessage = "Vui lòng nhập số điện thoại")]
-    public string PhoneNumber { set; get; }
+    [Required(ErrorMessage = "Vui lòng nhập số điện thoại")]
+    [DataType(DataType.PhoneNumber)]
+    [RegularExpression(@"^(84|0[3|5|7|8|9])[0-9]{8}\b", ErrorMessage = "Số điện thoại không hợp lệ")]
+    public string PhoneNumber { get; set; }
 }

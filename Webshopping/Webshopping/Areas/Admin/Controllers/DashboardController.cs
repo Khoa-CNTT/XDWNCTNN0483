@@ -43,24 +43,24 @@ namespace Webshopping.Areas.Admin.Controllers
 		{
 			var dateselect = DateTime.Parse(filterdate).ToString("yyyy-MM-dd");
 			var chartData = _dataContext.Orders
-		   	.Where(o => o.CreateDate.ToString("yyyy-MM-dd") == dateselect) // Optional: Filter by date
-			.Join(_dataContext.OrderDetails,
-			  o => o.OrderCode,
-			  od => od.OrderCode,
-			  (o, od) => new StatisticalModel
-			  {
-				  DateCreated = o.CreateDate,
-				  Revenue = od.Quantity * (int)od.Price, // Calculate revenue based on order details
-														 //orders = 1 // Assuming each order detail represents one order
-			  })
-		  .GroupBy(s => s.DateCreated)
-		  .Select(group => new StatisticalModel
-		  {
-			  DateCreated = group.Key,
-			  Revenue = group.Sum(s => s.Revenue),
-			  //orders = group.Count()
-		  })
-		  .ToList();
+					.Where(o => o.CreateDate.ToString("yyyy-MM-dd") == dateselect) // Optional: Filter by date
+					.Join(_dataContext.OrderDetails,
+								o => o.OrderCode,
+								od => od.OrderCode,
+								(o, od) => new StatisticalModel
+								{
+									DateCreated = o.CreateDate,
+									Revenue = od.Quantity * (int)od.Price, // Calculate revenue based on order details
+																		   //orders = 1 // Assuming each order detail represents one order
+								})
+		  			.GroupBy(s => s.DateCreated)
+					.Select(group => new StatisticalModel
+					{
+						DateCreated = group.Key,
+						Revenue = group.Sum(s => s.Revenue),
+						//orders = group.Count()
+					})
+					.ToList();
 
 			return Json(chartData);
 		}
@@ -80,27 +80,25 @@ namespace Webshopping.Areas.Admin.Controllers
 			if (filterdate == "last_month")
 			{
 				chartData = _dataContext.Orders
-			   .Where(o => o.CreateDate > first && o.CreateDate < today)
-
-			   .Join(_dataContext.OrderDetails,
-				 o => o.OrderCode,
-				 od => od.OrderCode,
-				 (o, od) => new StatisticalModel
-				 {
-					 DateCreated = o.CreateDate,
-					 Revenue = od.Quantity * (int)od.Price, // Calculate revenue based on order details
-															//orders = 1 // Assuming each order detail represents one order
-				 })
-				 .GroupBy(s => s.DateCreated)
-				 .Select(group => new StatisticalModel
-				 {
-					 DateCreated = group.Key,
-					 Revenue = group.Sum(s => s.Revenue),
-					 //orders = group.Count()
-				 })
-				 .ToList();
+					.Where(o => o.CreateDate > first && o.CreateDate < today)
+					.Join(_dataContext.OrderDetails,
+					o => o.OrderCode,
+					od => od.OrderCode,
+					(o, od) => new StatisticalModel
+					{
+						DateCreated = o.CreateDate,
+						Revenue = od.Quantity * (int)od.Price, // Calculate revenue based on order details
+															   //orders = 1 // Assuming each order detail represents one order
+					})
+					.GroupBy(s => s.DateCreated)
+					.Select(group => new StatisticalModel
+					{
+						DateCreated = group.Key,
+						Revenue = group.Sum(s => s.Revenue),
+						//orders = group.Count()
+					})
+					.ToList();
 			}
-
 
 			return Json(chartData);
 		}
@@ -109,28 +107,26 @@ namespace Webshopping.Areas.Admin.Controllers
 		[Route("GetChartData")]
 		public IActionResult GetChartData()
 		{
-
 			var chartData = _dataContext.Orders
-		  .Join(_dataContext.OrderDetails,
-			  o => o.OrderCode,
-			  od => od.OrderCode,
-			  (o, od) => new StatisticalModel
-			  {
-				  DateCreated = o.CreateDate,
-				  Revenue = od.Quantity * (int)od.Price, // Calculate revenue based on order details
-														 //orders = 1 // Assuming each order detail represents one order
-			  })
-		  .GroupBy(s => s.DateCreated)
-		  .Select(group => new StatisticalModel
-		  {
-			  DateCreated = group.Key,
-			  Revenue = group.Sum(s => s.Revenue),
-			  //orders = group.Count()
-		  })
-		  .ToList();
+				.Join(_dataContext.OrderDetails,
+					o => o.OrderCode,
+					od => od.OrderCode,
+					(o, od) => new StatisticalModel
+					{
+						DateCreated = o.CreateDate,
+						Revenue = od.Quantity * (int)od.Price, // Calculate revenue based on order details
+															   //orders = 1 // Assuming each order detail represents one order
+					})
+				.GroupBy(s => s.DateCreated)
+				.Select(group => new StatisticalModel
+				{
+					DateCreated = group.Key,
+					Revenue = group.Sum(s => s.Revenue),
+					//orders = group.Count()
+				})
+				.ToList();
 
 			return Json(chartData);
 		}
-
 	}
 }
