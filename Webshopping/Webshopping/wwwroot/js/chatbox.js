@@ -109,5 +109,38 @@
         chatbox.classList.remove('visible');
         toggleBtn.textContent = 'Chat'; // Đổi lại chữ nút toggle
     });
+    // nhập liệu bằng giọng nói
+        let recognition;
+
+        if ('webkitSpeechRecognition' in window) {
+            recognition = new webkitSpeechRecognition();
+        recognition.lang = 'vi-VN';
+        recognition.continuous = false;
+        recognition.interimResults = false;
+
+        recognition.onresult = function (event) {
+            const transcript = event.results[0][0].transcript;
+        $('#chatbox-input').val(transcript);
+        $('#chatbox-send-btn').click();
+        };
+
+        recognition.onerror = function (event) {
+            console.error("Lỗi khi nhận giọng nói:", event.error);
+        Swal.fire("Lỗi", "Không thể nhận diện giọng nói", "error");
+        };
+
+        // ✅ Bạn đặt đoạn này ngay tại đây
+        $('#chatbox-voice-btn').on('click', function () {
+            $(this).addClass('recording');
+        recognition.start();
+        });
+
+        recognition.onend = function () {
+            $('#chatbox-voice-btn').removeClass('recording');
+        };
+    } else {
+            $('#chatbox-voice-btn').hide();
+        console.warn("Trình duyệt không hỗ trợ Web Speech API");
+    }
 
 });
