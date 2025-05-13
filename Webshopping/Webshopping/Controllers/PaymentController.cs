@@ -31,7 +31,7 @@ namespace Webshopping.Controllers
 		{
 			var response = await _momoService.CreatePaymentAsync(model);
 			return RedirectToAction(response.PayUrl);
-	`	}
+		}
 
 		[HttpGet]
 		public IActionResult PaymentCallback()

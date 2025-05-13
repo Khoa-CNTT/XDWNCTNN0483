@@ -221,6 +221,14 @@
                 </div>
             </div>
         </div>
+        <!-- Compare Modal -->
+        <div class="modal fade" id="compareModal" tabindex="-1" role="dialog" aria-labelledby="compareModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content" id="compareModalContent">
+                    <!-- Nội dung AJAX sẽ được load tại đây -->
+                </div>
+            </div>
+        </div>
 
     </footer>
     <!-- Chatbox Container -->
@@ -239,24 +247,29 @@
         </div>
     </div>
     <button id="chatbox-toggle-btn">Chat</button> <!-- Nút để mở/đóng chatbox -->
-    <!--/Footer-->
+    <!-- jQuery đúng version -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
-    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <!-- jQuery UI (nếu cần) -->
     <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
-    <script src="~/js/jquery.js"></script>
-    <script src="~/js/bootstrap.min.js"></script>
-    <script src="~/js/jquery.scrollUp.min.js"></script>
+
+    <!-- Bootstrap -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Các thư viện khác -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <!-- Plugin tùy chỉnh -->
     <script src="~/js/price-range.js"></script>
     <script src="~/js/jquery.prettyPhoto.js"></script>
+
+    <!-- Script nội bộ -->
     <script src="~/js/main.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/chatbox.js" asp-append-version="true"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.all.min.js"></script>
-
-    <!-- JS của Select2 -->
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
     <script type="text/javascript">
+
         $(document).ready(function () {
 
             $('#sort_by').on('change', function () {

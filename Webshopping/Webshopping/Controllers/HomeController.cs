@@ -111,7 +111,7 @@ namespace Webshopping.Controllers
                 return StatusCode(500, "lỗi thêm  sản phẩm so sánh ");
             }
         }
-
+        
         public IActionResult Privacy()
         {
             return View();
