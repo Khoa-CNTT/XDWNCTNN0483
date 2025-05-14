@@ -72,7 +72,7 @@
                                     height="100" /></a>
                         </div>
                         <div class="btn-group pull-right">
-                            
+
                         </div>
                     </div>
                     <div class="col-sm-8">
@@ -115,15 +115,19 @@
                                         </a>
                                     </li>
 
-                                    <li>
+                                    <li class="dropdown">
                                         <form asp-action="Logout" method="post" asp-controller="Account"
                                             class="form-inline">
                                             <button type="submit" class="btn btn-link">
-                                                <i class="fa fa-lock"></i>
                                                 Hi, @User.Identity.Name, Đăng xuất
                                             </button>
                                         </form>
+                                        <ul role="menu" class="sub-menu">
+                                            <li><a asp-controller="Dashboard" asp-action="Index" asp-area="Admin"><i
+                                                        class="fa fa-lock"></i>Chuyển qua trang admin</a></li>
+                                        </ul>
                                     </li>
+
                                 }
                                 else
                                 {
@@ -154,36 +158,12 @@
                         <div class="mainmenu pull-left">
                             <ul class="nav navbar-nav collapse navbar-collapse">
                                 <li><a asp-action="index" asp-controller="Home">Trang chủ</a></li>
-                                <li class="dropdown">
-                                    <a asp-controller="Product" asp-action="Index">
-                                        Cửa hàng<i class="fa fa-angle-down"></i>
-                                    </a>
-                                    <ul role="menu" class="sub-menu">
-                                        <li><a asp-controller="Category" asp-action="Index">Danh mục</a></li>
-                                        <li><a asp-controller="Product" asp-action="Index">Sản phẩm</a></li>
-                                        <li><a asp-controller="Cart" asp-action="Checkout">Thanh toán</a></li>
-                                        <li><a asp-controller="Cart">giỏ hàng</a></li>
-                                        @if (User.Identity?.IsAuthenticated ?? false)
-                                        {
-                                            <li>
-                                                <a asp-action="Logout" method="post" asp-controller="Account">
-                                                        @User.Identity.Name, Đăng xuất
-                                                </a>
-                                            </li>
-                                        }
-                                        else
-                                        {
-                                             <li><a asp-controller="Account" asp-action="Login"><i
-                                                        class="fa fa-lock"></i>Đăng nhập</a>
-                                            </li>
-                                        }
-                                    </ul>
-                                </li>
+                                <li><a asp-controller="Home" asp-action="index">Cửa hàng</a></li>
                                 <li><a asp-controller="Home" asp-action="Contact">Liên hệ</a></li>
                             </ul>
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
         </div>
@@ -225,28 +205,10 @@
                             </iframe>
                         </div>
                     </div>
-
-                    <!-- Cột About Website -->
-                    <div class="col-sm-4">
-                        <div class="single-widget">
-                            <h2>About website</h2>
-                            <form action="#" class="searchform">
-                                <input type="text" placeholder="Your email address" />
-                                <button type="submit" class="btn btn-default">
-                                    <i class="fa fa-arrow-circle-o-right"></i>
-                                </button>
-                                <p>Nhập email và nhận thông tin mới nhất từ web</p>
-                            </form>
-                        </div>
-                    </div>
                 </div>
-
             </div>
         </div>
         </div>
-        </div>
-        </div>
-
         <div class="footer-bottom">
             <div class="container">
                 <div class="row">
@@ -256,6 +218,14 @@
                             <a target="_blank" href="https://www.facebook.com/trinh.le.767412">Trinhleeneeee</a>
                         </span>
                     </p>
+                </div>
+            </div>
+        </div>
+        <!-- Compare Modal -->
+        <div class="modal fade" id="compareModal" tabindex="-1" role="dialog" aria-labelledby="compareModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content" id="compareModalContent">
+                    <!-- Nội dung AJAX sẽ được load tại đây -->
                 </div>
             </div>
         </div>
@@ -273,28 +243,35 @@
         </div>
         <div id="chatbox-input-area">
             <input type="text" id="chatbox-input" placeholder="Nhập câu hỏi của bạn...">
+            <button id="chatbox-voice-btn">giọng nói</button> <!-- Nút thu âm -->
             <button id="chatbox-send-btn">Gửi</button>
         </div>
+
     </div>
     <button id="chatbox-toggle-btn">Chat</button> <!-- Nút để mở/đóng chatbox -->
-    <!--/Footer-->
+    <!-- jQuery đúng version -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
-    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <!-- jQuery UI (nếu cần) -->
     <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
-    <script src="~/js/jquery.js"></script>
-    <script src="~/js/bootstrap.min.js"></script>
-    <script src="~/js/jquery.scrollUp.min.js"></script>
+
+    <!-- Bootstrap -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Các thư viện khác -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <!-- Plugin tùy chỉnh -->
     <script src="~/js/price-range.js"></script>
     <script src="~/js/jquery.prettyPhoto.js"></script>
+
+    <!-- Script nội bộ -->
     <script src="~/js/main.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/chatbox.js" asp-append-version="true"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.all.min.js"></script>
-
-    <!-- JS của Select2 -->
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
     <script type="text/javascript">
+
         $(document).ready(function () {
 
             $('#sort_by').on('change', function () {

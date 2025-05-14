@@ -60,6 +60,41 @@
     cursor: pointer;
     color: #555;
 }
+#chatbox-voice-btn {
+    padding: 8px 15px;
+    background-color: #f1f1f1; /* hoặc màu tùy bạn */
+    color: #000;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    cursor: pointer;
+    margin-right: 5px; /* giống khoảng cách của #chatbox-input */
+    height: 100%; /* Giúp nút cao bằng phần input */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+    #chatbox-voice-btn.recording {
+        background-color: #e74c3c;
+        color: white;
+        animation: pulse 1s infinite;
+        border: none;
+    }
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.7);
+    }
+
+    70% {
+        box-shadow: 0 0 0 10px rgba(231, 76, 60, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(231, 76, 60, 0);
+    }
+}
+
+
 
 #chatbox-messages {
     flex-grow: 1; /* Chiếm hết không gian còn lại */

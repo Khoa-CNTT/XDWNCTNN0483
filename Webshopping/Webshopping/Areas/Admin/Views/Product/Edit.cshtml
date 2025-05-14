@@ -1,3 +1,5 @@
+@using Webshopping.Models;
+
 @model ProductModel;
 
 @{
@@ -17,7 +19,7 @@
 
         <div class="form-group">
             <label>Giá</label>
-            <input asp-for="Price"pattern="[0-9.,]+" class="form-control" />
+            <input asp-for="Price" pattern="[0-9.,]+" class="form-control" />
             <!-- Hiển thị lỗi cho price -->
             <span asp-validation-for="Price" class="text-danger"></span>
         </div>

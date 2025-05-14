@@ -18,9 +18,10 @@ public partial class Program
 
         //ConnectionDB
         builder.Services.AddDbContext<DataContext>(options =>
-    {
-        options.UseSqlServer(builder.Configuration["ConnectionStrings:ConnectedDb"]);
-    });
+        {
+            options.UseSqlServer(builder.Configuration["ConnectionStrings:ConnectedDb"]);
+        });
+
         //Add EmailSender
         builder.Services.AddTransient<IEmailSender, EmailSender>();
 
@@ -122,9 +123,8 @@ public partial class Program
             var context = services.GetRequiredService<DataContext>();
 
             // Call the SeedData method
-            SeedData.Seeding20Data(context);
+            SeedData.SeedingData(context);
             var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-            await SeedData.SeedingDataAsync(context);
             await SeedData.SeedRolesAsync(roleManager);
         }
 
