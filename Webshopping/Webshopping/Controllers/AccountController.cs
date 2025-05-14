@@ -66,7 +66,7 @@ public class AccountController : Controller
         try
         {
             var order = await _dataContext.Orders.Where(o => o.OrderCode == ordercode).FirstAsync();
-            order.Status = 3;
+            order.Status = 4;
             _dataContext.Update(order);
             await _dataContext.SaveChangesAsync();
             TempData["Success"] = "Hủy đơn hàng thành công.";

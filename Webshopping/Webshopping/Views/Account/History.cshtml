@@ -57,6 +57,10 @@
                         }
                         else if (item.Status == 2)
                         {
+                            <span class="text text-success">Đang giao hàng</span>
+                        }
+                        else if (item.Status == 3)
+                        {
                             <span class="text text-success">Đã giao hàng</span>
                         }
                         else
@@ -68,18 +72,20 @@
                     <td>@item.CreateDate.ToString("dd-MM-yyyy")</td>
                     <td>
 
-                        @if (item.Status != 3) // Kiểm tra nếu đơn hàng chưa bị hủy
+                        @if (item.Status == 1) // Kiểm tra nếu đơn hàng là hàng mới thì hiện nút hủy
                         {
                             <a onclick="return confirm('Bạn xác nhận muốn hủy?')" class="btn btn-danger btn-sm"
                                 asp-action="CancelOrder" asp-controller="Account" asp-route-ordercode="@item.OrderCode">Hủy đơn
                                 hàng</a>
                         }
+                        else if (item.Status == 2 || item.Status == 3)// Kiểm tra nếu đơn hàng đang xử lý hoặc đã xử lý xong thì mất nút
+                        {
+                            <span class="text text-success">Bạn không được phép hủy đơn hàng</span>
+                        }
                         else
                         {
                             <span class=" text-danger ">Đã hủy</span> <!-- Hiển thị "Đã hủy" thay vì nút -->
                         }
-                        @*  <a onclick="return confirm('Bạn xác nhận muốn hủy?')" class="btn btn-warning btn-sm" asp-action="CancelOrder" asp-controller="Account" asp-route-ordercode="@item.OrderCode">Hủy đơn hàng</a>
-*@
                     </td>
                 </tr>
             }
