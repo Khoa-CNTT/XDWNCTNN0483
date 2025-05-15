@@ -65,12 +65,15 @@
                         }
                     </td>
                     <td>
-                        <a asp-action="Edit" asp-controller="Slider" asp-route-id="@item.Id"
-                            class="btn btn-sm btn-warning">Sửa</a>
+                        <a asp-action="Edit" asp-controller="Slider" asp-route-id="@item.Id" class="btn btn-sm btn-warning">
+                            Sửa
+                        </a>
                         <form asp-action="Delete" asp-controller="Slider" asp-route-id="@item.Id" method="post"
                             style="display:inline-block;">
                             <button type="submit" class="btn btn-danger btn-sm"
-                                onclick="return confirm('Bạn có chắc muốn xóa không?');">Xóa</button>
+                                onclick="return confirm('Bạn có chắc muốn xóa không?');">
+                                Xóa
+                            </button>
                         </form>
                     </td>
                 </tr>

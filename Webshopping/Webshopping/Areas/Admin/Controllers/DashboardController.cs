@@ -37,8 +37,7 @@ namespace Webshopping.Areas.Admin.Controllers
 			return View();
 		}
 
-		[HttpPost]
-		[Route("SubmitFilterDate")]
+		[HttpPost("submit-filter-date")]
 		public IActionResult SubmitFilterDate(string filterdate)
 		{
 			var dateselect = DateTime.Parse(filterdate).ToString("yyyy-MM-dd");
@@ -64,8 +63,7 @@ namespace Webshopping.Areas.Admin.Controllers
 			return Json(chartData);
 		}
 
-		[HttpPost]
-		[Route("SelectFilterDate")]
+		[HttpPost("select-filter-date")]
 		public IActionResult SelectFilterDate(string filterdate)
 		{
 			var chartData = new List<StatisticalModel>();
@@ -102,8 +100,7 @@ namespace Webshopping.Areas.Admin.Controllers
 			return Json(chartData);
 		}
 
-		[HttpPost]
-		[Route("GetChartData")]
+		[HttpPost("get-chart-data")]
 		public IActionResult GetChartData()
 		{
 			var chartData = _dataContext.Orders

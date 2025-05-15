@@ -1,26 +1,102 @@
 ﻿﻿@{
     ViewData["Title"] = "Dashboard";
 }
+
+<style>
+    /* Thu nhỏ lịch */
+    .flatpickr-calendar {
+        transform: scale(0.7);
+        /* Điều chỉnh 0.6 - 0.9 tùy ý */
+        transform-origin: top left;
+    }
+
+    /* Font nhỏ hơn cho các phần trong lịch */
+    .flatpickr-calendar,
+    .flatpickr-calendar .flatpickr-day,
+    .flatpickr-months,
+    .flatpickr-weekdays {
+        font-size: 12px !important;
+    }
+
+    /* Giới hạn kích thước container */
+    #datetimepicker-dashboard {
+        max-width: 220px;
+        margin: 0 auto;
+    }
+</style>
+
 <div class="row">
     <div class="container-fluid">
         <div class="col-md-12">
-            <h5>Thống kê số lượng</h5>
+            <div class="dashboard">
+                <div class="stats">
+                    <h5>Thống kê số lượng</h5>
+                    <!-- Các ô thống kê -->
+                    <div class="card">
+                        Tổng khách hàng:
+                        <br>
+                        <span class="text-end">
+                            @ViewBag.CountUser
+                        </span>
+                    </div>
 
+                    <div class="card">
+                        Tổng sản phẩm:
+                        <br>
+                        <span class="text-end">
+                            @ViewBag.CountProduct
+                        </span>
+                    </div>
 
-            </ul>
-            <ul class="total-of-all">
-                <li>Tổng sản phẩm: @ViewBag.CountProduct</li>
-                <li>Tổng danh mục sản phẩm: @ViewBag.CountCategory</li>
-                <li>Tổng đơn hàng: @ViewBag.CountProduct</li>
-                <li>Tổng khách hàng: @ViewBag.CountUser</li>
-            </ul>
+                    <div class="card">
+                        Tổng đơn hàng:
+                        <br>
+                        <span class="text-end">
+                            @ViewBag.CountOrder
+                        </span>
+                    </div>
+
+                    <div class="card">
+                        Tổng danh mục:
+                        <br>
+                        <span class="text-end">
+                            @ViewBag.CountCategory
+                        </span>
+                    </div>
+
+                    @* <div class="card">Tổng khách hàng: <br><span class="text-end">4</span></div> *@
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-title">Biểu đồ thể hiện người đăng ký</div>
+                    <canvas class="user-chart" id="userChart"></canvas>
+                </div>
+            </div>
+
+            <div class="col-12 col-xxl-3 d-flex order-1 order-xxl-1" style="padding: 0;">
+                <div class="card flex-fill" style="width: calc(20% + 0.4rem);">
+                    <div class="card-header">
+                        <h5 class="card-title" style="
+                        text-align: center;
+                        margin: 0 0 1rem;
+                        text-align: center;
+                        font-size: 1.6rem;">
+                            Lịch
+                        </h5>
+                    </div>
+                    <div class="card-body d-flex">
+                        <div class="align-self-center w-100">
+                            <div class="chart" style="height: 20.8rem;">
+                                <div id="datetimepicker-dashboard"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        @* <div id="myfirstchart" style="height: 250px;"></div> *@
-        <canvas id="userChart" width="400" height="200"></canvas>
     </div>
 </div>
-</div>
+
 @section Scripts {
     @* Chartjs *@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -47,17 +123,66 @@
                         data: {
                             labels: labels,
                             datasets: [{
-                                label: 'Số lượng đăng ký',
+                                // Xóa hoặc để rỗng label để không hiển thị trong tooltip
+                                label: '',
                                 data: counts,
                                 borderColor: 'blue',
-                                fill: false
+                                borderWidth: 2,
+                                fill: false,
+                                tension: 0.2,
+                                pointRadius: 4,
+                                pointHoverRadius: 6
                             }]
+                        },
+                        options: {
+                            plugins: {
+                                legend: {
+                                    display: false // Ẩn phần legend
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function (context) {
+                                            return context.raw; // chỉ hiện số lượng, không có tên nhãn
+                                        }
+                                    }
+                                }
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    ticks: {
+                                        stepSize: 1,
+                                        callback: function (value) {
+                                            return Number.isInteger(value) ? value : null;
+                                        }
+                                    }
+                                }
+                            }
                         }
                     });
                 },
                 error: function (xhr) {
                     console.error("Lỗi khi gọi API:", xhr.responseText);
                 }
+            });
+        });
+    </script>
+
+    <script>
+        function pad(n) {
+            return n < 10 ? '0' + n : n;
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // Cách 2: Explicit set defaultDate là ngày hiện tại
+            var today = new Date();
+            var defaultDate = today.getFullYear() + "-" + pad(today.getMonth() + 1) + "-" + pad(today.getDate());
+
+            flatpickr("#datetimepicker-dashboard", {
+                inline: true,
+                prevArrow: "<span title='Previous month'>&laquo;</span>",
+                nextArrow: "<span title='Next month'>&raquo;</span>",
+                defaultDate: defaultDate
             });
         });
     </script>

@@ -36,6 +36,9 @@
 
 	<!-- CSS của Select2 -->
 	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+	<!-- Vanilla JS Datepicker-->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
 </head><!--/head-->
 
 <body>
@@ -194,6 +197,9 @@
 		<!-- JS của Select2 -->
 		<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
+		<!-- Vanilla JS Datepicker -->
+		<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
 		<script>
 			function() {
 				var message = '@TempData["success"]';
@@ -201,6 +207,7 @@
 					Swal.fire(message);
 			});
 		</script>
+
 		<script>
 			new DataTable('#myTable', {
 				layout: {
