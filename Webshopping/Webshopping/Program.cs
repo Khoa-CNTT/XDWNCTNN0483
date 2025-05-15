@@ -6,9 +6,11 @@ using Webshopping.Repository;
 using Webshopping.Areas.Admin.Repository;
 using Webshopping.Models;
 using Webshopping.Services.Vnpay;
+using Webshopping.Services.Momo;
 using ChatBotGemini;
 using ChatBotGemini.Services;
 using System.Threading.Tasks;
+using Webshopping.Models.Momo;
 
 public partial class Program
 {
@@ -42,6 +44,10 @@ public partial class Program
         });
         // Đăng ký IHttpClientFactory
         builder.Services.AddHttpClient<GeminiService>();
+
+        //Connect MomoAPI
+        builder.Services.Configure<MomoOptionModel>(builder.Configuration.GetSection("MomoAPI"));
+        builder.Services.AddScoped<IMomoService, MomoService>();
 
         //Khai bao Identity
         builder.Services.AddIdentity<AppUserModel, IdentityRole>()
