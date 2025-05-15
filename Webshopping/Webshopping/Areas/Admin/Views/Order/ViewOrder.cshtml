@@ -62,7 +62,7 @@
                     <td>Tổng hóa đơn : @total.ToString("#,##0 đ")</td>
                     <td>Chi phí vận chuyển : @ViewBag.ShippingCost.ToString("#,##0 đ")</td>
                     <td>
-                        @if (@ViewBag.Status != 3)
+                        @if (@ViewBag.Status != 4)
                         {
                             <select class="form-control select-update-order">
                                 <option value="1">Đơn hàng mới</option>
