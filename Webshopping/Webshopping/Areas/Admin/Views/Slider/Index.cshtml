@@ -25,7 +25,7 @@
 <table class="table" id="myTable">
     <thead>
         <tr>
-            <th scope="col">#</th>
+            <th scope="col">STT</th>
             <th scope="col">Tên Slider</th>
             <th scope="col">Mô tả của Slider</th>
             <th scope="col">Ảnh Slider</th>
@@ -45,7 +45,7 @@
                     <td>
                         @if (!string.IsNullOrEmpty(item.Img))
                         {
-                            <img src="~/img/slider/@item.Img" alt="Slider image" width="120" />
+                            <img src="~/@item.Img" width="400px" height="200px" />
                         }
                         else
                         {

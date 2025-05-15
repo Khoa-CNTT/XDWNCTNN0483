@@ -3,7 +3,7 @@
     const messagesContainer = document.getElementById('chatbox-messages');
     const input = document.getElementById('chatbox-input');
     const sendBtn = document.getElementById('chatbox-send-btn');
-    const toggleBtn = document.getElementById('chatbox-toggle-btn');
+    const toggleBtn = document.getElementById('chatbox-toggle-img');
     const closeBtn = document.getElementById('chatbox-close-btn');
 
     const apiEndpoint = '/api/chat'; // Route đã định nghĩa trong Controller
@@ -97,11 +97,12 @@
     toggleBtn.addEventListener('click', () => {
         chatbox.classList.toggle('visible');
         if (chatbox.classList.contains('visible')) {
-            input.focus(); // Focus vào input khi mở
-            toggleBtn.textContent = 'Đóng Chat'; // Đổi chữ nút toggle
+            input.focus();
+            // toggleBtn.src = 'close-icon.png'; // nếu muốn thay ảnh khi mở
         } else {
-            toggleBtn.textContent = 'Chat'; // Đổi lại chữ
+            // toggleBtn.src = 'chat-icon.png'; // nếu muốn thay ảnh khi đóng
         }
+
     });
 
     // Đóng chatbox bằng nút 'x'
