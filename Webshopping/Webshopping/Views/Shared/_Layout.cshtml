@@ -7,27 +7,44 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title>Home | Myperfume</title>
-    <link href="~/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/all.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.19.1/dist/sweetalert2.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
-    <link href="~/css/prettyPhoto.css" rel="stylesheet">
-    <link href="~/css/price-range.css" rel="stylesheet">
-    <link href="~/css/animate.css" rel="stylesheet">
-    <link href="~/css/main.css" rel="stylesheet">
-    <link href="~/css/responsive.css" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Font Awesome (chỉ dùng 1 version, ưu tiên CDN chuẩn) -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+
+    <!-- SweetAlert2 (chỉ dùng 1 bản mới nhất, tránh trùng version) -->
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.19.1/dist/sweetalert2.min.css" rel="stylesheet" />
+
+    <!-- jQuery UI (nếu dùng các widget như datepicker, slider...) -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css" />
+
+    <!-- Morris chart (nếu bạn thực sự dùng biểu đồ) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css" />
+
+    <!-- Các CSS tùy chỉnh -->
+    <link href="~/css/prettyPhoto.css" rel="stylesheet" />
+    <link href="~/css/price-range.css" rel="stylesheet" />
+    <link href="~/css/animate.css" rel="stylesheet" />
+    <link href="~/css/main.css" rel="stylesheet" />
+    <link href="~/css/responsive.css" rel="stylesheet" />
+
+    <!-- CSS của Chatbox riêng (nếu có chatbox Gemini) -->
     <link rel="stylesheet" href="~/ChatBotGemini.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/chatbox.css" asp-append-version="true" />
-    <!--[if lt IE 9]>
-    <script src="js/html5shiv.js"></script>
-    <script src="js/respond.min.js"></script>
-    <![endif]-->
-    <link rel="shortcut icon" href="images/ico/favicon.ico">
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
 
+    <!-- Icon & favicon -->
+    <link rel="shortcut icon" href="images/ico/favicon.ico" />
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png" />
+    <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png" />
+
+    <!-- HTML5 support for IE < 9 -->
+    <!--[if lt IE 9]>
+    <script src="~/js/html5shiv.js"></script>
+    <script src="~/js/respond.min.js"></script>
+    <![endif]-->
     <!-- CSS của Select2 -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 </head><!--/head-->
@@ -50,11 +67,9 @@
                     <div class="col-sm-6">
                         <div class="social-icons pull-right">
                             <ul class="nav navbar-nav">
-                                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                                <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                                <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
-                                <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                                <li><a href="https://www.facebook.com/trinh.le.767412"><i class="fa fa-facebook"></i></a></li>
+                                <li><a href="https://x.com/Himekafcon"><i class="fa fa-twitter"></i></a></li>
+                                <li><a href="https://www.linkedin.com/in/tr%C3%ACnh-l%C3%AA-652aa2363/"><i class="fa fa-linkedin"></i></a></li>
                             </ul>
                         </div>
                     </div>
@@ -189,9 +204,18 @@
                 <div class="row">
                     <!-- Cột logo -->
                     <div class="col-sm-3">
-                        <div class="companyinfo">
+                        <div class="company-info">
                             <h2><span>My</span>perfume</h2>
                             <p>Đề tài khóa luận tốt nghiệp nhóm 56.</p>
+                            <p>GVHD: Nguyễn Trung Thuận</p>
+                            <p>Leader: Lê Lâm Trình</p>
+                            <p>Thành viên:</p>
+                            <ul class="team-members">
+                                <li>Huỳnh Quang Trung</li>
+                                <li>Nguyễn Hữu Thống</li>
+                                <li>Nguyễn Đinh Kim Trọng</li>
+                                <li>Dương Trí Dũng</li>
+                            </ul>
                         </div>
                     </div>
 
@@ -248,45 +272,43 @@
         </div>
 
     </div>
-    <button id="chatbox-toggle-btn">Chat</button> <!-- Nút để mở/đóng chatbox -->
-    <!-- jQuery đúng version -->
+    <img id="chatbox-toggle-img" src="~/img/moiii.png" alt="Chat" style="position: fixed; bottom: 20px; right: 20px; width: 100px; height: 100px; cursor: pointer; z-index: 999;">
+    <!-- Nút để mở/đóng chatbox -->
+    <!-- jQuery (nền tảng cho các plugin khác, nên đặt đầu tiên) -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
-    <!-- jQuery UI (nếu cần) -->
+    <!-- jQuery UI (nếu bạn cần hiệu ứng kéo/thả, datepicker, v.v) -->
     <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
 
-    <!-- Bootstrap -->
+    <!-- Bootstrap JS (cần jQuery trước) -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Các thư viện khác -->
+    <!-- Các plugin phụ thuộc jQuery -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.all.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-    <!-- Plugin tùy chỉnh -->
-    <script src="~/js/price-range.js"></script>
+    <!-- Các plugin tùy chỉnh (nên để sau các thư viện gốc) -->
     <script src="~/js/jquery.prettyPhoto.js"></script>
+    <script src="~/js/price-range.js"></script>
 
-    <!-- Script nội bộ -->
+    <!-- Các script nội bộ (đặt cuối cùng) -->
+    <script src="~/js/jquery.scrollUp.min.js"></script>
     <script src="~/js/main.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/chatbox.js" asp-append-version="true"></script>
-    <script type="text/javascript">
 
+    <!-- Script xử lý sự kiện -->
+    <script>
         $(document).ready(function () {
-
             $('#sort_by').on('change', function () {
-
                 var url = $(this).val();
-                // alert(url);
                 if (url) {
                     window.location = url;
                 }
                 return false;
             });
-
         });
     </script>
-    @await RenderSectionAsync("Scripts", required: false)
-</body>
 
-</html>
+    @await RenderSectionAsync("Scripts", required: false)
+    </body>
+    </html>

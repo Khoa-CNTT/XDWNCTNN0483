@@ -584,9 +584,9 @@ ul.sub-menu li a {
 	  background: #FE980F;
 }
 
-.item {
-  padding-left: 100px;
-}
+/* .item {
+  
+} */
 
 
 .pricing {
@@ -596,7 +596,9 @@ ul.sub-menu li a {
 }
 
 .girl {
-  margin-left: 0;
+    object-fit: cover;
+    margin: auto;
+    width: 100%;
 }
 
 .item h1 {

@@ -4,11 +4,21 @@
 @{
 	ViewData["Title"] = "Kết quả thông tin giao dịch thanh toán Vnpay thành công";
 }
-<h3>Thanh toán thành công✅. Chúc bạn một ngày tốt lành 🥰🥰</h3>
-<h5>Thanh toán Vnpay thành công với: </h5>
-<h6>Mã đơn hàng : @Model.OrderId</h6>
-<h6>Mô tả : @Model.OrderDescription </h6>
-<h6>Tổng tiền : @Model.PaymentMethod</h6>
-<h6>Mã giao dịch : @Model.TransactionId</h6>
-<h6>Mã thanh toán : @Model.PaymentId</h6>
-<h5>Xem <a asp-controller="Account" asp-action="History">Lịch sử đơn hàng đã đặt</a></h5>
+<div class="container mt-5 p-4 rounded shadow-sm bg-light text-center">
+    <h3 class="text-success mb-4">✅ Thanh toán thành công! <br/>Chúc bạn một ngày tốt lành 🥰</h3>
+
+    <div class="text-start mx-auto" style="max-width: 500px;">
+        <h5 class="text-primary">Thông tin thanh toán VNPAY:</h5>
+        <p><strong>Mã đơn hàng:</strong> @Model.OrderId</p>
+        <p><strong>Mô tả:</strong> @Model.OrderDescription</p>
+        <p><strong>Phương thức thanh toán:</strong> @Model.PaymentMethod</p>
+        <p><strong>Mã giao dịch:</strong> @Model.TransactionId</p>
+        <p><strong>Mã thanh toán:</strong> @Model.PaymentId</p>
+    </div>
+
+    <div class="mt-4">
+        <h5>
+            Xem <a asp-controller="Account" asp-action="History" class="text-decoration-underline text-primary">lịch sử đơn hàng đã đặt</a>
+        </h5>
+    </div>
+</div>

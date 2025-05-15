@@ -42,7 +42,7 @@
 					<h2>@Model.ProductDetails.Name</h2>
 					<span>
 						<span>@Model.ProductDetails.Price.ToString("#,##0 VNĐ")</span>
-						<label>Quantity:</label>
+						<label>Số lượng:</label>
 						<input type="text" value="3" />
 						@if (@Model.ProductDetails.Quantity > 0)
 						{
@@ -59,7 +59,7 @@
 							</button>
 						}
 					</span>
-					<p><b>Availability:</b> In Stock</p>
+					<p><b>Availability:</b>Còn hàng</p>
 					<p><b>Condition:</b> New</p>
 					<p><b>Brand:</b> @Model.ProductDetails.Name</p>
 					<p><b>Category:</b> @Model.ProductDetails.Name</p>
