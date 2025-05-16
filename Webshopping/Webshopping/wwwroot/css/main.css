@@ -928,7 +928,6 @@ h2.title {
   color: #FE980F;
   font-family: 'Roboto', sans-serif;
   font-size: 15px;
-  margin-bottom: 25px;
 }
 
 .product-overlay .add-to-cart:hover {
@@ -953,7 +952,7 @@ h2.title {
   color: #696763;
   font-family: 'Roboto', sans-serif;
   font-size: 15px;
-  margin-bottom: 25px;
+  margin-bottom: 0px !important; 
 }
 
 .add-to-cart:hover {
@@ -2569,4 +2568,30 @@ h2.title {
 		background-color: #f0f0f0;
 		color: #000;
 }
+.password-container {
+  position: relative;
+  width: 100%;
+}
 
+.password-container input.form-control {
+  padding-right: 40px; /* chừa chỗ cho icon */
+  height: 40px;
+  background: #F0F0E9;
+  border: none;
+  padding-left: 10px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  box-sizing: border-box;
+}
+
+.toggle-password {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 18px;
+  color: #FE980F;
+  z-index: 2;
+}

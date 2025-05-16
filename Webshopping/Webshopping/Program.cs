@@ -62,15 +62,20 @@ public partial class Program
 
         builder.Services.Configure<IdentityOptions>(options =>
         {
-            // Password settings.
+        // Password settings.
             options.Password.RequireDigit = true;
             options.Password.RequireLowercase = true;
             options.Password.RequireNonAlphanumeric = false;
             options.Password.RequireUppercase = false;
             options.Password.RequiredLength = 4;
 
-            // User settings.
+        // User settings.
             options.User.RequireUniqueEmail = false;
+
+        // Lockout settings.
+            options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10); // Thời gian khóa
+            options.Lockout.MaxFailedAccessAttempts = 5; // Số lần đăng nhập sai cho phép
+            options.Lockout.AllowedForNewUsers = true; // Cho phép áp dụng với tài khoản mới
         });
 
         /*// đăng nhập google
