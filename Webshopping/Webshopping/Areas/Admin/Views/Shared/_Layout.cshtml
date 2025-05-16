@@ -27,7 +27,7 @@
 	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
 	<link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
 	<link rel="stylesheet" href="~/ChatBotGemini.styles.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/chatbox.css" asp-append-version="true" />
+	<link rel="stylesheet" href="~/css/chatbox.css" asp-append-version="true" />
 
 	@* DataTable libs css *@
 	<link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.dataTables.css">
@@ -61,8 +61,8 @@
 				<div class="row">
 					<div class="col-sm-4">
 						<div class="logo pull-left">
-							<a asp-action="index" asp-controller="Home" asp-area=""><img src="~/img/logo.png" alt="" width="100"
-									height="100" /></a>
+							<a asp-action="index" asp-controller="Home" asp-area=""><img src="~/img/logo.png" alt=""
+									width="100" height="100" /></a>
 						</div>
 					</div>
 
@@ -93,34 +93,34 @@
 		<div class="header-bottom">
 			<!--header-bottom-->
 			<div class="container">
-					<div class="col-sm-9">
-						<div class="navbar-header">
-							<button type="button" class="navbar-toggle" data-toggle="collapse"
-								data-target=".navbar-collapse">
-								<span class="sr-only">Toggle navigation</span>
-								<span class="icon-bar"></span>
-								<span class="icon-bar"></span>
-								<span class="icon-bar"></span>
-							</button>
-						</div>
-						<div class="mainmenu pull-left">
-							<ul class="nav navbar-nav collapse navbar-collapse">
-								<li><a asp-controller="Home" asp-action="Index" asp-area="">Trang chủ</a></li>
-								<li><a asp-controller="Dashboard" asp-action="Index">Bảng điều khiển</a></li>
-								<li><a asp-controller="product" asp-action="Index">Sản phẩm</a></li>
-								<li><a asp-controller="category" asp-action="Index">Danh mục</a></li>
-								<li><a asp-controller="brand" asp-action="Index">Thương hiệu</a></li>
-								<li><a asp-controller="Order" asp-action="Index">Đơn hàng</a> </li>
-								<li><a asp-controller="Shipping" asp-action="Index">Vận chuyển</a> </li>
-								<li><a asp-controller="Coupon" asp-action="Index">Mã giảm giá</a> </li>
-								<li><a asp-controller="Slider" asp-action="Index">Slider</a> </li>
-								<li><a asp-controller="Contact" asp-action="Index">Liên hệ</a> </li>
-								<li><a asp-controller="User" asp-action="Index">Người dùng</a> </li>
-								<li><a asp-controller="Role" asp-action="Index">Vai trò</a> </li>
-							</ul>
-						</div>
+				<div class="col-sm-9">
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle" data-toggle="collapse"
+							data-target=".navbar-collapse">
+							<span class="sr-only">Toggle navigation</span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
 					</div>
-				
+					<div class="mainmenu pull-left">
+						<ul class="nav navbar-nav collapse navbar-collapse">
+							<li><a asp-controller="Home" asp-action="Index" asp-area="">Trang chủ</a></li>
+							<li><a asp-controller="dashboard" asp-action="Index">Bảng điều khiển</a></li>
+							<li><a asp-controller="product" asp-action="Index">Sản phẩm</a></li>
+							<li><a asp-controller="category" asp-action="Index">Danh mục</a></li>
+							<li><a asp-controller="Brand" asp-action="Index">Thương hiệu</a></li>
+							<li><a asp-controller="order" asp-action="Index">Đơn hàng</a> </li>
+							<li><a asp-controller="shipping" asp-action="Index">Vận chuyển</a> </li>
+							<li><a asp-controller="coupon" asp-action="Index">Mã giảm giá</a> </li>
+							<li><a asp-controller="slider" asp-action="Index">Slider</a> </li>
+							<li><a asp-controller="contact" asp-action="Index">Liên hệ</a> </li>
+							<li><a asp-controller="user" asp-action="Index">Người dùng</a> </li>
+							<li><a asp-controller="Role" asp-action="Index">Vai trò</a> </li>
+						</ul>
+					</div>
+				</div>
+
 			</div>
 		</div><!--/header-bottom-->
 	</header><!--/header-->
@@ -140,7 +140,25 @@
 					<div class="col-sm-3">
 						<div class="companyinfo">
 							<h2><span>My</span>perfume</h2>
+							<p>Chúng tôi cung cấp các sản phẩm nước hoa chất lượng cao với giá cả phải chăng.</p>
+                            <p>Địa chỉ: 23 Trừ Văn Thố, Hòa Thọ Đông, Cẩm Lệ, Đà Nẵng 550000, Việt Nam</p>
+                            <p>Điện thoại: 0325471030</p>
+                            <p>Email: enternitywinner2000@gmail.comcom</p>
+						</div>
+					</div>
+                    <!-- Thông tin nhóm -->
+					<div class="col-sm-3">
+						<div class="companyinfo">
 							<p>Đề tài khóa luận tốt nghiệp nhóm 56.</p>
+                            <p>GVHD: Nguyễn Trung Thuận</p>
+                            <p>Leader: Lê Lâm Trình</p>
+                            <p>Thành viên:</p>
+                            <ul class="team-member">
+                                <li>Huỳnh Quang Trung</li>
+                                <li>Nguyễn Hữu Thống</li>
+                                <li>Nguyễn Đinh Kim Trọng</li>
+                                <li>Dương Trí Dũng</li>
+                            </ul>
 						</div>
 					</div>
 					<!-- Cột bản đồ -->
@@ -178,19 +196,23 @@
 	<!-- Chatbox Container -->
 	<div id="gemini-chatbox">
 		<div id="chatbox-header">
-			<span>Perfume bot</span>
+			<span>Perfume Bot</span>
 			<button id="chatbox-close-btn">×</button>
 		</div>
 		<div id="chatbox-messages">
 			<!-- Tin nhắn sẽ được thêm vào đây bằng JavaScript -->
-			<div class="message bot-message">Welcome to website My perfume! Tôi có thể giúp gì cho bạn?</div>
+			<div class="message bot-message">Welcome to Myperfume! Tôi có thể giúp gì cho bạn?</div>
 		</div>
 		<div id="chatbox-input-area">
 			<input type="text" id="chatbox-input" placeholder="Nhập câu hỏi của bạn...">
+			<button id="chatbox-voice-btn">giọng nói</button> <!-- Nút thu âm -->
 			<button id="chatbox-send-btn">Gửi</button>
 		</div>
+
 	</div>
-	<button id="chatbox-toggle-btn">Chat</button> <!-- Nút để mở/đóng chatbox -->
+	<img id="chatbox-toggle-img" src="~/img/moiii.png" alt="Chat"
+		style="position: fixed; bottom: 20px; right: 20px; width: 100px; height: 100px; cursor: pointer; z-index: 999;">
+	<!-- Nút để mở/đóng chatbox -->
 	<!--/Footer-->
 	<script src="~/js/jquery.js"></script>
 	<script src="~/js/bootstrap.min.js"></script>

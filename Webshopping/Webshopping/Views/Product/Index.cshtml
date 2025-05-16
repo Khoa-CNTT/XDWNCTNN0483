@@ -52,7 +52,7 @@
                                 </li>
                                 <li style="text-align: center;">
                                     <button style="margin: 16px;" class="btn btn-primary add-btn-compare"
-                                            data-product_id="@item.Id">
+                                        data-product_id="@item.Id">
                                         So sánh
                                     </button>
                                 </li>
@@ -86,85 +86,111 @@
 
     <!-- Gọi plugin sau khi load -->
     <script>
-                $(function () {
-                    $.scrollUp();
+        $(function () {
+            $.scrollUp();
 
-                    // jQuery UI slider
-                    $("#slider-range").slider({
-                        range: true,
-                        step: 10000,
-                        min: 1000,
-                        max: 10000000,
-                        values: [1000, 300000],
-                        slide: function (event, ui) {
-                            $("#amount").val(
-                                new Intl.NumberFormat("vn-VN", { style: "currency", currency: "VND" }).format(ui.values[0]) +
-                                " - " +
-                                new Intl.NumberFormat("vn-VN", { style: "currency", currency: "VND" }).format(ui.values[1])
-                            );
-                        }
-                    });
-
+            // jQuery UI slider
+            $("#slider-range").slider({
+                range: true,
+                step: 10000,
+                min: 1000,
+                max: 10000000,
+                values: [1000, 300000],
+                slide: function (event, ui) {
                     $("#amount").val(
-                        new Intl.NumberFormat("vn-VN", { style: "currency", currency: "VND" }).format($("#slider-range").slider("values", 0)) +
+                        new Intl.NumberFormat("vn-VN", { style: "currency", currency: "VND" }).format(ui.values[0]) +
                         " - " +
-                        new Intl.NumberFormat("vn-VN", { style: "currency", currency: "VND" }).format($("#slider-range").slider("values", 1))
+                        new Intl.NumberFormat("vn-VN", { style: "currency", currency: "VND" }).format(ui.values[1])
                     );
-
-                    // Lọc giá
-                    $('.btn-locgia').on('click', function () {
-                        var url = $(this).data("current_url");
-                        if (url) {
-                            window.location = url + "?startprice=" + $("#slider-range").slider("values", 0)
-                                + "&endprice=" + $("#slider-range").slider("values", 1);
-                        }
-                        return false;
-                    });
-
-                    // Add to cart
-                    $('.add-to-cart').click(function () {
-                        var Id = $(this).data("product_id");
-                        $.ajax({
-                            type: "POST",
-                            url: "@Url.Action("Add", "Cart")",
-                            data: { Id: Id },
-                            success: function (result) {
-                                Swal.fire(result.success ? result.message : "Thất bại: " + result.message);
-                            },
-                            error: function () {
-                                Swal.fire("Có lỗi xảy ra khi thêm sản phẩm!");
-                            }
-                        });
-                    });
-
-                    // Add to wishlist
-                    $('.add-btn-wishlist').click(function () {
-                        var Id = $(this).data("product_id");
-                        $.ajax({
-                            type: "POST",
-                            url: "@Url.Action("AddWishlist", "Home")",
-                            data: { Id: Id },
-                            success: function (result) {
-                                if (result) Swal.fire("Thêm yêu thích thành công.");
-                            }
-                        });
-                    });
-
-                    // Add to compare
-                    $('.add-btn-compare').click(function () {
-                        var Id = $(this).data("product_id");
-                        $.ajax({
-                            type: "POST",
-                            url: "@Url.Action("AddCompare", "Home")",
-                            data: { Id: Id },
-                            success: function (result) {
-                                if (result) Swal.fire("Thêm sản phẩm so sánh thành công.");
-                            }
-                        });
-                    });
-                });
                 }
             });
+
+            $("#amount").val(
+                new Intl.NumberFormat("vn-VN", { style: "currency", currency: "VND" }).format($("#slider-range").slider("values", 0)) +
+                " - " +
+                new Intl.NumberFormat("vn-VN", { style: "currency", currency: "VND" }).format($("#slider-range").slider("values", 1))
+            );
+
+            // Lọc giá
+            $('.btn-locgia').on('click', function () {
+                var url = $(this).data("current_url");
+                if (url) {
+                    window.location = url + "?startprice=" + $("#slider-range").slider("values", 0)
+                        + "&endprice=" + $("#slider-range").slider("values", 1);
+                }
+                return false;
+            });
+
+            // Add to cart
+            $('.add-to-cart').click(function () {
+                var Id = $(this).data("product_id");
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Add", "Cart")",
+                    data: { Id: Id },
+                    success: function (result) {
+                        Swal.fire(result.success ? result.message : "Thất bại: " + result.message);
+                    },
+                    error: function () {
+                        Swal.fire("Có lỗi xảy ra khi thêm sản phẩm!");
+                    }
+                });
+            });
+
+            // Add to wishlist
+            $('.add-btn-wishlist').click(function () {
+                var Id = $(this).data("product_id");
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("AddWishlist", "Home")",
+                    data: { Id: Id },
+                    success: function (result) {
+                        if (result) Swal.fire("Thêm yêu thích thành công.");
+                    }
+                });
+            });
+
+            // Add to compare
+            $('.add-btn-compare').click(function () {
+                var Id = $(this).data("product_id");
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("AddCompare", "Home")",
+                    data: { Id: Id },
+                    success: function (result) {
+                        if (result) {
+                            Swal.fire({
+                                title: 'Đã thêm sản phẩm vào danh sách so sánh!',
+                                text: 'Bạn có muốn chuyển đến trang so sánh ngay bây giờ không?',
+                                icon: 'success',
+                                showCancelButton: true,
+                                confirmButtonText: 'Có',
+                                cancelButtonText: 'Không'
+                            }).then((res) => {
+                                if (res.isConfirmed) {
+                                    // Điều hướng đến trang so sánh
+                                    window.location.href = "/Home/Compare";
+                                }
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Lỗi',
+                                text: 'Không thể thêm sản phẩm vào danh sách so sánh.'
+                            });
+                        }
+                    },
+                    error: function () {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi',
+                            text: 'Đã xảy ra lỗi trong quá trình gửi yêu cầu.'
+                        });
+                    }
+                });
+            });
+
         });
     </script>
-    }
+}
