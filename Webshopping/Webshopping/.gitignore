@@ -490,3 +490,6 @@ $RECYCLE.BIN/
 
 # Migrations
 Migrations/
+
+#stop vgk
+stop

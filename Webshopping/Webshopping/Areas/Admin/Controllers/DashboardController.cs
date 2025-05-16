@@ -38,81 +38,23 @@ namespace Webshopping.Areas.Admin.Controllers
 		}
 
 		[HttpPost("submit-filter-date")]
-		public IActionResult SubmitFilterDate(string filterdate)
+		public IActionResult SubmitFilterDate(string fromDate, string toDate)
 		{
-			var dateselect = DateTime.Parse(filterdate).ToString("yyyy-MM-dd");
+			// Parse từ string sang DateTime, bạn có thể thêm xử lý TryParse nếu muốn
+			DateTime from = DateTime.Parse(fromDate);
+			DateTime to = DateTime.Parse(toDate);
+
+			// Lọc đơn hàng trong khoảng từ ngày 'from' đến 'to' (bao gồm cả hai đầu)
 			var chartData = _dataContext.Orders
-					.Where(o => o.CreateDate.ToString("yyyy-MM-dd") == dateselect) // Optional: Filter by date
-					.Join(_dataContext.OrderDetails,
-								o => o.OrderCode,
-								od => od.OrderCode,
-								(o, od) => new StatisticalModel
-								{
-									DateCreated = o.CreateDate,
-									Revenue = od.Quantity * (int)od.Price, // Calculate revenue based on order details
-								})
-		  			.GroupBy(s => s.DateCreated)
-					.Select(group => new StatisticalModel
-					{
-						DateCreated = group.Key,
-						Revenue = group.Sum(s => s.Revenue),
-						//orders = group.Count()
-					})
-					.ToList();
-
-			return Json(chartData);
-		}
-
-		[HttpPost("select-filter-date")]
-		public IActionResult SelectFilterDate(string filterdate)
-		{
-			var chartData = new List<StatisticalModel>();
-			// Initialize as empty list
-			var today = DateTime.Today;
-			var month = new DateTime(today.Year, today.Month, 1);
-			var first = month.AddMonths(-1);
-			var last = month.AddDays(-1);
-
-
-			if (filterdate == "last_month")
-			{
-				chartData = _dataContext.Orders
-					.Where(o => o.CreateDate > first && o.CreateDate < today)
-					.Join(_dataContext.OrderDetails,
-					o => o.OrderCode,
-					od => od.OrderCode,
-					(o, od) => new StatisticalModel
-					{
-						DateCreated = o.CreateDate,
-						Revenue = od.Quantity * (int)od.Price, // Calculate revenue based on order details
-															   //orders = 1 // Assuming each order detail represents one order
-					})
-					.GroupBy(s => s.DateCreated)
-					.Select(group => new StatisticalModel
-					{
-						DateCreated = group.Key,
-						Revenue = group.Sum(s => s.Revenue),
-						//orders = group.Count()
-					})
-					.ToList();
-			}
-
-			return Json(chartData);
-		}
-
-		[HttpPost("get-chart-data")]
-		public IActionResult GetChartData()
-		{
-			var chartData = _dataContext.Orders
+				.Where(o => o.CreateDate.Date >= from.Date && o.CreateDate.Date <= to.Date)
 				.Join(_dataContext.OrderDetails,
-					o => o.OrderCode,
-					od => od.OrderCode,
-					(o, od) => new StatisticalModel
-					{
-						DateCreated = o.CreateDate,
-						Revenue = od.Quantity * (int)od.Price, // Calculate revenue based on order details
-															   //orders = 1 // Assuming each order detail represents one order
-					})
+						o => o.OrderCode,
+						od => od.OrderCode,
+						(o, od) => new StatisticalModel
+						{
+							DateCreated = o.CreateDate.Date,
+							Revenue = od.Quantity * (int)od.Price,
+						})
 				.GroupBy(s => s.DateCreated)
 				.Select(group => new StatisticalModel
 				{
@@ -123,6 +65,107 @@ namespace Webshopping.Areas.Admin.Controllers
 				.ToList();
 
 			return Json(chartData);
+		}
+
+		[HttpPost("select-filter-date")]
+		public IActionResult SelectFilterDate(string filterdate)
+		{
+			var chartData = new List<StatisticalModel>();
+			var today = DateTime.Today;
+			var firstDayOfCurrentMonth = new DateTime(today.Year, today.Month, 1);
+			var firstDayOfLastMonth = firstDayOfCurrentMonth.AddMonths(-1);
+			var lastDayOfLastMonth = firstDayOfCurrentMonth.AddDays(-1);
+
+			if (filterdate == "last_month")
+			{
+				chartData = _dataContext.Orders
+					.Where(o => o.CreateDate.Date >= firstDayOfLastMonth && o.CreateDate.Date <= lastDayOfLastMonth)
+					.Join(_dataContext.OrderDetails,
+						o => o.OrderCode,
+						od => od.OrderCode,
+						(o, od) => new StatisticalModel
+						{
+							DateCreated = o.CreateDate.Date,
+							Revenue = od.Quantity * (int)od.Price,
+							// Thêm thuộc tính này nếu có trong model StatisticalModel, hoặc tạo thêm thuộc tính DayOfWeekName
+							DayOfWeekName = GetVietnameseDayOfWeek(o.CreateDate.DayOfWeek)
+						})
+					.GroupBy(s => s.DateCreated)
+					.Select(group => new StatisticalModel
+					{
+						DateCreated = group.Key,
+						Revenue = group.Sum(s => s.Revenue),
+						DayOfWeekName = GetVietnameseDayOfWeek(group.Key.DayOfWeek)
+					})
+					.OrderBy(s => s.DateCreated)
+					.ToList();
+			}
+
+			return Json(chartData);
+		}
+
+		[HttpPost("get-chart-data")]
+		public IActionResult GetChartData(DateTime startDate, DateTime endDate, string filterType)
+		{
+			var orderDetails = _dataContext.Orders
+				.Where(o => o.CreateDate >= startDate && o.CreateDate <= endDate)
+				.Join(_dataContext.OrderDetails,
+					o => o.OrderCode,
+					od => od.OrderCode,
+					(o, od) => new
+					{
+						OrderId = o.Id, // Sửa ở đây
+						o.CreateDate,
+						od.Quantity,
+						od.Price,
+						od.ProductId,
+						o.OrderCode
+					})
+				.Join(_dataContext.Products,
+					od => od.ProductId,
+					p => p.Id,
+					(od, p) => new
+					{
+						od.OrderId,
+						Date = od.CreateDate,
+						Revenue = od.Quantity * (int)od.Price,
+						Profit = od.Quantity * ((int)od.Price - (int)p.CapitalPrice),
+						Quantity = od.Quantity,
+						OrderCode = od.OrderCode
+					});
+
+			var groupedData = orderDetails
+				.AsEnumerable()
+				.GroupBy(item =>
+				{
+					switch (filterType?.ToLower())
+					{
+						case "day":
+							return item.Date.Date;
+						case "week":
+							var diff = item.Date.DayOfWeek - DayOfWeek.Monday;
+							var weekStart = item.Date.AddDays(-1 * (diff < 0 ? 6 : diff)).Date;
+							return weekStart;
+						case "month":
+							return new DateTime(item.Date.Year, item.Date.Month, 1);
+						case "year":
+							return new DateTime(item.Date.Year, 1, 1);
+						default:
+							return item.Date.Date;
+					}
+				})
+				.Select(g => new StatisticalModel
+				{
+					DateCreated = g.Key,
+					Revenue = g.Sum(x => x.Revenue),
+					Profit = g.Sum(x => x.Profit),
+					Sold = g.Sum(x => x.Quantity),
+					Orders = g.Select(x => x.OrderId).Distinct().Count() // Sửa ở đây
+				})
+				.OrderBy(g => g.DateCreated)
+				.ToList();
+
+			return Json(groupedData);
 		}
 
 		[HttpPost("get-user-chart-data")]
@@ -137,6 +180,22 @@ namespace Webshopping.Areas.Admin.Controllers
 				}).ToList();
 
 			return Json(chartData); // không bọc thêm object nào
+		}
+
+		// Hàm chuyển DayOfWeek sang tên tiếng Việt
+		private string GetVietnameseDayOfWeek(DayOfWeek dayOfWeek)
+		{
+			return dayOfWeek switch
+			{
+				DayOfWeek.Monday => "Thứ 2",
+				DayOfWeek.Tuesday => "Thứ 3",
+				DayOfWeek.Wednesday => "Thứ 4",
+				DayOfWeek.Thursday => "Thứ 5",
+				DayOfWeek.Friday => "Thứ 6",
+				DayOfWeek.Saturday => "Thứ 7",
+				DayOfWeek.Sunday => "Chủ nhật",
+				_ => ""
+			};
 		}
 	}
 }

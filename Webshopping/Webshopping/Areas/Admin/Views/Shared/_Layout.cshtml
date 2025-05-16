@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 
 <head>
 	<meta charset="utf-8">
@@ -39,6 +39,7 @@
 
 	<!-- Vanilla JS Datepicker-->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
 </head><!--/head-->
 
 <body>
@@ -46,8 +47,8 @@
 		<!-- Sidebar -->
 		<div class="sidebar">
 			<div class="logo">
-				<a asp-action="index" asp-controller="Home">
-					<img src="~/img/logo.png" alt="Logo" width="100" height="100" />
+				<a asp-action="index" asp-controller="Home" asp-area=""><img src="~/img/logo.png" alt="" width="100"
+						height="100" />
 				</a>
 			</div>
 			<ul class="nav">
@@ -88,7 +89,7 @@
 		<div class="main-content">
 			<header id="header">
 				<!-- Giữ lại header_top và header-middle ở đây nếu cần -->
-				<div class="header_top">
+				<div class="header_top" style="border-radius: 0.5rem;">
 					<div class="container">
 						<div class="row">
 							<div class="col-sm-6">
@@ -197,7 +198,7 @@
 		<!-- JS của Select2 -->
 		<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-		<!-- Vanilla JS Datepicker -->
+		<!-- Flatpickr core -->
 		<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
 		<script>
