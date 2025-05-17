@@ -8,7 +8,7 @@ namespace Webshopping.Areas.Admin.Controllers
 {
 	[Area("Admin")]
 	[Route("admin/order/")]
-	[Authorize(Roles = "Publisher,Author,Admin")]
+	[Authorize(Roles = "employee,Admin")]
 	public class OrderController : Controller
 	{
 		private readonly DataContext _dataContext;
@@ -35,6 +35,33 @@ namespace Webshopping.Areas.Admin.Controllers
 			if (Order == null)
 			{
 				return NotFound("Không tìm thấy đơn hàng.");
+			}
+
+			ViewBag.CouponCode = Order.CouponCode;
+
+			if (!string.IsNullOrEmpty(Order.CouponCode))
+			{
+				// Tách mã coupon trước khi so sánh
+				var couponCode = Order.CouponCode?.Split('|')[0]?.Trim();
+
+				var coupon = await _dataContext.Coupons
+					.FirstOrDefaultAsync(c => c.Name == couponCode);
+
+				if (coupon != null)
+				{
+					ViewBag.DiscountType = coupon.DiscountType; // 0 = phần trăm, 1 = số tiền
+					ViewBag.DiscountValue = coupon.DiscountValue;
+				}
+				else
+				{
+					ViewBag.DiscountType = null;
+					ViewBag.DiscountValue = null;
+				}
+			}
+			else
+			{
+				ViewBag.DiscountType = null;
+				ViewBag.DiscountValue = null;
 			}
 
 			ViewBag.ShippingCost = Order.ShippingCost;

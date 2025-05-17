@@ -21,20 +21,19 @@ namespace Webshopping.Controllers
             // Nhận shipping giá từ cookie
             var shippingPriceCookie = Request.Cookies["ShippingPrice"];
             decimal shippingPrice = 0;
-            //Nhận Coupon code từ cookie
-            var coupon_code = Request.Cookies["CouponTitle"];
-
             if (shippingPriceCookie != null)
             {
                 var shippingPriceJson = shippingPriceCookie;
                 shippingPrice = JsonConvert.DeserializeObject<decimal>(shippingPriceJson);
             }
+            //Nhận Coupon code từ cookie
+            var coupon_code = Request.Cookies["CouponTitle"];
             CartItemViewModel cartVM = new()
             {
                 CartItems = cartItems,
                 GrandTotal = cartItems.Sum(x => x.Quantity * x.Price),
                 ShippingPrice = shippingPrice,
-                CouponCode=coupon_code
+                CouponCode = coupon_code
             };
 
             return View(cartVM);
@@ -99,7 +98,7 @@ namespace Webshopping.Controllers
             List<CartItemModels> cart = HttpContext.Session.GetJson<List<CartItemModels>>("Cart");
             CartItemModels cartItems = cart.Where(c => c.ProductId == Id).FirstOrDefault();
 
-            if (cartItems.Quantity >= 1 && product.Quantity > cartItems.Quantity )
+            if (cartItems.Quantity >= 1 && product.Quantity > cartItems.Quantity)
             {
                 cartItems.Quantity++;
                 TempData["success"] = "Increase Product to cart Sucessfully! ";
@@ -203,38 +202,44 @@ namespace Webshopping.Controllers
                 TimeSpan remainingTime = validCoupon.DateExpire - DateTime.Now;
                 int daysRemaining = remainingTime.Days;
 
-                if (daysRemaining >= 0)
+                //  Kiểm tra còn hạn và còn số lượng
+                if (daysRemaining >= 0 && validCoupon.Quantity > 0)
                 {
                     try
                     {
+                        //  Trừ số lượng mã giảm
+                        validCoupon.Quantity -= 1;
+                        await _datacontext.SaveChangesAsync();
+
+                        //  Lưu cookie
                         var cookieOptions = new CookieOptions
                         {
                             HttpOnly = true,
                             Expires = DateTimeOffset.UtcNow.AddMinutes(30),
                             Secure = true,
-                            SameSite = SameSiteMode.Strict // Kiểm tra tính tương thích trình duyệt
+                            SameSite = SameSiteMode.Strict
                         };
 
                         Response.Cookies.Append("CouponTitle", couponTitle, cookieOptions);
-                        return Ok(new { success = true, message = "Coupon applied successfully" });
+                        return Ok(new { success = true, message = "Áp mã giảm giá thành công" });
                     }
                     catch (Exception ex)
                     {
                         //trả về lỗi 
                         Console.WriteLine($"Error adding apply coupon cookie: {ex.Message}");
-                        return Ok(new { success = false, message = "Coupon applied failed" });
+                        return Ok(new { success = false, message = "Áp mã giảm giá thất bại" });
                     }
                 }
                 else
                 {
 
-                    return Ok(new { success = false, message = "Coupon has expired" });
+                    return Ok(new { success = false, message = "Mã giảm đã hết hạn" });
                 }
 
             }
             else
             {
-                return Ok(new { success = false, message = "Coupon not existed" });
+                return Ok(new { success = false, message = "Mã giảm không tồn tại" });
             }
 
             return Json(new { CouponTitle = couponTitle });

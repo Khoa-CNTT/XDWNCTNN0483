@@ -20,9 +20,11 @@
     </div>
 }
 
-<a asp-area="admin" asp-action="Add" asp-controller="Slider" class="btn btn-primary btn-sm pt-1 mb-3">
-    Thêm thanh trượt
-</a>
+ @if (User.IsInRole("employee"))
+    {
+<a asp-area="admin" asp-action="Add" asp-controller="Slider" class="btn btn-primary btn-sm pt-1 mb-3">Thêm Thanh trượt</a>
+    }
+
 
 <table class="table" id="myTable">
     <thead>

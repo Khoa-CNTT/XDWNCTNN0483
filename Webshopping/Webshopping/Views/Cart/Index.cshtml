@@ -178,9 +178,9 @@
 @section Scripts {
     <script>
         $(".btn-apply-coupon").click(function () {
-            var couponCode = $(".coupon-value").val();
+            var coupon_value = $(".coupon-value").val();
             // alert(couponCode);
-            if (couponCode == '') {
+            if (coupon_value == '') {
                 Swal.fire("Làm ơn không bỏ trống.");
             } else {
                 $.ajax({

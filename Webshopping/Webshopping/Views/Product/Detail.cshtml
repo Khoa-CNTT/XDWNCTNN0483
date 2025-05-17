@@ -59,10 +59,10 @@
 							</button>
 						}
 					</span>
-					<p><b>Availability:</b>Còn hàng</p>
-					<p><b>Condition:</b> New</p>
-					<p><b>Brand:</b> @Model.ProductDetails.Name</p>
-					<p><b>Category:</b> @Model.ProductDetails.Name</p>
+					<p><b>Tình trạng:</b>@Model.ProductDetails.Sold</p>
+					<p><b>Trạng thái:</b>New</p>
+					<p><b>Thương hiệu:</b> @Model.ProductDetails.Category.Name</p>
+					<p><b>Danh mục:</b> @Model.ProductDetails.Brand.Name</p>
 					<a href=""><img src="images/product-details/share.png" class="share img-responsive" alt="" /></a>
 				</div><!--/product-information-->
 			</div>
@@ -165,7 +165,7 @@
 
 										<div class="productinfo text-center">
 											<a asp-action="Detail" asp-controller="Product" asp-route-Id="@relatedProduct.Id">
-												<img src="~/media/products/@relatedProduct.Img" alt="@relatedProduct.Name" width="100px" height="200px" />
+												<img src="~/img/@relatedProduct.Img" alt="@relatedProduct.Name" width="100px" height="200px" />
 												<h2>@relatedProduct.Price.ToString("#,##0 VNĐ")</h2>
 												<p>@relatedProduct.Name</p>
 												<p>Danh mục: @relatedProduct.Category.Name</p>

@@ -35,6 +35,28 @@
         </div>
 
         <div class="form-group">
+            <label>Kiểu giảm giá</label>
+            <select asp-for="DiscountType" class="form-control">
+                <option value="0">Phần trăm (%)</option>
+                <option value="1">Giảm giá cố định (VNĐ)</option>
+            </select>
+            <span asp-validation-for="DiscountType" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Giá trị giảm</label>
+            <input asp-for="DiscountValue" class="form-control" />
+            <span asp-validation-for="DiscountValue" class="text-danger"></span>
+        </div>
+        <!-- Sau trường Giá trị giảm -->
+        <div class="form-group">
+            <label>Số lượng mã giảm giá</label>
+            <input asp-for="Quantity" class="form-control" type="number" min="1"/>
+            <span asp-validation-for="Quantity" class="text-danger"></span>
+        </div>
+
+
+        <div class="form-group">
             <label>Trạng thái</label>
             <select asp-for="Status" class="form-control">
                 <option value="1">Hiển thị</option>
@@ -44,7 +66,7 @@
         </div>
 
         <div class="form-group">
-            <button class="btn btn-primary">Thêm thương hiệu</button>
+            <button class="btn btn-primary">Thêm mã giảm giá</button>
         </div>
     </form>
     <h5>danh sách mã giảm giá</h5>
@@ -55,6 +77,8 @@
                 <th>Mô tả</th>
                 <th>Ngày bắt đầu</th>
                 <th>Thời hạn</th>
+                <th>Kiểu giảm giá</th>
+                <th>Giá trị giảm</th>
                 <th>Số lượng</th>
                 <th>Thao tác</th>
                 <th>Trạng thái</th>
@@ -68,9 +92,16 @@
                     <td>@coupon.description</td>
                     <td>@coupon.DateStart.ToString("dd-MM-yyyy")</td>
                     <td>@coupon.DateExpire.ToString("dd-MM-yyyy")</td>
+                    <td>@(coupon.DiscountType == 0 ? "Phần trăm" : "Giá cố định")</td>
+                    <td>
+                        @(coupon.DiscountType == 0
+                                            ? $"{coupon.DiscountValue}%"
+                                            : $"{coupon.DiscountValue:N0} đ")
+                </td>
+
                     <td>@coupon.Quantity</td>
                     <td>
-                        @if (@coupon.Status == 1)
+                    @if (@coupon.Status == 1)
                         {
                             <select name="Status">
                                 <option selected value="1">Kích hoạt</option>
@@ -111,8 +142,6 @@
             }
         </tbody>
     </table>
-
-
 </div>
 @section Scripts {
     @{

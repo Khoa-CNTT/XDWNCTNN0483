@@ -300,7 +300,7 @@ public class AccountController : Controller
             var roles = await _userManager.GetRolesAsync(user);
 
             // Điều hướng theo vai trò
-            if (roles.Contains("Admin") || roles.Contains("Staff"))
+            if (roles.Contains("Admin") || roles.Contains("employee"))
             {
                 return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
             }
