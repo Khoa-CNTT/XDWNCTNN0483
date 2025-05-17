@@ -70,7 +70,7 @@ namespace Webshopping.Controllers
             }
             else
             {
-                TempData["error"] = "Model có một vài thứ đang lỗi";
+                TempData["error"] = "Thêm đánh giá thất bại";
                 List<string> errors = new List<string>();
                 foreach (var value in ModelState.Values)
                 {
