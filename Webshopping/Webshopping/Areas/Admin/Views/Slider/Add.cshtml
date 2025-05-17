@@ -5,26 +5,23 @@
 }
 
 <h4>Thêm mới slider</h4>
+
 <div class="col-md-9">
     <form asp-action="Add" asp-controller="Slider" enctype="multipart/form-data">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group">
             <label>Tên Slider</label>
             <input asp-for="Name" class="form-control" />
-            <!-- Hiển thị lỗi cho mame -->
+            <!-- Hiển thị lỗi cho name -->
             <span asp-validation-for="Name" class="text-danger"></span>
         </div>
-
-      
 
         <div class="form-group">
             <label>Mô tả /label>
             <textarea asp-for="Description" class="form-control"></textarea>
             <!-- Hiển thị lỗi cho description -->
-            <span asp-validation-for="Description" class="text-danger"></span> 
+            <span asp-validation-for="Description" class="text-danger"></span>
         </div>
-
-
 
         <div class="form-group">
             <label>Trạng thái </label>
@@ -32,7 +29,7 @@
                 <option value="1">Hiển thị</option>
                 <option value="0">Ẩn</option>
             </select>
-           
+
             <span asp-validation-for="Status" class="text-danger"></span>
         </div>
 

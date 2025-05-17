@@ -13,6 +13,10 @@ body {
   font-weight:400px;
 }
 
+html {
+  font-size: 10px;
+}
+
 ul li {
   list-style: none;
 }
