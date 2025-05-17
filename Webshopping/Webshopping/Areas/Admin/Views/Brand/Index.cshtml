@@ -6,7 +6,7 @@
     ViewData["title"] = "Brand Listed";
 }
 
-<h3>Thương hiệu</h3>
+<h3>Danh sách thương hiệu</h3>
 
 @if (TempData["success"] != null)
 {
@@ -23,7 +23,10 @@
 }
 
 <!-- Your other content here -->
-<a asp-area="admin" asp-action="Add" asp-controller="brand" class="btn btn-primary btn-sm pt-1">Thêm thương hiệu</a>
+    @if (User.IsInRole("employee"))
+    {
+    <a asp-area="admin" asp-action="Add" asp-controller="brand" class="btn btn-primary btn-sm pt-1">Thêm thương hiệu</a>
+    }
 <table class="table" id="myTable">
     <thead>
         <tr>

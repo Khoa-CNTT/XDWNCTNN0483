@@ -24,7 +24,10 @@
 
 @* asp-action="Add" sẽ được gọi khi có hàm Add *@
 @* có thể sử dụng asp-area="admin" để ấy đường dẫn thêm admin *@
+ @if (User.IsInRole("employee"))
+    {
 <a asp-area="admin" asp-action="Add" asp-controller="Product" class="btn btn-primary btn-sm pt-1">Thêm sản phẩm</a>
+    }
 <table class="table" id="myTable">
     <thead>
         <tr>
@@ -48,13 +51,20 @@
             <tr>
                 <th class="index-col" scope="row"></th>
                 <td>@item.Name</td>
-                <td><b>@item.Quantity</b><br /><a asp-controller="Product" asp-action="AddQuantity"
-                        asp-route-Id="@item.Id">Add Quantity</a></td>
+                <td>
+                    <b>@item.Quantity</b>
+                    <br />
+                    <a asp-controller="Product" asp-action="AddQuantity" asp-route-Id="@item.Id">
+                        Add Quantity
+                    </a>
+                </td>
                 <td><b>@item.Sold</b></td>
                 <td>@Html.Raw(item.Description)</td>
                 <td>@item.Price.ToString("#,##0 VNĐ")</td>
                 <td>@item.CapitalPrice.ToString("#,##0 VNĐ")</td>
-                <td><img src="/img/@item.Img" width="100"></td> @* lấy hình ảnh từ folder img *@
+                <td>
+                    <img src="/img/@item.Img" width="100">
+                </td> @* lấy hình ảnh từ folder img *@
                 <td>@item.Slug</td>
                 <td>@item.Category.Name</td>
                 <td>@item.Brand.Name</td>

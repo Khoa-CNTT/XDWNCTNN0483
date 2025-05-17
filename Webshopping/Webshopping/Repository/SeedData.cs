@@ -1,14 +1,12 @@
-﻿
-using Bogus;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Webshopping.Models;
-using Webshopping.Repository;
 
 namespace Webshopping.Repository
 {
     public class SeedData
     {
+        // seed data products, brands, categories
         public static void SeedingData(DataContext _context)
         {
             _context.Database.Migrate();

@@ -58,11 +58,36 @@
                     </td>
                     <td></td>
                     <td></td>
-                    <td></td>
-                    <td>Tổng hóa đơn : @total.ToString("#,##0 đ")</td>
+                    <td>giảm giá : @ViewBag.CouponCode</td>
                     <td>Chi phí vận chuyển : @ViewBag.ShippingCost.ToString("#,##0 đ")</td>
                     <td>
+
+                        Tổng hóa đơn: @{
+                        decimal discount = 0;
+                        decimal discountValue = ViewBag.DiscountValue ?? 0;
+                        int discountType = ViewBag.DiscountType ?? 1;
+                        decimal shipping = ViewBag.ShippingCost ?? 0;
+
+                        if (discountType == 0)
+                        {
+                            // Giảm phần trăm
+                            discount = total * discountValue / 100;
+                        }
+                        else
+                        {
+                            // Giảm giá cố định
+                            discount = discountValue;
+                        }
+
+                        if (discount > total) { discount = total; } // tránh âm tiền
+                        decimal finalTotal = total - discount + shipping;
+
+                        @finalTotal.ToString("#,##0 đ")
+                    }
+                    </td>
+                    <td>
                         @if (@ViewBag.Status != 4)
+
                         {
                             <select class="form-control select-update-order">
                                 <option value="1">Đơn hàng mới</option>

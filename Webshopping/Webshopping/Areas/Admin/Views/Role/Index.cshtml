@@ -22,7 +22,10 @@
 }
  *@
 <!-- Your other content here -->
+@if (User.IsInRole("employee"))
+{
 <a asp-area="admin" asp-action="Create" asp-controller="Role" class="btn btn-primary btn-sm pt-1">Thêm vai trò</a>
+}
 <table class="table" id="myTable">
     <thead>
         <tr>
