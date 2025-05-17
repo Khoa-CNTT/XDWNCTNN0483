@@ -9,6 +9,12 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Webshopping.Areas.Admin.Controllers
 {
+	public record ChartRequest(
+		DateTime StartDate,
+		DateTime EndDate,
+		string FilterType
+	);
+
 	[Area("Admin")]
 	[Route("admin/")]
 	[Route("admin/dashboard")]
@@ -105,16 +111,20 @@ namespace Webshopping.Areas.Admin.Controllers
 		}
 
 		[HttpPost("get-chart-data")]
-		public IActionResult GetChartData(DateTime startDate, DateTime endDate, string filterType)
+		public IActionResult GetChartData([FromBody] ChartRequest req)
 		{
+			// Bảo đảm EndDate bao trùm hết ngày kết thúc
+			var startDate = req.StartDate.Date;
+			var endDate = req.EndDate.Date.AddDays(1); // so sánh < endDate
+
 			var orderDetails = _dataContext.Orders
-				.Where(o => o.CreateDate >= startDate && o.CreateDate <= endDate)
+				.Where(o => o.CreateDate >= startDate && o.CreateDate < endDate)
 				.Join(_dataContext.OrderDetails,
 					o => o.OrderCode,
 					od => od.OrderCode,
 					(o, od) => new
 					{
-						OrderId = o.Id, // Sửa ở đây
+						o.Id,
 						o.CreateDate,
 						od.Quantity,
 						od.Price,
@@ -126,33 +136,29 @@ namespace Webshopping.Areas.Admin.Controllers
 					p => p.Id,
 					(od, p) => new
 					{
-						od.OrderId,
+						od.Id,
 						Date = od.CreateDate,
 						Revenue = od.Quantity * (int)od.Price,
 						Profit = od.Quantity * ((int)od.Price - (int)p.CapitalPrice),
 						Quantity = od.Quantity,
-						OrderCode = od.OrderCode
+						od.OrderCode
 					});
 
 			var groupedData = orderDetails
 				.AsEnumerable()
 				.GroupBy(item =>
 				{
-					switch (filterType?.ToLower())
+					return req.FilterType?.ToLower() switch
 					{
-						case "day":
-							return item.Date.Date;
-						case "week":
-							var diff = item.Date.DayOfWeek - DayOfWeek.Monday;
-							var weekStart = item.Date.AddDays(-1 * (diff < 0 ? 6 : diff)).Date;
-							return weekStart;
-						case "month":
-							return new DateTime(item.Date.Year, item.Date.Month, 1);
-						case "year":
-							return new DateTime(item.Date.Year, 1, 1);
-						default:
-							return item.Date.Date;
-					}
+						"day" => item.Date.Date,
+						"week" =>
+							item.Date.AddDays(-(int)(item.Date.DayOfWeek == 0
+										? 6
+										: item.Date.DayOfWeek - DayOfWeek.Monday)).Date,
+						"month" => new DateTime(item.Date.Year, item.Date.Month, 1),
+						"year" => new DateTime(item.Date.Year, 1, 1),
+						_ => item.Date.Date
+					};
 				})
 				.Select(g => new StatisticalModel
 				{
@@ -160,7 +166,7 @@ namespace Webshopping.Areas.Admin.Controllers
 					Revenue = g.Sum(x => x.Revenue),
 					Profit = g.Sum(x => x.Profit),
 					Sold = g.Sum(x => x.Quantity),
-					Orders = g.Select(x => x.OrderId).Distinct().Count() // Sửa ở đây
+					Orders = g.Select(x => x.Id).Distinct().Count()
 				})
 				.OrderBy(g => g.DateCreated)
 				.ToList();

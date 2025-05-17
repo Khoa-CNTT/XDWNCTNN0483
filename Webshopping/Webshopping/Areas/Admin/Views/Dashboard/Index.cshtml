@@ -25,13 +25,13 @@
     }
 </style>
 
-<div class="row">
+<div class="row g-3">
     <div class="container-fluid">
         <div class="col-md-12">
             <div class="dashboard" style="
-                        border-radius: 0.2rem;
-                        background: #F2F2F2;
-                        margin-top: 0.6rem;">
+                            border-radius: 0.5rem; 
+                            background: #F2F2F2; 
+                            margin-top: 0.6rem;">
                 <div class="stats" style=" margin-left: 1rem;">
                     <h5>Thống kê số lượng</h5>
                     <!-- Các ô thống kê -->
@@ -72,29 +72,50 @@
 
                 <div class="chart-container">
                     <div class="chart-title">Biểu đồ thể hiện người đăng ký</div>
+
                     <div>
-                        <canvas class="user-chart" id="userChart"
-                            style="padding-right: 0.5rem; display: block;object-fit: fill; box-sizing: border-box; height: 495px; width: 990px;"></canvas>
+                        <canvas class="user-chart" id="userChart">
+                        </canvas>
                     </div>
                 </div>
             </div>
 
-            <div class="col-12 col-xxl-3 d-flex order-1 order-xxl-1" style="padding: 0;">
-                <div class="card flex-fill" style="width: calc(20% + 0.4rem);">
+            <!-- Card Lịch -->
+            <div class="col-12 col-xxl-3 d-flex order-1 order-xxl-1"
+                style="padding: 0; display: flex; flex-direction: row;">
+
+                <div class="card flex-fill" style="width: calc(20% + 0.4rem);margin-right: 1.5rem;">
                     <div class="card-header">
-                        <h5 class="card-title" style="
-                        text-align: center;
-                        margin: 0 0 1rem;
-                        text-align: center;
-                        font-size: 1.6rem;">
+                        <h5 class="card-title" style="margin: 0.5rem 0 1rem 0; text-align: center;">
                             Lịch
                         </h5>
                     </div>
+
                     <div class="card-body d-flex">
                         <div class="align-self-center w-100">
                             <div class="chart" style="height: 20.8rem;">
                                 <div id="datetimepicker-dashboard"></div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card Biểu Đồ -->
+                <div class="col-12 col-xxl-9 d-flex order-2 order-xxl-2 chart-container">
+                    <div class="card flex-fill" style="width: 100%;">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0" style="margin: 0.5rem 0 1rem 0; text-align: center;">
+                                Biểu đồ đơn hàng
+                            </h5>
+                        </div>
+
+                        <div class="card-body py-3">
+                            <div id="chartMessage"
+                                style="color:red; font-weight:bold; text-align:center; margin-top:1rem;">
+                            </div>
+
+                            <canvas id="orderChart">
+                            </canvas>
                         </div>
                     </div>
                 </div>
@@ -106,7 +127,7 @@
 @section Scripts {
     <!-- Chartjs  -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <!-- Locale tiếng Việt (chỉ load ở trang cần) -->
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/vn.js"></script>
@@ -182,7 +203,7 @@
             return n < 10 ? '0' + n : n;
         }
 
-        document.addEventListener("DOMContentLoaded", function () {
+        @* document.addEventListener("DOMContentLoaded", function () {
             flatpickr.localize(flatpickr.l10ns.vn);
 
             flatpickr("#datetimepicker-dashboard", {
@@ -195,7 +216,7 @@
                         let toDate = selectedDates[1].toISOString().split('T')[0];
 
                         // Gửi AJAX lên API get-chart-data
-                        fetch('/your-controller/get-chart-data', {
+                        fetch('/admin/dashboard/get-chart-data', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json'
@@ -212,6 +233,118 @@
                                 // Xử lý vẽ chart ở đây
                             })
                             .catch(err => console.error(err));
+                    }
+                }
+            });
+        }); *@
+    </script>
+
+    <script>
+            let chartInstance = null; // To update or destroy chart when re-rendered
+
+        document.addEventListener("DOMContentLoaded", function () {
+            flatpickr.localize(flatpickr.l10ns.vn);
+
+            flatpickr("#datetimepicker-dashboard", {
+                mode: "range",
+                inline: true,
+                dateFormat: "Y-m-d",
+                onChange: function (selectedDates) {
+                    if (selectedDates.length === 2) {
+                        let fromDate = selectedDates[0].toISOString().split('T')[0];
+                        let toDate = selectedDates[1].toISOString().split('T')[0];
+
+                        fetch('/admin/dashboard/get-chart-data', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                startDate: fromDate,
+                                endDate: toDate,
+                                filterType: 'day'
+                            })
+                        })
+                            .then(res => res.json())
+                            .then(data => {
+                                if (!data || data.length === 0 || data.every(item => item.revenue === 0 && item.profit === 0 && item.sold === 0 && item.orders === 0)) {
+                                    if (chartInstance) {
+                                        chartInstance.destroy();
+                                    }
+                                    document.getElementById("chartMessage").innerText = "Không có dữ liệu trong khoảng thời gian đã chọn";
+                                    return;
+                                } else {
+                                    document.getElementById("chartMessage").innerText = "";
+                                }
+                                // Nếu không có dữ liệu, tạo một mẫu mặc định
+                                if (!data || data.length === 0) {
+                                    data = [{
+                                        dateCreated: new Date(),
+                                        revenue: 0,
+                                        profit: 0,
+                                        sold: 0,
+                                        orders: 0
+                                    }];
+                                }
+
+                                const labels = data.map(item => new Date(item.dateCreated).toLocaleDateString('vi-VN'));
+                                const revenues = data.map(item => item.revenue);
+                                const profits = data.map(item => item.profit);
+                                const solds = data.map(item => item.sold);
+                                const orders = data.map(item => item.orders);
+
+                                const ctx = document.getElementById("orderChart").getContext("2d");
+
+                                if (chartInstance) {
+                                    chartInstance.destroy();
+                                }
+
+                                chartInstance = new Chart(ctx, {
+                                    type: 'bar',
+                                    data: {
+                                        labels: labels,
+                                        datasets: [
+                                            {
+                                                label: 'Doanh thu',
+                                                data: revenues,
+                                                backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                                                borderColor: 'rgba(75, 192, 192, 1)',
+                                                borderWidth: 1
+                                            },
+                                            {
+                                                label: 'Lợi nhuận',
+                                                data: profits,
+                                                backgroundColor: 'rgba(255, 159, 64, 0.6)',
+                                                borderColor: 'rgba(255, 159, 64, 1)',
+                                                borderWidth: 1
+                                            },
+                                        ]
+                                    },
+                                    options: {
+                                        responsive: true,
+                                        maintainAspectRatio: false, // <--- CHÍNH LÀ ĐÂY
+                                        scales: {
+                                            y: {
+                                                beginAtZero: true
+                                            }
+                                        },
+                                        plugins: {
+                                            title: {
+                                                display: data.length === 1 && data[0].revenue === 0,
+                                                text: 'Không có dữ liệu trong khoảng thời gian đã chọn',
+                                                color: 'red',
+                                                font: {
+                                                    size: 16
+                                                }
+                                            }
+                                        }
+                                    }
+                                });
+                            })
+                            .catch(err => {
+                                console.error("Lỗi khi lấy dữ liệu biểu đồ:", err);
+                                alert("Lỗi khi tải dữ liệu biểu đồ.");
+                            });
                     }
                 }
             });
