@@ -3,7 +3,7 @@
     const messagesContainer = document.getElementById('chatbox-messages');
     const input = document.getElementById('chatbox-input');
     const sendBtn = document.getElementById('chatbox-send-btn');
-    const toggleBtn = document.getElementById('chatbox-toggle-btn');
+    const toggleBtn = document.getElementById('chatbox-toggle-img');
     const closeBtn = document.getElementById('chatbox-close-btn');
 
     const apiEndpoint = '/api/chat'; // Route đã định nghĩa trong Controller
@@ -97,11 +97,12 @@
     toggleBtn.addEventListener('click', () => {
         chatbox.classList.toggle('visible');
         if (chatbox.classList.contains('visible')) {
-            input.focus(); // Focus vào input khi mở
-            toggleBtn.textContent = 'Đóng Chat'; // Đổi chữ nút toggle
+            input.focus();
+            // toggleBtn.src = 'close-icon.png'; // nếu muốn thay ảnh khi mở
         } else {
-            toggleBtn.textContent = 'Chat'; // Đổi lại chữ
+            // toggleBtn.src = 'chat-icon.png'; // nếu muốn thay ảnh khi đóng
         }
+
     });
 
     // Đóng chatbox bằng nút 'x'
@@ -109,5 +110,38 @@
         chatbox.classList.remove('visible');
         toggleBtn.textContent = 'Chat'; // Đổi lại chữ nút toggle
     });
+    // nhập liệu bằng giọng nói
+        let recognition;
+
+        if ('webkitSpeechRecognition' in window) {
+            recognition = new webkitSpeechRecognition();
+        recognition.lang = 'vi-VN';
+        recognition.continuous = false;
+        recognition.interimResults = false;
+
+        recognition.onresult = function (event) {
+            const transcript = event.results[0][0].transcript;
+        $('#chatbox-input').val(transcript);
+        $('#chatbox-send-btn').click();
+        };
+
+        recognition.onerror = function (event) {
+            console.error("Lỗi khi nhận giọng nói:", event.error);
+        Swal.fire("Lỗi", "Không thể nhận diện giọng nói", "error");
+        };
+
+        // ✅ Bạn đặt đoạn này ngay tại đây
+        $('#chatbox-voice-btn').on('click', function () {
+            $(this).addClass('recording');
+        recognition.start();
+        });
+
+        recognition.onend = function () {
+            $('#chatbox-voice-btn').removeClass('recording');
+        };
+    } else {
+            $('#chatbox-voice-btn').hide();
+        console.warn("Trình duyệt không hỗ trợ Web Speech API");
+    }
 
 });

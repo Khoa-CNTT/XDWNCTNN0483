@@ -17,41 +17,47 @@
 </head>
 
 <body>
-	<h3>Danh sách đơn hàng</h3>
-	<table class="table" id="myTable">
-		<thead>
-			<tr>
-				<th>Id</th>
-				<th>Mã đơn hàng</th>
-				<th>Giá ship</th>
-				<th>Mã giảm giá</th>
-				<th>Tên khách hàng</th>
-				<th>Tình trạng đơn hàng</th>
-				<th>Phương thức thanh toán</th>
-				<th>Ngày tạo đơn</th>
-				<th>Thao tác</th>
-			</tr>
-		</thead>
-		<tbody>
-			@foreach (var item in Model)
-			{
-				<tr>
-					<td>@item.Id</td>
-					<td>@item.OrderCode</td>
-					<td>@item.ShippingCost.ToString("#,##0 đ")</td>
-					<td>@item.CouponCode</td>
-					<td>@item.UserName</td>
-					<td>
-						@if (item.Status == 1)
-						{
-							<span class="text text-success">Đơn hàng mới</span>
-						}
-						else if (item.Status == 2)
+    <h3>Danh sách đơn hàng</h3>
+    <table class="table" id="myTable">
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>Mã đơn hàng</th>
+                <th>Giá ship</th>
+                <th>Mã giảm giá</th>
+                <th>Tên khách hàng</th>
+                <th>Tình trạng đơn hàng</th>
+                <th>Phương thức thanh toán</th>
+                <th>Ngày tạo đơn</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.OrderCode</td>
+                    <td>@item.ShippingCost.ToString("#,##0 đ")</td>
+                    <td>@item.CouponCode</td>
+                    <td>@item.UserName</td>
+                    <td>
+                        @if (item.Status == 1)
+                        {
+                            <span class="text text-success">Đơn hàng mới</span>
+                        }
+                        else if (item.Status == 2)
+                        {
+                            <span class="text text-success">Đang giao hàng</span>
+                        }
+						else if (item.Status == 3)
 						{
 							<span class="text text-success">Đã giao hàng</span>
 						}
-						else
-						{
+                        else
+                        {
+
+
 
 							<span class="text text-danger">Đã hủy</span>
 						}

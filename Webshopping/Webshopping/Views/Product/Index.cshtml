@@ -1,7 +1,196 @@
-﻿﻿
-@{
-    ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+﻿@model IEnumerable<ProductModel>
+<div class="col-sm-3">
+    @Html.Partial("_SidebarPartial")
+</div>
+<div class="col-sm-9 padding-right">
+    <div class="features_items">
+        <!--features_items-->
+        <h2 class="title text-center">sản phẩm</h2>
+        @foreach (var item in Model)
+        {
 
-<h1>Index product</h1>
+            <div class="col-sm-4">
+                <div class="product-image-wrapper">
+                    <div class="single-products">
+                        <div class="productinfo text-center">
+                            <a asp-action="Detail" asp-controller="Product" asp-route-Id="@item.Id">
+                                <img src="~/img/@item.Img" alt="@item.Name" width="100%" height="200px" />
+                                <h2>@item.Price.ToString("#,##0 VNĐ")</h2>
+                                <p>@item.Name</p>
+                                <p>Danh mục: @item.Category.Name</p>
+                                <p>Thương hiệu: @item.Brand.Name</p>
+                            </a>
+                            @* <a asp-action="Add" asp-controller="Cart" asp-route-Id="@item.Id" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a> *@
+                            @if (@item.Quantity == 0)
+                            {
+                                <button type="button" class="btn btn-default">
+                                    <i class="fa fa-shopping-cart"></i>Hết
+                                    hàng
+                                </button>
+                            }
+                            else
+                            {
+                                <button class="btn btn-default add-to-cart" data-product_id="@item.Id">
+                                    <i class="fa fa-shopping-cart"></i>
+                                    Thêm giỏ hàng
+                                </button>
+                            }
+
+
+                        </div>
+
+
+                    </div>
+                    <div class="choose">
+                        @if (User.Identity?.IsAuthenticated ?? false)
+                        {
+                            <ul class="nav nav-pills nav-justified">
+                                <li style="text-align: center;">
+                                    <button class="btn btn-danger add-btn-wishlist" data-product_id="@item.Id">
+                                        Yêu thích
+                                    </button>
+                                </li>
+                                <li style="text-align: center;">
+                                    <button style="margin: 16px;" class="btn btn-primary add-btn-compare"
+                                        data-product_id="@item.Id">
+                                        So sánh
+                                    </button>
+                                </li>
+                            </ul>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div><!--features_items-->
+</div>
+@section Scripts {
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+    <!-- Popper.js (required by Bootstrap 4 for modal, dropdown, tooltip...) -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+
+    <!-- Bootstrap 4.5.2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js"></script>
+    <!-- jQuery UI (slider cần cái này) -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css" />
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+
+    <!-- ScrollUp -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/scrollup/2.4.1/jquery.scrollUp.min.js"></script>
+
+    <!-- SweetAlert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Gọi plugin sau khi load -->
+    <script>
+        $(function () {
+            $.scrollUp();
+
+            // jQuery UI slider
+            $("#slider-range").slider({
+                range: true,
+                step: 10000,
+                min: 1000,
+                max: 10000000,
+                values: [1000, 300000],
+                slide: function (event, ui) {
+                    $("#amount").val(
+                        new Intl.NumberFormat("vn-VN", { style: "currency", currency: "VND" }).format(ui.values[0]) +
+                        " - " +
+                        new Intl.NumberFormat("vn-VN", { style: "currency", currency: "VND" }).format(ui.values[1])
+                    );
+                }
+            });
+
+            $("#amount").val(
+                new Intl.NumberFormat("vn-VN", { style: "currency", currency: "VND" }).format($("#slider-range").slider("values", 0)) +
+                " - " +
+                new Intl.NumberFormat("vn-VN", { style: "currency", currency: "VND" }).format($("#slider-range").slider("values", 1))
+            );
+
+            // Lọc giá
+            $('.btn-locgia').on('click', function () {
+                var url = $(this).data("current_url");
+                if (url) {
+                    window.location = url + "?startprice=" + $("#slider-range").slider("values", 0)
+                        + "&endprice=" + $("#slider-range").slider("values", 1);
+                }
+                return false;
+            });
+
+            // Add to cart
+            $('.add-to-cart').click(function () {
+                var Id = $(this).data("product_id");
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Add", "Cart")",
+                    data: { Id: Id },
+                    success: function (result) {
+                        Swal.fire(result.success ? result.message : "Thất bại: " + result.message);
+                    },
+                    error: function () {
+                        Swal.fire("Có lỗi xảy ra khi thêm sản phẩm!");
+                    }
+                });
+            });
+
+            // Add to wishlist
+            $('.add-btn-wishlist').click(function () {
+                var Id = $(this).data("product_id");
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("AddWishlist", "Home")",
+                    data: { Id: Id },
+                    success: function (result) {
+                        if (result) Swal.fire("Thêm yêu thích thành công.");
+                    }
+                });
+            });
+
+            // Add to compare
+            $('.add-btn-compare').click(function () {
+                var Id = $(this).data("product_id");
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("AddCompare", "Home")",
+                    data: { Id: Id },
+                    success: function (result) {
+                        if (result) {
+                            Swal.fire({
+                                title: 'Đã thêm sản phẩm vào danh sách so sánh!',
+                                text: 'Bạn có muốn chuyển đến trang so sánh ngay bây giờ không?',
+                                icon: 'success',
+                                showCancelButton: true,
+                                confirmButtonText: 'Có',
+                                cancelButtonText: 'Không'
+                            }).then((res) => {
+                                if (res.isConfirmed) {
+                                    // Điều hướng đến trang so sánh
+                                    window.location.href = "/Home/Compare";
+                                }
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Lỗi',
+                                text: 'Không thể thêm sản phẩm vào danh sách so sánh.'
+                            });
+                        }
+                    },
+                    error: function () {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi',
+                            text: 'Đã xảy ra lỗi trong quá trình gửi yêu cầu.'
+                        });
+                    }
+                });
+            });
+
+        });
+    </script>
+}

@@ -51,8 +51,9 @@
 						height="100" />
 				</a>
 			</div>
+
 			<ul class="nav">
-				<li><a asp-controller="Home" asp-action="Index">Trang chủ</a></li>
+				<li><a asp-controller="Home" asp-action="Index" asp-area="">Trang chủ</a></li>
 				<li><a asp-controller="Dashboard" asp-action="Index">Bảng điều khiển</a></li>
 				<li><a asp-controller="Product" asp-action="Index">Sản phẩm</a></li>
 				<li><a asp-controller="Category" asp-action="Index">Danh mục</a></li>
@@ -65,6 +66,7 @@
 				<li><a asp-controller="User" asp-action="Index">Người dùng</a></li>
 				<li><a asp-controller="Role" asp-action="Index">Vai trò</a></li>
 				<li>
+
 					@if (User.Identity?.IsAuthenticated ?? false)
 					{
 						<form asp-action="Logout" method="post" asp-controller="Account">
@@ -155,24 +157,32 @@
 				</div>
 
 			</footer> *@
+      
 			<!-- Chatbox Container -->
-			<div id="gemini-chatbox">
-				<div id="chatbox-header">
-					<span>Perfume bot</span>
-					<button id="chatbox-close-btn">×</button>
-				</div>
-				<div id="chatbox-messages">
-					<!-- Tin nhắn sẽ được thêm vào đây bằng JavaScript -->
-					<div class="message bot-message">Welcome to website My perfume! Tôi có thể giúp gì cho bạn?</div>
-				</div>
-				<div id="chatbox-input-area">
-					<input type="text" id="chatbox-input" placeholder="Nhập câu hỏi của bạn...">
-					<button id="chatbox-send-btn">Gửi</button>
-				</div>
-			</div>
-			<button id="chatbox-toggle-btn">Chat</button> <!-- Nút để mở/đóng chatbox -->
+			
+      <div id="gemini-chatbox">
+        <div id="chatbox-header">
+          <span>Perfume Bot</span>
+          <button id="chatbox-close-btn">×</button>
+        </div>
+
+        <div id="chatbox-messages">
+          <!-- Tin nhắn sẽ được thêm vào đây bằng JavaScript -->
+          <div class="message bot-message">Welcome to Myperfume! Tôi có thể giúp gì cho bạn?</div>
+        </div>
+
+        <div id="chatbox-input-area">
+          <input type="text" id="chatbox-input" placeholder="Nhập câu hỏi của bạn...">
+          <button id="chatbox-voice-btn">giọng nói</button> <!-- Nút thu âm -->
+          <button id="chatbox-send-btn">Gửi</button>
+        </div>
+
+      </div>
+      <img id="chatbox-toggle-img" src="~/img/moiii.png" alt="Chat"
+        style="position: fixed; bottom: 20px; right: 20px; width: 100px; height: 100px; cursor: pointer; z-index: 999;">
 		</div>
 		<!--/Footer-->
+    
 		<script src="~/js/jquery.js"></script>
 		<script src="~/js/bootstrap.min.js"></script>
 		<script src="~/js/jquery.scrollUp.min.js"></script>

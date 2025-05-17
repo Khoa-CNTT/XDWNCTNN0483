@@ -66,7 +66,7 @@ public class AccountController : Controller
         try
         {
             var order = await _dataContext.Orders.Where(o => o.OrderCode == ordercode).FirstAsync();
-            order.Status = 3;
+            order.Status = 4;
             _dataContext.Update(order);
             await _dataContext.SaveChangesAsync();
             TempData["Success"] = "Hủy đơn hàng thành công.";
@@ -85,7 +85,32 @@ public class AccountController : Controller
     {
         if (ModelState.IsValid)
         {
-            AppUserModel newUser = new AppUserModel
+            // Kiểm tra Username
+            var existingUser = await _userManager.FindByNameAsync(model.Username);
+            if (existingUser != null)
+            {
+                ModelState.AddModelError("Username", "Tên đăng nhập đã được sử dụng.");
+                return View(model);
+            }
+
+            // Kiểm tra Email
+            var existingEmail = await _userManager.FindByEmailAsync(model.Email);
+            if (existingEmail != null)
+            {
+                ModelState.AddModelError("Email", "Email đã được sử dụng.");
+                return View(model);
+            }
+
+            // Kiểm tra số điện thoại
+            var existingPhone = await _userManager.Users
+                .FirstOrDefaultAsync(u => u.PhoneNumber == model.PhoneNumber);
+            if (existingPhone != null)
+            {
+                ModelState.AddModelError("PhoneNumber", "Số điện thoại đã được sử dụng.");
+                return View(model);
+            }
+
+            var newUser = new AppUserModel
             {
                 UserName = model.Username,
                 Email = model.Email,
@@ -93,15 +118,30 @@ public class AccountController : Controller
                 CreatedDate = DateTime.Now // Thêm dòng này
             };
 
-            IdentityResult result = await _userManager.CreateAsync(newUser, model.Password);
+            var result = await _userManager.CreateAsync(newUser, model.Password);
+
             if (result.Succeeded)
             {
-                // Gán role "User" cho tài khoản mới tạo
+                // Gán role
                 await _userManager.AddToRoleAsync(newUser, "User");
 
-                TempData["success"] = "Đăng ký thành công.";
+                // Tạo token xác nhận email
+                var token = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
+
+                // Tạo URL xác nhận email
+                var confirmationLink = Url.Action("ConfirmEmail", "Account",
+                    new { userId = newUser.Id, token = token }, Request.Scheme);
+
+                // Gửi email xác nhận
+                //  Giả sử bạn có một service gửi email, ví dụ: _emailSender.SendEmailAsync(...)
+                await _emailSender.SendEmailAsync(newUser.Email, "Xác nhận email",
+                    $"Vui lòng xác nhận tài khoản bằng cách <a href='{confirmationLink}'>bấm vào đây</a>.");
+
+                TempData["success"] = "Đăng ký thành công. Vui lòng kiểm tra email để xác nhận tài khoản.";
                 return RedirectToAction("Login", "Account");
             }
+
+
             foreach (IdentityError error in result.Errors)
             {
                 ModelState.AddModelError("", error.Description);
@@ -109,6 +149,29 @@ public class AccountController : Controller
         }
 
         return View(model);
+    }
+    
+    [HttpGet("ConfirmEmail")]
+    public async Task<IActionResult> ConfirmEmail(string userId, string token)
+    {
+        var user = await _userManage.FindByIdAsync(userId);
+        if (user == null)
+        {
+            TempData["error"] = "Không tìm thấy người dùng.";
+            return RedirectToAction("Login", "Account");
+        }
+
+        var result = await _userManage.ConfirmEmailAsync(user, token);
+        if (result.Succeeded)
+        {
+            TempData["success"] = "Xác thực email thành công.";
+        }
+        else
+        {
+            TempData["error"] = "Xác thực email không thành công.";
+        }
+
+        return RedirectToAction("Login", "Account");
     }
 
     [HttpPost("Sendemail")]
@@ -210,16 +273,61 @@ public class AccountController : Controller
     {
         if (ModelState.IsValid)
         {
-            Microsoft.AspNetCore.Identity.SignInResult result = await _signInManager
-                .PasswordSignInAsync(viewModel.Username, viewModel.Password, false, false);
+            var user = await _userManager.FindByNameAsync(viewModel.Username);
+            if (user == null)
+            {
+                ModelState.AddModelError("", "Tài khoản không tồn tại");
+                return View(viewModel);
+            }
+
+            //  Kiểm tra xác nhận email
+            if (!await _userManager.IsEmailConfirmedAsync(user))
+            {
+                ModelState.AddModelError("", "Tài khoản của bạn chưa xác nhận email. Vui lòng kiểm tra email để xác thực tài khoản.");
+                return View(viewModel);
+            }
+
+            var result = await _signInManager.PasswordSignInAsync(
+                viewModel.Username,
+                viewModel.Password,
+                false, // rememberMe
+                lockoutOnFailure: true // kích hoạt khóa tài khoản khi sai nhiều lần
+            );
+
             if (result.Succeeded)
+        {
+            // Lấy vai trò người dùng
+            var roles = await _userManager.GetRolesAsync(user);
+
+            // Điều hướng theo vai trò
+            if (roles.Contains("Admin") || roles.Contains("Staff"))
+            {
+                return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+            }
+            else if (roles.Contains("User"))
             {
                 return Redirect(viewModel.ReturnUrl ?? "/");
             }
-            ModelState.AddModelError("", "Sai tên nhập hoặc mật khẩu");
+            else
+            {
+                await _signInManager.SignOutAsync(); // Không có vai trò phù hợp
+                ModelState.AddModelError("", "Bạn không có quyền truy cập.");
+                return View(viewModel);
+            }
         }
+            else if (result.IsLockedOut)
+            {
+                ModelState.AddModelError("", "Tài khoản đã bị khóa. Vui lòng thử lại sau.");
+            }
+            else
+            {
+                ModelState.AddModelError("", "Sai tên đăng nhập hoặc mật khẩu.");
+            }
+        }
+
         return View(viewModel);
     }
+
 
     // GET: account/logout
     public async Task<IActionResult> Logout(string returnUrl = "/")
