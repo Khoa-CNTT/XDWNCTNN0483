@@ -22,13 +22,20 @@
                                 <p>@item.Name</p>
                                 <p>Danh mục: @item.Category.Name</p>
                                 <p>Thương hiệu: @item.Brand.Name</p>
+
                                 @if (@item.Quantity > 0)
                                 {
-                                    <a class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm giỏ hàng</a>
+                                    <a class="btn btn-default add-to-cart">
+                                        <i class="fa fa-shopping-cart"></i>
+                                        Thêm giỏ hàng
+                                    </a>
                                 }
                                 else
                                 {
-                                    <Button class="btn btn-default"><i class="fa fa-shopping-cart"></i>hết hàng</Button>
+                                    <button class="btn btn-default">
+                                        <i class="fa fa-shopping-cart"></i>
+                                        Hết hàng
+                                    </button>
                                 }
                             </div>
                         </div>

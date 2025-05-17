@@ -66,7 +66,7 @@ public class AccountController : Controller
         try
         {
             var order = await _dataContext.Orders.Where(o => o.OrderCode == ordercode).FirstAsync();
-            order.Status = 3;
+            order.Status = 4;
             _dataContext.Update(order);
             await _dataContext.SaveChangesAsync();
             TempData["Success"] = "Hủy đơn hàng thành công.";
@@ -114,10 +114,12 @@ public class AccountController : Controller
             {
                 UserName = model.Username,
                 Email = model.Email,
-                PhoneNumber = model.PhoneNumber
+                PhoneNumber = model.PhoneNumber,
+                CreatedDate = DateTime.Now // Thêm dòng này
             };
 
             var result = await _userManager.CreateAsync(newUser, model.Password);
+
             if (result.Succeeded)
             {
                 // Gán role
@@ -148,29 +150,29 @@ public class AccountController : Controller
 
         return View(model);
     }
+    
     [HttpGet("ConfirmEmail")]
-public async Task<IActionResult> ConfirmEmail(string userId, string token)
-{
-    var user = await _userManage.FindByIdAsync(userId);
-    if (user == null)
+    public async Task<IActionResult> ConfirmEmail(string userId, string token)
     {
-        TempData["error"] = "Không tìm thấy người dùng.";
+        var user = await _userManage.FindByIdAsync(userId);
+        if (user == null)
+        {
+            TempData["error"] = "Không tìm thấy người dùng.";
+            return RedirectToAction("Login", "Account");
+        }
+
+        var result = await _userManage.ConfirmEmailAsync(user, token);
+        if (result.Succeeded)
+        {
+            TempData["success"] = "Xác thực email thành công.";
+        }
+        else
+        {
+            TempData["error"] = "Xác thực email không thành công.";
+        }
+
         return RedirectToAction("Login", "Account");
     }
-
-    var result = await _userManage.ConfirmEmailAsync(user, token);
-    if (result.Succeeded)
-    {
-        TempData["success"] = "Xác thực email thành công.";
-    }
-    else
-    {
-        TempData["error"] = "Xác thực email không thành công.";
-    }
-
-    return RedirectToAction("Login", "Account");
-}
-
 
     [HttpPost("Sendemail")]
     public async Task<IActionResult> SendMailForgetPass(AppUserModel user)

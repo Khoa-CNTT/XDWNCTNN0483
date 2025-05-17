@@ -61,6 +61,7 @@
                     <td>giảm giá : @ViewBag.CouponCode</td>
                     <td>Chi phí vận chuyển : @ViewBag.ShippingCost.ToString("#,##0 đ")</td>
                     <td>
+
                         Tổng hóa đơn: @{
                         decimal discount = 0;
                         decimal discountValue = ViewBag.DiscountValue ?? 0;
@@ -85,7 +86,8 @@
                     }
                     </td>
                     <td>
-                        @if (@ViewBag.Status != 3)
+                        @if (@ViewBag.Status != 4)
+
                         {
                             <select class="form-control select-update-order">
                                 <option value="1">Đơn hàng mới</option>

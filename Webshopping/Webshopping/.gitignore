@@ -490,3 +490,9 @@ $RECYCLE.BIN/
 
 # Migrations
 Migrations/
+
+#stop vgk
+stop
+
+# config ef core 9.0.5
+.config
