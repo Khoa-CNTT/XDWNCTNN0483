@@ -30,8 +30,11 @@
 
 <body>
     <h3>Danh Mục</h3>
+     @if (User.IsInRole("employee"))
+    {
 
     <a class="btn btn-primary" asp-action="Create" asp-controller="Category">Thêm danh mục</a>
+    }
 
     <table class="table" id="myTable">
         <thead>

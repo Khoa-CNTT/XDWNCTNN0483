@@ -1592,9 +1592,14 @@ h2.title {
 }
 
 .cart_info table tr td {
-  border-top: 0 none;
-  vertical-align: inherit;
+	border-top: 0 none;
+	/*  vertical-align: inherit;*/
+	vertical-align: inherit !important;
 }
+#cart_items .cart_info .table.table-condensed td {
+	vertical-align: middle !important;
+}
+
 
 
 #cart_items .cart_info .image {

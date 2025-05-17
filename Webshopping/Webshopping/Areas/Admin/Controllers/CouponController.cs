@@ -8,7 +8,7 @@ namespace Webshopping.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Route("admin/coupon")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "employee,Admin")]
     public class CouponController : Controller
     {
         private readonly DataContext _dataContext;
@@ -31,8 +31,12 @@ namespace Webshopping.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Add(CouponModel coupon)
         {
-
-
+            //  Kiểm tra giảm phần trăm không vượt quá 100%
+            if (coupon.DiscountType <= 0 && coupon.DiscountValue > 100)
+            {
+                ModelState.AddModelError("DiscountValue", "Giảm phần trăm không được vượt quá 100%");
+            }
+            
             if (ModelState.IsValid)
             {
 

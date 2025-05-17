@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 
 [Area("Admin")]
 [Route("admin/category/")]
-[Authorize(Roles = "Publisher,Author,Admin")]
+[Authorize(Roles = "employee,Admin")]
 public class CategoryController : Controller
 {
     private readonly DataContext _dataContext;

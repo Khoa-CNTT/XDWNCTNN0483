@@ -298,7 +298,7 @@ public async Task<IActionResult> ConfirmEmail(string userId, string token)
             var roles = await _userManager.GetRolesAsync(user);
 
             // Điều hướng theo vai trò
-            if (roles.Contains("Admin") || roles.Contains("Staff"))
+            if (roles.Contains("Admin") || roles.Contains("employee"))
             {
                 return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
             }
