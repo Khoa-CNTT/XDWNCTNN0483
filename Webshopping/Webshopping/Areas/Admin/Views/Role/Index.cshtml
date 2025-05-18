@@ -7,24 +7,12 @@
 
 <h3>Danh sách vai trò</h3>
 
-@* @if (TempData["success"] != null)
-{
-    <div class="alert alert-success notification">
-        @TempData["success"]
-    </div>
-}
-
-@if (TempData["error"] != null)
-{
-    <div class="alert alert-danger notification">
-        @TempData["error"]
-    </div>
-}
- *@
 <!-- Your other content here -->
-@if (User.IsInRole("employee"))
+@if (User.IsInRole("Employee"))
 {
-    <a asp-area="admin" asp-action="Create" asp-controller="Role" class="btn btn-primary btn-sm pt-1">Thêm vai trò</a>
+    <a asp-area="admin" asp-action="Create" asp-controller="Role" class="btn btn-primary btn-sm pt-1">
+        Thêm vai trò
+    </a>
 }
 <table class="table" id="myTable">
     <thead>
@@ -43,11 +31,11 @@
                 <td>@item.Name</td>
                 <td>@item.NormalizedName</td>
 
-
                 <td>
                     <a asp-action="Edit" asp-controller="Role" asp-route-id="@item.Id" class="btn btn-sm btn-warning">
                         Sửa
                     </a>
+
                     <form asp-action="Delete" asp-controller="Role" asp-route-id="@item.Id" style="display: inline;">
                         <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
                     </form>
