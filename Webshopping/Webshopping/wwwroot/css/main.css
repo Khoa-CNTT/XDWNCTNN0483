@@ -898,6 +898,7 @@ h2.title {
 
 .productinfo{
  position:relative;
+ margin-bottom: 1.5rem;
 }
 
 .product-overlay {
@@ -2408,7 +2409,7 @@ h2.title {
 .btn.btn-primary {
   background: #FE980F;
   border: 0 none;
-  margin: 16px;
+  margin-top: 1.2rem;
   height: 34px;
   font-size: 14px;
   border-radius: 5px;

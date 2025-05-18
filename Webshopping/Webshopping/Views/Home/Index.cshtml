@@ -1,12 +1,15 @@
 ﻿@model IEnumerable<ProductModel>
+
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <partial name="_SliderPartial" />
 <div class="col-sm-3">
     <partial name="_SidebarPartial" />
 </div>
+
 <div class="col-sm-9 padding-right">
     <div class="features_items">
         <!--features_items-->
@@ -16,7 +19,7 @@
             <div class="col-sm-4">
                 <div class="product-image-wrapper">
                     <div class="single-products">
-                        <div class="productinfo text-center">
+                        <div class="productinfo text-center" style="margin-bottom: 1.5rem;">
                             <a asp-action="Detail" asp-controller="Product" asp-route-Id="@item.Id">
                                 <img src="~/img/@item.Img" alt="@item.Name" width="100%" height="200px" />
                                 <h2>@item.Price.ToString("#,##0 VNĐ")</h2>
@@ -28,8 +31,8 @@
                             @if (@item.Quantity == 0)
                             {
                                 <button type="button" class="btn btn-default">
-                                    <i class="fa fa-shopping-cart"></i>Hết
-                                    hàng
+                                    <i class="fa fa-shopping-cart"></i>
+                                    Hết hàng
                                 </button>
                             }
                             else
@@ -44,22 +47,24 @@
                                 else
                                 {
                                     <button type="button" class="btn btn-default">
-                                        <i class="fa fa-shopping-cart"></i>Thêm giỏ hàng
+                                        <i class="fa fa-shopping-cart"></i>
+                                        Thêm giỏ hàng
                                     </button>
-
                                 }
                             }
                         </div>
                     </div>
+
                     <div class="choose">
                         @if ((User.Identity?.IsAuthenticated ?? false) && !User.IsInRole("Admin"))
                         {
-                            <ul class="nav nav-pills nav-justified">
+                            <ul class="nav nav-pills nav-justified" style="display: inline;">
                                 <li style="text-align: center;">
                                     <button class="btn btn-danger add-btn-wishlist" data-product_id="@item.Id">
                                         Yêu thích
                                     </button>
                                 </li>
+
                                 <li style="text-align: center;">
                                     <button style="margin: 16px; border-radius: 5px;" class="btn btn-primary add-btn-compare"
                                         data-product_id="@item.Id">
@@ -72,7 +77,6 @@
                 </div>
             </div>
         }
-
     </div><!--features_items-->
 </div>
 @section Scripts {
