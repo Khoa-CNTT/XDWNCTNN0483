@@ -19,9 +19,7 @@ public class UserController : Controller
     private readonly RoleManager<IdentityRole> _roleManager;
     private readonly UserManager<AppUserModel> _userManager;
 
-    public UserController(RoleManager<IdentityRole> roleManager, UserManager<AppUserModel> userManager,
-    DataContext dataContext
-    )
+    public UserController(RoleManager<IdentityRole> roleManager, UserManager<AppUserModel> userManager, DataContext dataContext)
     {
         _dataContext = dataContext;
         _roleManager = roleManager;

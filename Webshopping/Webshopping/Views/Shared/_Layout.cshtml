@@ -59,8 +59,14 @@
                     <div class="col-sm-6">
                         <div class="contactinfo">
                             <ul class="nav nav-pills">
-                                <li><a href="#"><i class="fa fa-phone"></i> 0325471030</a></li>
-                                <li><a href="https://mail.google.com/mail/?view=cm&fs=1&to=enternitywinner2000@gmail.com&su=Liên hệ&body=Chào bạn"
+                                <li>
+                                    <a href="#">
+                                        <i class="fa fa-phone"></i> 0325471030
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=enternitywinner2000@gmail.com&su=Liên hệ&body=Chào bạn"
                                         target="_blank">
                                         <i class="fa fa-envelope"></i> enternitywinner2000@gmail.com
                                     </a>
@@ -68,16 +74,27 @@
                             </ul>
                         </div>
                     </div>
+
                     <div class="col-sm-6">
                         <div class="social-icons pull-right">
                             <ul class="nav navbar-nav">
-                                <li><a target="_blank" href="https://www.facebook.com/trinh.le.767412"><i
-                                            class="fa fa-facebook"></i></a></li>
-                                <li><a target="_blank" href="https://x.com/Himekafcon"><i class="fa fa-twitter"></i></a>
+                                <li>
+                                    <a target="_blank" href="https://www.facebook.com/trinh.le.767412">
+                                        <i class="fa fa-facebook"></i>
+                                    </a>
                                 </li>
-                                <li><a target="_blank"
-                                        href="https://www.linkedin.com/in/tr%C3%ACnh-l%C3%AA-652aa2363/"><i
-                                            class="fa fa-linkedin"></i></a></li>
+
+                                <li>
+                                    <a target="_blank" href="https://x.com/Himekafcon">
+                                        <i class="fa fa-twitter"></i>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a target="_blank" href="https://www.linkedin.com/in/tr%C3%ACnh-l%C3%AA-652aa2363/">
+                                        <i class="fa fa-linkedin"></i>
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -94,10 +111,12 @@
                             <a asp-action="index" asp-controller="Home"><img src="~/img/logo.png" alt="" width="100"
                                     height="100" /></a>
                         </div>
+
                         <div class="btn-group pull-right">
 
                         </div>
                     </div>
+
                     <div class="col-sm-8">
                         <div class="shop-menu pull-right">
                             <ul class="nav navbar-nav">
@@ -116,12 +135,14 @@
                                             <i class="fa fa-heart"></i>Yêu thích
                                         </a>
                                     </li>
+
                                     <li>
                                         <a asp-action="Compare" asp-controller="Home">
                                             <i class="fa fa-star"></i>
                                             So sánh
                                         </a>
                                     </li>
+
                                     <li>
                                         <a asp-action="Index" asp-controller="Cart">
                                             <i class="fa fa-crosshairs"></i>
@@ -133,15 +154,18 @@
                                         <a class="nav-link">
                                             Hi, @User.Identity.Name <i class="fa fa-angle-down"></i>
                                         </a>
+
                                         <ul role="menu" class="dropdown-menu">
-                                            <li><a class="dropdown-item" asp-controller="Account" asp-action="History">
+                                            <li>
+                                                <a class="dropdown-item" asp-controller="Account" asp-action="History">
                                                     <i class="fa fa-history"></i> Lịch sử đơn hàng
                                                 </a>
                                             </li>
+
                                             <li>
                                                 @* Ẩn mục admin nếu không phải admin *@
-                                                @if (User.IsInRole("Admin")|| User.IsInRole("employee"))
-                                                
+                                                @if (User.IsInRole("Admin") || User.IsInRole("employee"))
+
                                                 {
                                                     <a class="dropdown-item" asp-area="Admin" asp-controller="Dashboard"
                                                         asp-action="Index">
@@ -149,6 +173,7 @@
                                                     </a>
                                                 }
                                             </li>
+
                                             <li>
                                                 <form asp-controller="Account" asp-action="Logout" method="post"
                                                     class="form-inline">
@@ -163,7 +188,10 @@
                                 }
                                 else
                                 {
-                                    <li><a asp-controller="Account" asp-action="Login"><i class="fa fa-lock"></i>Login</a>
+                                    <li>
+                                        <a asp-controller="Account" asp-action="Login">
+                                            <i class="fa fa-lock"></i>Login
+                                        </a>
                                     </li>
                                 }
                             </ul>

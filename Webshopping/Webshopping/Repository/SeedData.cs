@@ -6,6 +6,16 @@ namespace Webshopping.Repository
 {
     public class SeedData
     {
+        private const string AdminUsername = "admin123";
+        private const string AdminEmail = "admin@gmail.com";
+        private const string AdminPass = "Admin123!";
+        private const string UsernameOfUser = "user123";
+        private const string UserEmail = "user@gmail.com";
+        private const string UserPass = "User123!";
+        private const string EmployeeUsername = "employee";
+        private const string EmployeeEmail = "employee@gmail";
+        private const string EmployeePass = "Employee123!";
+
         // seed data products, brands, categories
         public static void SeedingData(DataContext _context)
         {
@@ -86,7 +96,7 @@ namespace Webshopping.Repository
         // Hàm để seeding role
         public static async Task SeedRolesAsync(RoleManager<IdentityRole> roleManager)
         {
-            string[] roles = { "Admin", "User" };
+            string[] roles = { "Admin", "User", "Employee" };
 
             foreach (var role in roles)
             {
@@ -95,6 +105,88 @@ namespace Webshopping.Repository
                     await roleManager.CreateAsync(new IdentityRole(role));
                 }
             }
+        }
+
+        // Hàm để seeding user
+        public static async Task SeedUserAscync(UserManager<AppUserModel> userManager, ILogger logger)
+        {
+            // Admin
+            var admin = await userManager.FindByEmailAsync(AdminEmail);
+            if (admin == null)
+            {
+                admin = new AppUserModel
+                {
+                    UserName = AdminUsername,               // gán username của Identity bởi AdminUsername
+                    Email = AdminEmail,                     // gán email của Identity bởi AdminEmail
+                    EmailConfirmed = true,                  // được xác nhận email
+                    Token = Guid.NewGuid().ToString(),      // Token được lưu là Guid
+                    CreatedDate = DateTime.UtcNow           // được tạo khi mới chạy
+                };
+            }
+
+            // tạo Admin với passsword
+            var adminResult = await userManager.CreateAsync(admin, AdminPass);
+            if (!adminResult.Succeeded)
+            {
+                logger.LogError($"Lỗi seed admin: {string.Join(" | ", adminResult.Errors.Select(e => e.Description))}");    // <-- đây là log thất bại
+                return;
+            }
+
+            // thêm role vào Admin
+            await userManager.AddToRoleAsync(admin, "Admin");
+            logger.LogInformation("Đã thêm Admin thành công");      // <-- đây là log thành công
+
+            // User
+            var user = await userManager.FindByEmailAsync(UserEmail);
+            if (user == null)
+            {
+                user = new AppUserModel
+                {
+                    UserName = UsernameOfUser,              // gán username của Identity bởi UsernameOfUser
+                    Email = UserEmail,                      // gán email của Identity bởi UserEmail
+                    EmailConfirmed = true,                  // được xác nhận email
+                    Token = Guid.NewGuid().ToString(),      // Token được lưu là Guid
+                    CreatedDate = DateTime.UtcNow           // được tạo khi mới chạy
+                };
+            }
+
+            // tạo user với passsword
+            var userResult = await userManager.CreateAsync(user, UserPass);
+            if (!adminResult.Succeeded)
+            {
+                logger.LogError($"Lỗi seed user: {string.Join(" | ", userResult.Errors.Select(e => e.Description))}");      // <-- đây là log thất bại
+                return;
+            }
+
+            // thêm role vào User
+            await userManager.AddToRoleAsync(user, "User");
+            logger.LogInformation("Đã thêm User chuẩn thành công");     // <-- đây là log thành công
+
+            // Employee
+            var employee = await userManager.FindByEmailAsync(EmployeeEmail);
+            if (employee == null)
+            {
+                employee = new AppUserModel
+                {
+                    UserName = EmployeeUsername,            // gán username của Identity bởi EmployeeUsername
+                    Email = EmployeeEmail,                  // gán email của Identity bởi EmployeeEmail
+                    EmailConfirmed = true,                  // đã được xác nhận email
+                    Token = Guid.NewGuid().ToString(),      // Token được lưu là Guid
+                    CreatedDate = DateTime.UtcNow           // được tạo khi mới chạy
+                };
+            }
+
+            // tạo Employee với password
+            var employeeResult = await userManager.CreateAsync(employee, EmployeePass);
+            if (!employeeResult.Succeeded)
+            {
+                logger.LogError($"Lỗi seed Employee {string.Join(" | ", employeeResult.Errors.Select(e => e.Description))}");   // <-- đây là log thất bại
+                return;
+            }
+
+            // thêm role và cho Employee
+            await userManager.AddToRoleAsync(employee, "Employee");
+            logger.LogInformation("Đã thêm Employee thành công");       // <-- đây là log thành công
         }
     }
 }
