@@ -150,7 +150,7 @@ public class AccountController : Controller
 
         return View(model);
     }
-    
+
     [HttpGet("ConfirmEmail")]
     public async Task<IActionResult> ConfirmEmail(string userId, string token)
     {
@@ -295,26 +295,26 @@ public class AccountController : Controller
             );
 
             if (result.Succeeded)
-        {
-            // Lấy vai trò người dùng
-            var roles = await _userManager.GetRolesAsync(user);
+            {
+                // Lấy vai trò người dùng
+                var roles = await _userManager.GetRolesAsync(user);
 
-            // Điều hướng theo vai trò
-            if (roles.Contains("Admin") || roles.Contains("employee"))
-            {
-                return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+                // Điều hướng theo vai trò
+                if (roles.Contains("Admin") || roles.Contains("employee"))
+                {
+                    return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+                }
+                else if (roles.Contains("User"))
+                {
+                    return Redirect(viewModel.ReturnUrl ?? "/");
+                }
+                else
+                {
+                    await _signInManager.SignOutAsync(); // Không có vai trò phù hợp
+                    ModelState.AddModelError("", "Bạn không có quyền truy cập.");
+                    return View(viewModel);
+                }
             }
-            else if (roles.Contains("User"))
-            {
-                return Redirect(viewModel.ReturnUrl ?? "/");
-            }
-            else
-            {
-                await _signInManager.SignOutAsync(); // Không có vai trò phù hợp
-                ModelState.AddModelError("", "Bạn không có quyền truy cập.");
-                return View(viewModel);
-            }
-        }
             else if (result.IsLockedOut)
             {
                 ModelState.AddModelError("", "Tài khoản đã bị khóa. Vui lòng thử lại sau.");

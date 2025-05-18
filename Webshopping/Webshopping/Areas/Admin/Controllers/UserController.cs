@@ -11,8 +11,8 @@ using Webshopping.Models.ViewModel;
 using Webshopping.Repository;
 
 [Area("Admin")]
-[Route("Admin/user/")]
-[Authorize(Roles = "Admin")]
+[Route("admin/user")]
+// [Authorize(Roles = "Admin")]
 public class UserController : Controller
 {
     private readonly DataContext _dataContext;

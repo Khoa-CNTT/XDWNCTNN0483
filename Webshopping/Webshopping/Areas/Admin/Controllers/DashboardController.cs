@@ -18,7 +18,7 @@ namespace Webshopping.Areas.Admin.Controllers
 	[Area("Admin")]
 	[Route("admin/")]
 	[Route("admin/dashboard")]
-	[Authorize(Roles = "employee,Admin")]
+	[Authorize(Roles = "Employee,Admin")]
 	public class DashboardController : Controller
 	{
 		private const int v = 2025;
