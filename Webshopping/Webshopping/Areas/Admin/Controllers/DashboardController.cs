@@ -18,7 +18,7 @@ namespace Webshopping.Areas.Admin.Controllers
 	[Area("Admin")]
 	[Route("admin/")]
 	[Route("admin/dashboard")]
-	[Authorize(Roles = "employee,Admin")]
+	[Authorize(Roles = "Employee,Admin")]
 	public class DashboardController : Controller
 	{
 		private const int v = 2025;
@@ -202,6 +202,26 @@ namespace Webshopping.Areas.Admin.Controllers
 				DayOfWeek.Sunday => "Chủ nhật",
 				_ => ""
 			};
+		}
+
+		[AllowAnonymous]
+		[HttpGet("products-combined-chart-data")]
+		public async Task<IActionResult> ProductsCombinedChart()
+		{
+			// Đếm tổng số bản ghi
+			var totalProducts = await _dataContext.Products.CountAsync();
+			var totalBrands = await _dataContext.Brands.CountAsync();
+			var totalCategories = await _dataContext.Categories.CountAsync();
+
+			// Trả về 1 mảng 3 phần tử
+			var combined = new[]
+			{
+				new { label = "Sản phẩm",       count = totalProducts },
+				new { label = "Nhãn hiệu",      count = totalBrands },
+				new { label = "Loại hàng",      count = totalCategories }
+			};
+
+			return Json(combined);
 		}
 	}
 }

@@ -24,7 +24,5 @@ namespace Webshopping.Repository
         public DbSet<ProductQuantityModel> ProductQuantities { get; set; }
         public DbSet<CouponModel> Coupons { get; set; }
         public DbSet<VnpayModel> VnInfos { get; set; }
-
-        // public DbSet<UserModel> CustomUsers { get; set; }
     }
 }

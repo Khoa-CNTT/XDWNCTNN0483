@@ -25,7 +25,7 @@
     }
 </style>
 
-<div class="row g-3">
+<div class="row">
     <div class="container-fluid">
         <div class="col-md-12">
             <div class="dashboard" style="
@@ -97,6 +97,10 @@
                                 <div id="datetimepicker-dashboard"></div>
                             </div>
                         </div>
+                    </div>
+
+                    <div style="margin-top: 3rem;">
+                        <canvas id="combinedPieChart" width="600" height="600"></canvas>
                     </div>
                 </div>
 
@@ -202,45 +206,10 @@
         function pad(n) {
             return n < 10 ? '0' + n : n;
         }
-
-        @* document.addEventListener("DOMContentLoaded", function () {
-            flatpickr.localize(flatpickr.l10ns.vn);
-
-            flatpickr("#datetimepicker-dashboard", {
-                mode: "range",
-                inline: true,
-                dateFormat: "Y-m-d",
-                onChange: function (selectedDates, dateStr, instance) {
-                    if (selectedDates.length === 2) {
-                        let fromDate = selectedDates[0].toISOString().split('T')[0];
-                        let toDate = selectedDates[1].toISOString().split('T')[0];
-
-                        // Gửi AJAX lên API get-chart-data
-                        fetch('/admin/dashboard/get-chart-data', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({
-                                startDate: fromDate,
-                                endDate: toDate,
-                                filterType: 'day'  // hoặc 'week', 'month', 'year' tùy chọn
-                            })
-                        })
-                            .then(res => res.json())
-                            .then(data => {
-                                console.log('Dữ liệu chart:', data);
-                                // Xử lý vẽ chart ở đây
-                            })
-                            .catch(err => console.error(err));
-                    }
-                }
-            });
-        }); *@
     </script>
 
     <script>
-            let chartInstance = null; // To update or destroy chart when re-rendered
+        let chartInstance = null; // To update or destroy chart when re-rendered
 
         document.addEventListener("DOMContentLoaded", function () {
             flatpickr.localize(flatpickr.l10ns.vn);
@@ -345,6 +314,41 @@
                                 console.error("Lỗi khi lấy dữ liệu biểu đồ:", err);
                                 alert("Lỗi khi tải dữ liệu biểu đồ.");
                             });
+                    }
+                }
+            });
+        });
+    </script>
+
+    <script>
+        $.getJSON('/admin/dashboard/products-combined-chart-data', function (data) {
+            const labels = data.map(x => x.label);   // ["Product","Brand","Category"]
+            const counts = data.map(x => x.count);   // [tổng sản phẩm, ...]
+            const fixedColors = ['#FF6384', '#36A2EB', '#FFCE56'];
+
+            const ctx = document.getElementById('combinedPieChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels, datasets: [{
+                        data: counts,
+                        backgroundColor: fixedColors
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'right'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Tổng sản phẩm - thương hiệu - loại hàng',
+                            font: {
+                                weight: '650', // in đậm (700)
+                                size: 12       // tăng kích thước (px)
+                            }
+                        }
                     }
                 }
             });
