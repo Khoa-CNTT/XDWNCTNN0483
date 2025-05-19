@@ -317,17 +317,25 @@
             <span>Perfume Bot</span>
             <button id="chatbox-close-btn">×</button>
         </div>
+
         <div id="chatbox-messages">
             <!-- Tin nhắn sẽ được thêm vào đây bằng JavaScript -->
             <div class="message bot-message">Welcome to Myperfume! Tôi có thể giúp gì cho bạn?</div>
         </div>
+
         <div id="chatbox-input-area">
             <input type="text" id="chatbox-input" placeholder="Nhập câu hỏi của bạn...">
-            <button id="chatbox-voice-btn">giọng nói</button> <!-- Nút thu âm -->
-            <button id="chatbox-send-btn">Gửi</button>
+            <button id="chatbox-voice-btn">
+                <i class="fa fa-microphone" aria-hidden="true"></i>
+            </button> <!-- Nút thu âm -->
+
+            <button id="chatbox-send-btn">
+                <i class="fa fa-paper-plane" aria-hidden="true"></i>
+            </button>
         </div>
 
     </div>
+
     <img id="chatbox-toggle-img" src="~/img/moiii.png" alt="Chat"
         style="position: fixed; bottom: 20px; right: 20px; width: 100px; height: 100px; cursor: pointer; z-index: 999;">
 
