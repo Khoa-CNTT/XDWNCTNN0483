@@ -4,6 +4,7 @@ using Webshopping.Services.Momo;
 using Webshopping.Models.Momo;
 using Webshopping.Models.Vnpay;
 using Webshopping.Services.Vnpay;
+using Newtonsoft.Json;
 
 namespace Webshopping.Controllers
 {
@@ -28,34 +29,26 @@ namespace Webshopping.Controllers
 		public async Task<IActionResult> CreatePaymentMomo(MomoInfoModel model)
 		{
 			var response = await _momoService.CreatePaymentAsync(model);
-			return RedirectToAction(response.PayUrl);
+			if (response == null || string.IsNullOrEmpty(response.PayUrl))
+{
+    // Ghi log nếu cần
+    System.IO.File.AppendAllText("Logs/momo-response-log.txt", $"[{DateTime.Now}] ❌ PayUrl is null. Full response: {JsonConvert.SerializeObject(response)}\n");
+
+    // Hiển thị thông báo lỗi hoặc redirect về trang thông báo
+    return BadRequest("Không thể tạo liên kết thanh toán Momo. Vui lòng thử lại sau.");
+}
+
+return Redirect(response.PayUrl);
+
 		}
 
+
 		[HttpGet]
-		public IActionResult PaymentCallback()
+		public IActionResult PaymentCallBack()
 		{
 			var response = _momoService.PaymentExecuteAsync(HttpContext.Request.Query);
 			return View(response);
 		}
-
-		//[HttpGet]
-		//public IActionResult PaymentCallBack()
-		//{
-		//	var query = Request.Query;
-		//	var apptransid = query["apptransid"];
-		//	var status = query["status"];
-
-		//	if (status == "1")
-		//	{
-		//		ViewBag.Message = "Thanh toán thành công qua ZaloPay!";
-		//	}
-		//	else
-		//	{
-		//		ViewBag.Message = "Thanh toán thất bại hoặc bị huỷ!";
-		//	}
-
-		//	return View(); 
-		//}
 
         [HttpPost]
         public IActionResult CreatePaymentUrlVnpay(PaymentInformationModel model)
