@@ -4,52 +4,54 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration; // Cần để đọc appsettings
-using ChatBotGemini.Models.Gemini; // Namespace chứa model Gemini
-using System.Collections.Generic; // Cho List
-using Microsoft.AspNetCore.Http; // Cho Session
+using Microsoft.Extensions.Configuration; // Đọc config
+using ChatBotGemini.Models.Gemini; // Models Gemini request/response
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Http;
+using System.Linq;
+using Microsoft.EntityFrameworkCore; // Cho ToListAsync
+using System;
+using Webshopping.Repository;
+using System.Text.RegularExpressions;
 
 namespace ChatBotGemini.Controllers
 {
-    [Route("api/chat")] // Định nghĩa route cho API
+    [Route("api/chat")]
     [ApiController]
     public class ChatApiController : ControllerBase
     {
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IConfiguration _configuration;
+        private readonly DataContext _dbContext; // EF Core DbContext
         private readonly string _geminiApiKey;
         private readonly string _geminiApiUrl;
 
-        public ChatApiController(IHttpClientFactory httpClientFactory, IConfiguration configuration)
+        public ChatApiController(IHttpClientFactory httpClientFactory, IConfiguration configuration, DataContext dbContext)
         {
             _httpClientFactory = httpClientFactory;
             _configuration = configuration;
-            _geminiApiKey = _configuration["Gemini:ApiKey"]; // Đọc API Key từ config
+            _dbContext = dbContext;
 
+            _geminiApiKey = _configuration["Gemini:ApiKey"];
             if (string.IsNullOrEmpty(_geminiApiKey))
             {
-                // Nên ghi log lỗi ở đây
                 throw new InvalidOperationException("Gemini API Key chưa được cấu hình trong appsettings.");
             }
-
-            // Model 'gemini-pro' là phổ biến cho chat
             _geminiApiUrl = $"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={_geminiApiKey}";
         }
-
-        // --- Helper để quản lý lịch sử chat trong Session ---this
 
         private List<Content> GetChatHistory()
         {
             var historyJson = HttpContext.Session.GetString("ChatHistory");
             if (string.IsNullOrEmpty(historyJson))
             {
-                return new List<Content>(); // Trả về list rỗng nếu chưa có
+                return new List<Content>();
             }
             try
             {
                 return JsonSerializer.Deserialize<List<Content>>(historyJson) ?? new List<Content>();
             }
-            catch (JsonException) // Xử lý nếu JSON trong session bị lỗi
+            catch (JsonException)
             {
                 return new List<Content>();
             }
@@ -60,93 +62,156 @@ namespace ChatBotGemini.Controllers
             var historyJson = JsonSerializer.Serialize(history);
             HttpContext.Session.SetString("ChatHistory", historyJson);
         }
-        // ----------------------------------------------------
 
-
-        [HttpPost] // Chỉ chấp nhận phương thức POST
+        [HttpPost]
         public async Task<IActionResult> PostMessage([FromBody] ChatInput input)
         {
             if (string.IsNullOrWhiteSpace(input?.Message))
-            {
                 return BadRequest(new { error = "Tin nhắn không được để trống." });
-            }
 
             try
             {
-                var httpClient = _httpClientFactory.CreateClient();
+                // 1. Lấy dữ liệu từ DB (bạn có thể giới hạn số lượng bản ghi nếu DB quá lớn)
+                var brands = await _dbContext.Brands.ToListAsync();
+                var products = await _dbContext.Products.ToListAsync();
+                var ratings = await _dbContext.Ratings.ToListAsync();
+                var categories = await _dbContext.Categories.ToListAsync();
+                var orders = await _dbContext.Orders.ToListAsync();
+                var orderDetails = await _dbContext.OrderDetails.ToListAsync();
+                var shippings = await _dbContext.Shippings.ToListAsync();
 
-                // 1. Lấy lịch sử chat từ Session
+                var dbData = new
+                {
+                    Brands = brands,
+                    Products = products,
+                    Ratings = ratings,
+                    Categories = categories,
+                    Orders = orders,
+                    OrderDetails = orderDetails,
+                    Shippings = shippings
+                };
+
+                // 2. Chuyển dữ liệu DB thành JSON để đưa vào prompt
+                string dbDataJson = JsonSerializer.Serialize(dbData, new JsonSerializerOptions { WriteIndented = true });
+
+                // 3. Lấy lịch sử chat
                 var chatHistory = GetChatHistory();
 
-                // 2. Thêm tin nhắn mới của người dùng vào lịch sử
-                chatHistory.Add(new Content { Role = "user", Parts = new List<Part> { new Part { Text = input.Message } } });
+                // 4. Thêm prompt "system" có dữ liệu DB JSON (chỉ thêm lần đầu tiên)
+                if (!chatHistory.Any(c => c.Role == "model"))
+                {
+                    chatHistory.Insert(0, new Content
+                    {
+                        Role = "model",
+                        Parts = new List<Part>
+                        {
+                            new Part
+                            {
+                                Text = @$"
+                                Bạn là một chuyên gia tư vấn nước hoa cao cấp, am hiểu sâu sắc về các loại nước hoa, thành phần, thương hiệu và cách chọn nước hoa phù hợp với từng người.  Bạn luôn trả lời một cách lịch sự, chuyên nghiệp, và đưa ra các gợi ý chi tiết, dễ hiểu.  Bạn ưu tiên giúp khách hàng tìm được loại nước hoa ưng ý nhất dựa trên sở thích, phong cách và ngân sách của họ. Bạn không đưa ra những thông tin sai lệch và luôn trung thực về những sản phẩm không có sẵn.
+                                Thực tế trong cửa hàng dưới đây (định dạng JSON): {dbDataJson}
 
-                // 3. Chuẩn bị request body cho Gemini
+                                Bạn sẽ dùng dữ liệu này để trả lời các câu hỏi của khách hàng một cách chính xác, trung thực và chi tiết.
+                                "
+                            }
+                        }
+                    });
+                }
+
+                // 5. Thêm câu hỏi mới của user
+                chatHistory.Add(new Content
+                {
+                    Role = "user",
+                    Parts = new List<Part> { new Part { Text = input.Message } }
+                });
+
+                // 6. Tạo request payload gửi cho Gemini
                 var requestPayload = new GeminiRequest
                 {
-                    Contents = chatHistory // Gửi toàn bộ lịch sử
+                    Contents = chatHistory
                 };
 
                 var jsonPayload = JsonSerializer.Serialize(requestPayload, new JsonSerializerOptions
                 {
-                    // Bỏ qua các thuộc tính null để JSON gọn hơn (tùy chọn)
                     DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull
                 });
 
+                var httpClient = _httpClientFactory.CreateClient();
                 var httpContent = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
 
-                // 4. Gửi yêu cầu POST đến Gemini API
+                // 7. Gửi POST đến Gemini API
                 var response = await httpClient.PostAsync(_geminiApiUrl, httpContent);
 
-                // 5. Xử lý Response
                 if (response.IsSuccessStatusCode)
                 {
                     var responseBody = await response.Content.ReadAsStringAsync();
                     var geminiResponse = JsonSerializer.Deserialize<GeminiResponse>(responseBody);
 
-                    // Lấy câu trả lời đầu tiên (thường chỉ có 1 candidate tốt)
                     var botMessageContent = geminiResponse?.Candidates?.FirstOrDefault()?.Content;
                     if (botMessageContent != null && botMessageContent.Parts != null && botMessageContent.Parts.Any())
                     {
                         var botReplyText = botMessageContent.Parts.First().Text;
 
-                        // 6. Thêm câu trả lời của bot vào lịch sử
-                        // Quan trọng: Đảm bảo Role là "model"
-                        botMessageContent.Role = "model"; // API có thể không trả về role, ta cần gán
+                        var foramtReplyText = CleanPerfumeParagraph(botReplyText, asHtml: true);
+
+                        // 8. Thêm câu trả lời của model vào lịch sử
+                        botMessageContent.Role = "model";
+                        botMessageContent.Parts.First().Text = botReplyText;   // thay text thô bằng text đã format
                         chatHistory.Add(botMessageContent);
 
-                        // 7. Lưu lại lịch sử vào Session
+                        // 9. Lưu lịch sử chat
                         SaveChatHistory(chatHistory);
 
-                        // 8. Trả về câu trả lời cho frontend
-                        return Ok(new { reply = botReplyText });
+                        // 10. Trả về cả câu trả lời và dữ liệu JSON (bạn có thể bỏ phần dbData nếu không cần)
+                        return Ok(new
+                        {
+                            reply = botReplyText,
+                            data = dbData
+                        });
                     }
                     else
                     {
-                        // Trường hợp API trả về thành công nhưng không có nội dung mong đợi
-                        SaveChatHistory(chatHistory); // Vẫn lưu lịch sử user hỏi
+                        SaveChatHistory(chatHistory);
                         return Ok(new { reply = "Xin lỗi, tôi không thể tạo phản hồi lúc này." });
                     }
                 }
                 else
                 {
-                    // Xử lý lỗi từ Gemini API
                     var errorBody = await response.Content.ReadAsStringAsync();
-                    Console.WriteLine($"Lỗi từ Gemini API: {response.StatusCode} - {errorBody}"); // Log lỗi ra console server
-                    // Không lưu lịch sử khi có lỗi API
+                    Console.WriteLine($"Lỗi từ Gemini API: {response.StatusCode} - {errorBody}");
                     return StatusCode((int)response.StatusCode, new { error = "Có lỗi xảy ra khi giao tiếp với AI.", details = errorBody });
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Lỗi nội bộ server: {ex.Message}"); // Log lỗi
-                // Cân nhắc không nên trả về chi tiết lỗi cho client trong production
+                Console.WriteLine($"Lỗi nội bộ server: {ex.Message}");
                 return StatusCode(500, new { error = "Lỗi máy chủ nội bộ." });
             }
         }
+
+        public string CleanPerfumeParagraph(string input, bool asHtml = true)
+        {
+            if (string.IsNullOrWhiteSpace(input)) return input;
+
+            // 1) Bỏ dấu *
+            string t = input.Replace("*", "");
+
+            // 2) Xuống dòng trước 1. 2. 3. (sau space hoặc :)
+            string pattern = @"(?:(?<=^)|(?<=[\s:]))(\d+)\.(?=\s*[A-Za-zÀ-ỹ])";
+            t = Regex.Replace(t, pattern, m => "\n" + m.Value, RegexOptions.Multiline);
+
+            // 3) Khoảng trắng sau dấu chấm
+            t = Regex.Replace(t, @"\.(\S)", ". $1");
+
+            // 4) Gom khoảng trắng
+            t = Regex.Replace(t, @"[ \t]+", " ").Trim();
+
+            // 5) Xuất
+            return asHtml ? t.Replace("\n", "<br/>") : "";
+        }
     }
 
-    // Class đơn giản để nhận input từ frontend
+    // Lớp nhận input message
     public class ChatInput
     {
         public string Message { get; set; }
