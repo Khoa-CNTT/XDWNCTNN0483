@@ -8,16 +8,16 @@ using Newtonsoft.Json;
 
 namespace Webshopping.Controllers
 {
-	
+
 	public class PaymentController : Controller
 	{
-        private readonly IMomoService _momoService;
-        private readonly IVnPayService _vnPayService;
+		private readonly IMomoService _momoService;
+		private readonly IVnPayService _vnPayService;
 
 		public PaymentController(IMomoService momoService, IVnPayService vnPayService)
 		{
 			_momoService = momoService;
-             _vnPayService = vnPayService;
+			_vnPayService = vnPayService;
 		}
 
 		public IActionResult Index()
@@ -30,15 +30,15 @@ namespace Webshopping.Controllers
 		{
 			var response = await _momoService.CreatePaymentAsync(model);
 			if (response == null || string.IsNullOrEmpty(response.PayUrl))
-{
-    // Ghi log nếu cần
-    System.IO.File.AppendAllText("Logs/momo-response-log.txt", $"[{DateTime.Now}] ❌ PayUrl is null. Full response: {JsonConvert.SerializeObject(response)}\n");
+			{
+				// Ghi log nếu cần
+				System.IO.File.AppendAllText("Logs/momo-response-log.txt", $"[{DateTime.Now}] ❌ PayUrl is null. Full response: {JsonConvert.SerializeObject(response)}\n");
 
-    // Hiển thị thông báo lỗi hoặc redirect về trang thông báo
-    return BadRequest("Không thể tạo liên kết thanh toán Momo. Vui lòng thử lại sau.");
-}
+				// Hiển thị thông báo lỗi hoặc redirect về trang thông báo
+				return BadRequest("Không thể tạo liên kết thanh toán Momo. Vui lòng thử lại sau.");
+			}
 
-return Redirect(response.PayUrl);
+			return Redirect(response.PayUrl);
 
 		}
 
@@ -50,11 +50,11 @@ return Redirect(response.PayUrl);
 			return View(response);
 		}
 
-        [HttpPost]
-        public IActionResult CreatePaymentUrlVnpay(PaymentInformationModel model)
-        {
-            var url = _vnPayService.CreatePaymentUrl(model, HttpContext);
-            return Redirect(url);
-        }
+		[HttpPost]
+		public IActionResult CreatePaymentUrlVnpay(PaymentInformationModel model)
+		{
+			var url = _vnPayService.CreatePaymentUrl(model, HttpContext);
+			return Redirect(url);
+		}
 	}
 }
