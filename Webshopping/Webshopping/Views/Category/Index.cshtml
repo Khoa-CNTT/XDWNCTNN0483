@@ -74,13 +74,11 @@
 </div>
 
 @section Scripts {
-    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-    <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
         $(function () {
-            $.scrollUp();
+            // Không cần gọi $.scrollUp() nếu không dùng plugin scrollUp
 
             // ✅ Thêm giỏ hàng
             $('.add-to-cart').click(function () {
@@ -114,7 +112,6 @@
             // ✅ So sánh
             $(document).on('click', '.add-btn-compare', function () {
                 var Id = $(this).data("product_id");
-
                 $.ajax({
                     type: "POST",
                     url: "@Url.Action("AddCompare", "Home")",
