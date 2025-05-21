@@ -24,54 +24,134 @@
                     <a>
                         <div class="single-products">
                             <div class="productinfo text-center">
-                                <img src="~/img/@item.Img" alt="@item.Name" width="100%" />
-                                <h2>@item.Price.ToString("#,##0 VNĐ")</h2>
-                                <p>@item.Name</p>
-                                <p>Danh mục: @item.Category.Name</p>
-                                <p>Thương hiệu: @item.Brand.Name</p>
+                                <a asp-action="Detail" asp-controller="Product" asp-route-Id="@item.Id">
+                                    <img src="~/img/@item.Img" alt="@item.Name" width="100%" height="200px" />
+                                    <h2>@item.Price.ToString("#,##0 VNĐ")</h2>
+                                    <p>@item.Name</p>
+                                    <p>Danh mục: @item.Category.Name</p>
+                                    <p>Thương hiệu: @item.Brand.Name</p>
+                                </a>
+
                                 @if (@item.Quantity > 0)
                                 {
-                                    <a asp-action="Add" asp-controller="Cart" asp-route-Id="@item.Id"
-                                        class="btn btn-default add-to-cart">
+                                    <button class="btn btn-default add-to-cart" data-product_id="@item.Id">
                                         <i class="fa fa-shopping-cart"></i>
                                         Thêm giỏ hàng
-                                    </a>
+                                    </button>
                                 }
                                 else
                                 {
-                                    <Button class="btn btn-default"><i class="fa fa-shopping-cart"></i>hết hàng</Button>
+                                    <button class="btn btn-default"><i class="fa fa-shopping-cart"></i>Hết hàng</button>
                                 }
 
                             </div>
                         </div>
                     </a>
+
                     <div class="choose">
-                        <ul class="nav nav-pills nav-justified">
-                            <li style="text-align: center;">
-                                <button class="btn btn-danger add-btn-wishlist" data-product_id="@item.Id">
-                                    Yêu thích
-                                </button>
-                            </li>
-                            <li style="text-align: center;">
-                                <button style="margin: 16px;" class="btn btn-primary add-btn-compare"
-                                    data-product_id="@item.Id">
-                                    So sánh
-                                </button>
-                            </li>
-                        </ul>
+                        @if ((User.Identity?.IsAuthenticated ?? false) && !User.IsInRole("Admin"))
+                        {
+                            <ul class="nav nav-pills nav-justified" style="display: inline;">
+                                <li style="text-align: center;">
+                                    <button class="btn btn-danger add-btn-wishlist" data-product_id="@item.Id">
+                                        Yêu thích
+                                    </button>
+                                </li>
+
+                                <li style="text-align: center;">
+                                    <button style="margin: 16px; border-radius: 5px;" class="btn btn-primary add-btn-compare"
+                                        data-product_id="@item.Id">
+                                        So sánh
+                                    </button>
+                                </li>
+                            </ul>
+                        }
                     </div>
                 </div>
             </div>
         }
     </div><!--features_items-->
 </div>
+
 @section Scripts {
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
-        $(document).ready(function () {
-            // jQuery UI slider
+        $(function () {
+            $.scrollUp();
+
+            // ✅ Thêm giỏ hàng
+            $('.add-to-cart').click(function () {
+                var Id = $(this).data("product_id");
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Add", "Cart")",
+                    data: { Id: Id },
+                    success: function (result) {
+                        Swal.fire(result.success ? result.message : "Thất bại: " + result.message);
+                    },
+                    error: function () {
+                        Swal.fire("Có lỗi xảy ra khi thêm sản phẩm!");
+                    }
+                });
+            });
+
+            // ✅ Yêu thích
+            $(document).on('click', '.add-btn-wishlist', function () {
+                var Id = $(this).data("product_id");
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("AddWishlist", "Home")",
+                    data: { Id: Id },
+                    success: function (result) {
+                        if (result) Swal.fire("Thêm yêu thích thành công.");
+                    }
+                });
+            });
+
+            // ✅ So sánh
+            $(document).on('click', '.add-btn-compare', function () {
+                var Id = $(this).data("product_id");
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("AddCompare", "Home")",
+                    data: { Id: Id },
+                    success: function (result) {
+                        if (result) {
+                            Swal.fire({
+                                title: 'Đã thêm sản phẩm vào danh sách so sánh!',
+                                text: 'Bạn có muốn chuyển đến trang so sánh ngay bây giờ không?',
+                                icon: 'success',
+                                showCancelButton: true,
+                                confirmButtonText: 'Có',
+                                cancelButtonText: 'Không'
+                            }).then((res) => {
+                                if (res.isConfirmed) {
+                                    window.location.href = "/Home/Compare";
+                                }
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Lỗi',
+                                text: 'Không thể thêm sản phẩm vào danh sách so sánh.'
+                            });
+                        }
+                    },
+                    error: function () {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi',
+                            text: 'Đã xảy ra lỗi trong quá trình gửi yêu cầu.'
+                        });
+                    }
+                });
+            });
+
+            // ✅ Slider lọc giá
             $("#slider-range").slider({
                 range: true,
                 step: 10000,
@@ -93,8 +173,8 @@
                 new Intl.NumberFormat("vn-VN", { style: "currency", currency: "VND" }).format($("#slider-range").slider("values", 1))
             );
 
-            // Lọc giá
-            $('.btn-locgia').on('click', function () {
+            // ✅ Lọc giá
+            $(document).on('click', '.btn-locgia', function () {
                 var url = $(this).data("current_url");
                 if (url) {
                     window.location = url + "?startprice=" + $("#slider-range").slider("values", 0)
@@ -102,19 +182,6 @@
                 }
                 return false;
             });
-
-            //btn lọc giá
-            $('.btn-locgia').on('click', function () {
-
-                var url = $(this).data("current_url");
-                // alert(url);
-                if (url) {
-                    window.location = url + "?startprice=" + $("#slider-range").slider("values", 0)
-                        + "&endprice=" + $("#slider-range").slider("values", 1);
-                }
-                return false;
-            });
-
         });
     </script>
 }

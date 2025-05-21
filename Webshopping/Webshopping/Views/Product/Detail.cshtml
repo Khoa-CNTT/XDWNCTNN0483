@@ -46,10 +46,11 @@
 						<input type="text" value="3" />
 						@if (@Model.ProductDetails.Quantity > 0)
 						{
-							<button type="button" class="btn btn-fefault cart">
+							<button class="btn btn-default add-to-cart" data-product_id="@Model.ProductDetails.Id">
 								<i class="fa fa-shopping-cart"></i>
 								Thêm giỏ hàng
 							</button>
+
 						}
 						else
 						{
@@ -72,7 +73,7 @@
 			<!--category-tab-->
 			<div class="col-sm-12">
 				<ul class="nav nav-tabs">
-					<li class ="active"><a href="#details" data-toggle="tab">Chi tiết</a></li>
+					<li class="active"><a href="#details" data-toggle="tab">Chi tiết</a></li>
 					<li><a href="#companyprofile" data-toggle="tab">Thông tin</a></li>
 					<li><a href="#tag" data-toggle="tab">Thẻ</a></li>
 					<li><a href="#reviews" data-toggle="tab">Đánh giá (5)</a></li>
@@ -88,23 +89,24 @@
 					else
 					{
 						<p>Không có mô tả cho sản phẩm này.</p>
-					}	
+					}
 				</div>
 				<div class="tab-pane fade" id="companyprofile">
-					 @foreach (var relatedProduct in ViewBag.RelatedProducts as IEnumerable<ProductModel>)
+					@foreach (var relatedProduct in ViewBag.RelatedProducts as IEnumerable<ProductModel>)
 					{
-					<div class="col-sm-3">
-						<div class="product-image-wrapper">
-							<div class="single-products">
-								<div class="productinfo text-center">
-									<img src="~/img/@Model.ProductDetails.Img" alt="" />
-									<h2>@Model.ProductDetails.CapitalPrice</h2>
-									<p>@Model.ProductDetails.Name</p>
-									<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
+						<div class="col-sm-3">
+							<div class="product-image-wrapper">
+								<div class="single-products">
+									<div class="productinfo text-center">
+										<img src="~/img/@Model.ProductDetails.Img" alt="" />
+										<h2>@Model.ProductDetails.CapitalPrice</h2>
+										<p>@Model.ProductDetails.Name</p>
+										<button type="button" class="btn btn-default add-to-cart"><i
+												class="fa fa-shopping-cart"></i>Add to cart</button>
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
 					}
 				</div>
 
@@ -115,12 +117,12 @@
 							<li><a href=""><i class="fa fa-clock-o"></i>12:41 PM</a></li>
 							<li><a href=""><i class="fa fa-calendar-o"></i>04/2025</a></li>
 						</ul>
-						<p><b>Hãy viết đánh giá</b></p>					
+						<p><b>Hãy viết đánh giá</b></p>
 						<form autocomplete="off" asp-action="CommentProduct" asp-controller="Product" method="POST">
 							<span>
 								<input asp-for="@Model.ProductDetails.Id" name="ProductId" type="hidden" />
 								<input type="hidden" name="Star" id="Star" value="0" />
-								<input asp-for="@Model.Name"  type="text" placeholder="Tên của bạn" />
+								<input asp-for="@Model.Name" type="text" placeholder="Tên của bạn" />
 								<span asp-validation-for="@Model.Name" class="text-danger"></span>
 								<input asp-for="@Model.Email" name="Email" type="email" placeholder="Email" />
 								<span asp-validation-for="@Model.Email" class="text-danger"></span>
@@ -136,7 +138,7 @@
 								<span data-value="4">★</span>
 								<span data-value="5">★</span>
 							</div>
-							
+
 							<button type="submit" class="btn btn-default pull-right">
 								Gửi đánh giá
 							</button>
@@ -156,16 +158,16 @@
 				<div class="carousel-inner">
 
 					<div class="item active">
-						 @foreach (var relatedProduct in @ViewBag.RelatedProducts as IEnumerable<ProductModel>)
-    {
-						<div class="col-sm-4">
+						@foreach (var relatedProduct in @ViewBag.RelatedProducts as IEnumerable<ProductModel>)
+						{
+							<div class="col-sm-4">
 								<div class="product-image-wrapper">
 									<div class="single-products">
-
-
 										<div class="productinfo text-center">
-											<a asp-action="Detail" asp-controller="Product" asp-route-Id="@relatedProduct.Id">
-												<img src="~/img/@relatedProduct.Img" alt="@relatedProduct.Name" width="100px" height="200px" />
+											<a asp-action="Detail" asp-controller="Product"
+												asp-route-Id="@relatedProduct.Id">
+												<img src="~/img/@relatedProduct.Img" alt="@relatedProduct.Name"
+													width="100px" height="200px" />
 												<h2>@relatedProduct.Price.ToString("#,##0 VNĐ")</h2>
 												<p>@relatedProduct.Name</p>
 												<p>Danh mục: @relatedProduct.Category.Name</p>
@@ -174,15 +176,14 @@
 										</div>
 									</div>
 								</div>
-						</div>
-	}
-						
+							</div>
+						}
 					</div>
-					
 				</div>
 				<a class="left recommended-item-control" href="#recommended-item-carousel" data-slide="prev">
 					<i class="fa fa-angle-left"></i>
 				</a>
+
 				<a class="right recommended-item-control" href="#recommended-item-carousel" data-slide="next">
 					<i class="fa fa-angle-right"></i>
 				</a>
@@ -190,10 +191,12 @@
 		</div><!--/recommended_items-->
 	</div>
 </div>
+
 @section Scripts {
 	@{
 		await Html.RenderPartialAsync("_ValidationScriptsPartial");
 	}
+
 	<script>
 		const stars = document.querySelectorAll(".rating span");
 		const hiddenInput = document.getElementById("Star");
@@ -227,7 +230,25 @@
 		highlightStars(parseInt(hiddenInput.value));
 	</script>
 
+	<script>
+		$('.add-to-cart').click(function () {
+			var Id = $(this).data("product_id");
+			$.ajax({
+				type: "POST",
+				url: "@Url.Action("Add", "Cart")",
+				data: { Id: Id },
+				success: function (result) {
+					Swal.fire(result.success ? result.message : "Thất bại: " + result.message);
+				},
+				error: function () {
+					Swal.fire("Có lỗi xảy ra khi thêm sản phẩm!");
+				}
+			});
+		});
+	</script>
+
 }
+
 <style>
 	.rating {
 		display: flex;
@@ -236,17 +257,16 @@
 		cursor: pointer;
 	}
 
-		.rating span {
-			font-size: 30px;
-			color: gray;
-		}
+	.rating span {
+		font-size: 30px;
+		color: gray;
+	}
 
-			.rating span.selected {
-				color: gold;
-			}
+	.rating span.selected {
+		color: gold;
+	}
 
-			.rating span:hover {
-				cursor: pointer;
-			}
-
+	.rating span:hover {
+		cursor: pointer;
+	}
 </style>
