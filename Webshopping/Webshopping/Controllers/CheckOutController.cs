@@ -46,7 +46,7 @@ namespace Webshopping.Controllers
                 var shippingPriceCookie = Request.Cookies["ShippingPrice"];
                 decimal shippingPrice = 0;
                 //Nhận Coupon code từ cookie
-                var coupon_code = Request.Cookies["C ouponTitle"];
+                var coupon_code = Request.Cookies["CouponTitle"];
                 if (shippingPriceCookie != null)
                 {
                     var shippingPriceJson = shippingPriceCookie;
