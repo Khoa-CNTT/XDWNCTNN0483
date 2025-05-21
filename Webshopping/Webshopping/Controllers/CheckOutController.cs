@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Webshopping.Areas.Admin.Repository;
 using Webshopping.Services.Vnpay;
 using System.Threading.Tasks;
+using PayPal.Api;
 
 namespace Webshopping.Controllers
 {
@@ -31,6 +32,7 @@ namespace Webshopping.Controllers
         public async Task<IActionResult> Checkout(string PaymentMethod, string PaymentId)
         {
             var UserEmail = User.FindFirstValue(ClaimTypes.Email);
+
             if (UserEmail == null)
             {
                 return RedirectToAction("Login", "Account");
@@ -44,7 +46,7 @@ namespace Webshopping.Controllers
                 var shippingPriceCookie = Request.Cookies["ShippingPrice"];
                 decimal shippingPrice = 0;
                 //Nhận Coupon code từ cookie
-                var coupon_code = Request.Cookies["CouponTitle"];
+                var coupon_code = Request.Cookies["C ouponTitle"];
                 if (shippingPriceCookie != null)
                 {
                     var shippingPriceJson = shippingPriceCookie;
@@ -54,7 +56,6 @@ namespace Webshopping.Controllers
                 {
                     shippingPrice = 0;
                 }
-
                 orderItem.ShippingCost = shippingPrice;
                 orderItem.CouponCode = coupon_code;
                 orderItem.UserName = UserEmail;

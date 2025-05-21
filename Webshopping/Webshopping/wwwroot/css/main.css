@@ -1182,7 +1182,6 @@ h2.title {
 }
 
 .view-product img {
-  border: 1px solid #F7F7F0;
   height: 380px;
   width: 100%;
 }
@@ -1225,7 +1224,6 @@ h2.title {
 }
 
 .product-information {
-  border: 1px solid #F7F7F0;
   overflow: hidden;
   padding-bottom: 60px;
   padding-left: 60px;
@@ -1311,17 +1309,15 @@ h2.title {
   padding-bottom: 10px;
 }
 .shop-details-tab .col-sm-12 {
-	padding-left: 0;
-	padding-right: 0;
-}
-
-
+		padding-left: 0;
+		padding-right: 0;
+	}
 #reviews ul {
-  background: #FFFFFF;
-  border: 0 none;
-  list-style: none outside none;
-  margin: 0 0 20px;
-  padding: 0;
+	background: #FFFFFF;
+	border: 0 none;
+	list-style: none outside none;
+	margin: 0 0 20px;
+	padding: 0;
 }
 
 #reviews  ul  li {
