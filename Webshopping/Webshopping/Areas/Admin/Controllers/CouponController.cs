@@ -8,7 +8,7 @@ namespace Webshopping.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Route("admin/coupon")]
-    [Authorize(Roles = "employee,Admin")]
+    [Authorize(Roles = "Employee,Admin")]
     public class CouponController : Controller
     {
         private readonly DataContext _dataContext;
@@ -36,7 +36,7 @@ namespace Webshopping.Areas.Admin.Controllers
             {
                 ModelState.AddModelError("DiscountValue", "Giảm phần trăm không được vượt quá 100%");
             }
-            
+
             if (ModelState.IsValid)
             {
 

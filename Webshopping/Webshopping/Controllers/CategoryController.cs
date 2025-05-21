@@ -16,7 +16,7 @@ namespace Webshopping.Controllers
 
 
 
-        public async Task<IActionResult> Index(string slug = "", string sort_by = "", string startprice = "", string endprice = "")
+        public async Task<IActionResult> Index(string slug, string sort_by = "", string startprice = "", string endprice = "")
         {
             var category = await _dataContext.Categories.FirstOrDefaultAsync(c => c.Slug == slug);
 

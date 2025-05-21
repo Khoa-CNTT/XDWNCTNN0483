@@ -12,7 +12,7 @@ namespace Webshopping.Areas.Admin.Controllers
 {
 	[Area("Admin")]
 	[Route("admin/slider/")]
-	[Authorize(Roles = "employee,Admin")]
+	[Authorize(Roles = "Employee,Admin")]
 	public class SliderController : Controller
 	{
 

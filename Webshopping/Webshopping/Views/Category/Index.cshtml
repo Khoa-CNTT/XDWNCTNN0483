@@ -1,6 +1,6 @@
 @using Webshopping.Models;
 
-@Model IEnumerable<ProductModel>
+@model IEnumerable<ProductModel>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -11,9 +11,9 @@
 
 <div class="col-sm-9 padding-right">
     @if (ViewBag.count > 0)
-        {
-            <partial name="_FilterProducts" />
-        }
+    {
+        <partial name="_FilterProducts" />
+    }
     <div class="features_items">
         <!--features_items-->
         <h2 class="title text-center">@ViewBag.slug</h2>
@@ -72,36 +72,36 @@
     <script>
         $(document).ready(function () {
             // jQuery UI slider
-                        $("#slider-range").slider({
-                            range: true,
-                            step: 10000,
-                            min: 1000,
-                            max: 10000000,
-                            values: [1000, 300000],
-                            slide: function (event, ui) {
-                                $("#amount").val(
-                                    new Intl.NumberFormat("vn-VN", { style: "currency", currency: "VND" }).format(ui.values[0]) +
-                                    " - " +
-                                    new Intl.NumberFormat("vn-VN", { style: "currency", currency: "VND" }).format(ui.values[1])
-                                );
-                            }
-                        });
+            $("#slider-range").slider({
+                range: true,
+                step: 10000,
+                min: 1000,
+                max: 10000000,
+                values: [1000, 300000],
+                slide: function (event, ui) {
+                    $("#amount").val(
+                        new Intl.NumberFormat("vn-VN", { style: "currency", currency: "VND" }).format(ui.values[0]) +
+                        " - " +
+                        new Intl.NumberFormat("vn-VN", { style: "currency", currency: "VND" }).format(ui.values[1])
+                    );
+                }
+            });
 
-                        $("#amount").val(
-                            new Intl.NumberFormat("vn-VN", { style: "currency", currency: "VND" }).format($("#slider-range").slider("values", 0)) +
-                            " - " +
-                            new Intl.NumberFormat("vn-VN", { style: "currency", currency: "VND" }).format($("#slider-range").slider("values", 1))
-                        );
+            $("#amount").val(
+                new Intl.NumberFormat("vn-VN", { style: "currency", currency: "VND" }).format($("#slider-range").slider("values", 0)) +
+                " - " +
+                new Intl.NumberFormat("vn-VN", { style: "currency", currency: "VND" }).format($("#slider-range").slider("values", 1))
+            );
 
-                        // Lọc giá
-                        $('.btn-locgia').on('click', function () {
-                            var url = $(this).data("current_url");
-                            if (url) {
-                                window.location = url + "?startprice=" + $("#slider-range").slider("values", 0)
-                                    + "&endprice=" + $("#slider-range").slider("values", 1);
-                            }
-                            return false;
-                        });
+            // Lọc giá
+            $('.btn-locgia').on('click', function () {
+                var url = $(this).data("current_url");
+                if (url) {
+                    window.location = url + "?startprice=" + $("#slider-range").slider("values", 0)
+                        + "&endprice=" + $("#slider-range").slider("values", 1);
+                }
+                return false;
+            });
 
             //btn lọc giá
             $('.btn-locgia').on('click', function () {

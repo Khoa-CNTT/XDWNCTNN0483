@@ -24,10 +24,11 @@
 
 @* asp-action="Add" sẽ được gọi khi có hàm Add *@
 @* có thể sử dụng asp-area="admin" để ấy đường dẫn thêm admin *@
- @if (User.IsInRole("employee"))
-    {
-<a asp-area="admin" asp-action="Add" asp-controller="Product" class="btn btn-primary btn-sm pt-1">Thêm sản phẩm</a>
-    }
+
+@if (User.IsInRole("Employee"))
+{
+    <a asp-area="admin" asp-action="Add" asp-controller="Product" class="btn btn-primary btn-sm pt-1">Thêm sản phẩm</a>
+}
 <table class="table" id="myTable">
     <thead>
         <tr>

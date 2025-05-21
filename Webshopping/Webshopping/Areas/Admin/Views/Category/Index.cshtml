@@ -31,10 +31,10 @@
 <body>
 
     <h3>Danh Mục</h3>
-     @if (User.IsInRole("employee"))
+    @if (User.IsInRole("Employee"))
     {
 
-    <a class="btn btn-primary" asp-action="Create" asp-controller="Category">Thêm danh mục</a>
+        <a class="btn btn-primary" asp-action="Create" asp-controller="Category">Thêm danh mục</a>
     }
 
     <table class="table" id="myTable">

@@ -4,7 +4,7 @@
     ViewData["Title"] = "List Slider";
 }
 
-<h3>Danh sách thanh trượt</h3>
+<h3>Danh sách slider</h3>
 
 @if (TempData["success"] != null)
 {
@@ -20,10 +20,12 @@
     </div>
 }
 
- @if (User.IsInRole("employee"))
-    {
-<a asp-area="admin" asp-action="Add" asp-controller="Slider" class="btn btn-primary btn-sm pt-1 mb-3">Thêm Thanh trượt</a>
-    }
+@if (User.IsInRole("Employee"))
+{
+    <a asp-area="admin" asp-action="Add" asp-controller="Slider" class="btn btn-primary btn-sm pt-1 mb-3">
+        Thêm Thanh trượt
+    </a>
+}
 
 
 <table class="table" id="myTable">

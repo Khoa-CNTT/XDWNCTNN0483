@@ -11,17 +11,15 @@ using Webshopping.Models.ViewModel;
 using Webshopping.Repository;
 
 [Area("Admin")]
-[Route("Admin/user/")]
-[Authorize(Roles = "Admin,User")]
+[Route("admin/user")]
+// [Authorize(Roles = "Admin")]
 public class UserController : Controller
 {
     private readonly DataContext _dataContext;
     private readonly RoleManager<IdentityRole> _roleManager;
     private readonly UserManager<AppUserModel> _userManager;
 
-    public UserController(RoleManager<IdentityRole> roleManager, UserManager<AppUserModel> userManager,
-    DataContext dataContext
-    )
+    public UserController(RoleManager<IdentityRole> roleManager, UserManager<AppUserModel> userManager, DataContext dataContext)
     {
         _dataContext = dataContext;
         _roleManager = roleManager;

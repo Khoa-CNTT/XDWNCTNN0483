@@ -18,6 +18,10 @@ public partial class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
+        //Connect MomoAPI
+        builder.Services.Configure<MomoOptionModel>(builder.Configuration.GetSection("MomoAPI"));
+        builder.Services.AddScoped<IMomoService, MomoService>();
+
         //ConnectionDB
         builder.Services.AddDbContext<DataContext>(options =>
         {
@@ -45,9 +49,7 @@ public partial class Program
         // Đăng ký IHttpClientFactory
         builder.Services.AddHttpClient<GeminiService>();
 
-        //Connect MomoAPI
-        builder.Services.Configure<MomoOptionModel>(builder.Configuration.GetSection("MomoAPI"));
-        builder.Services.AddScoped<IMomoService, MomoService>();
+        
 
         //Khai bao Identity
         builder.Services.AddIdentity<AppUserModel, IdentityRole>()
@@ -62,40 +64,21 @@ public partial class Program
 
         builder.Services.Configure<IdentityOptions>(options =>
         {
-        // Password settings.
+            // Password settings.
             options.Password.RequireDigit = true;
             options.Password.RequireLowercase = true;
             options.Password.RequireNonAlphanumeric = false;
             options.Password.RequireUppercase = false;
             options.Password.RequiredLength = 4;
 
-        // User settings.
+            // User settings.
             options.User.RequireUniqueEmail = false;
 
-        // Lockout settings.
+            // Lockout settings.
             options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10); // Thời gian khóa
             options.Lockout.MaxFailedAccessAttempts = 5; // Số lần đăng nhập sai cho phép
             options.Lockout.AllowedForNewUsers = true; // Cho phép áp dụng với tài khoản mới
         });
-
-        /*// đăng nhập google
-        builder.Services.AddAuthentication(options =>
-        {
-            // Xác định scheme mặc định cho toàn bộ hệ thống xác thực
-            options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme; // Lưu phiên đăng nhập qua cookie
-            options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme; // Khi cần login sẽ redirect tới Google
-        })
-        .AddCookie() // Cần có để lưu phiên đăng nhập sau khi Google trả về
-        .AddGoogle(options =>
-        {
-            // Lấy thông tin từ appsettings.json (an toàn hơn hard-code)
-            options.ClientId = builder.Configuration["Authentication:Google:ClientId"];
-            options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
-
-            // Đường dẫn Google sẽ redirect về sau khi đăng nhập thành công
-            options.CallbackPath = "/signin-google"; // Cực kỳ quan trọng! Phải giống với Google Developer Console
-        });*/
-        // kết thúc
 
         builder.Services.AddRazorPages();
 
@@ -128,25 +111,20 @@ public partial class Program
         app.UseStatusCodePagesWithRedirects("/Home/Error?statuscode={0}");
 
         // Seeding Data when is running Program
-        using (var scope = app.Services.CreateScope())
-        {
-            var services = scope.ServiceProvider;
-            var context = services.GetRequiredService<DataContext>();
-
-            // Call the SeedData method
-            SeedData.SeedingData(context);
-            var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-            await SeedData.SeedRolesAsync(roleManager);
-        }
-
-        // Seeding roles
         // using (var scope = app.Services.CreateScope())
         // {
         //     var services = scope.ServiceProvider;
         //     var context = services.GetRequiredService<DataContext>();
-        //     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 
+        //     // Call the SeedData method
+        //     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+        //     var userManager = services.GetRequiredService<UserManager<AppUserModel>>();
+        //     var logger = services.GetRequiredService<ILogger<Program>>();
+
+        //     await context.Database.MigrateAsync();
+        //     SeedData.SeedingData(context);
         //     await SeedData.SeedRolesAsync(roleManager);
+        //     await SeedData.SeedUserAscync(userManager, logger);
         // }
 
         app.UseSession();

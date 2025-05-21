@@ -8,45 +8,48 @@
     <meta name="author" content="">
     <title>Home | Myperfume</title>
     <!-- Bootstrap CSS -->
-    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Bootstrap 4.5.2 -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
 
-    <!-- Font Awesome (chỉ dùng 1 version, ưu tiên CDN chuẩn) -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <!-- Font Awesome 4.7.0 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 
-    <!-- SweetAlert2 (chỉ dùng 1 bản mới nhất, tránh trùng version) -->
-    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.19.1/dist/sweetalert2.min.css" rel="stylesheet" />
+    <!-- SweetAlert2 mới nhất -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.19.1/dist/sweetalert2.min.css" />
 
-    <!-- jQuery UI (nếu dùng các widget như datepicker, slider...) -->
+    <!-- jQuery UI 1.14.1 (nếu dùng) -->
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css" />
 
-    <!-- Morris chart (nếu bạn thực sự dùng biểu đồ) -->
+    <!-- Morris.js (nếu dùng) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css" />
 
-    <!-- Các CSS tùy chỉnh -->
-    <link href="~/css/prettyPhoto.css" rel="stylesheet" />
-    <link href="~/css/price-range.css" rel="stylesheet" />
-    <link href="~/css/animate.css" rel="stylesheet" />
-    <link href="~/css/main.css" rel="stylesheet" />
-    <link href="~/css/responsive.css" rel="stylesheet" />
+    <!-- CSS tuỳ chỉnh -->
+    <link rel="stylesheet" href="~/css/bootstrap.min.css" /> <!-- nếu đây là file override -->
+    <link rel="stylesheet" href="~/css/prettyPhoto.css" />
+    <link rel="stylesheet" href="~/css/price-range.css" />
+    <link rel="stylesheet" href="~/css/animate.css" />
+    <link rel="stylesheet" href="~/css/main.css" />
+    <link rel="stylesheet" href="~/css/responsive.css" />
 
-    <!-- CSS của Chatbox riêng  -->
+    <!-- Chatbox -->
     <link rel="stylesheet" href="~/ChatBotGemini.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/chatbox.css" asp-append-version="true" />
 
-    <!-- Icon & favicon -->
-    <link rel="shortcut icon" href="images/ico/favicon.ico" />
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png" />
-    <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png" />
+    <!-- Select2 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
 
-    <!-- HTML5 support for IE < 9 -->
+    <!-- Favicon & icons -->
+    <link rel="shortcut icon" href="~/images/ico/favicon.ico" />
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="~/images/ico/apple-touch-icon-144-precomposed.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="~/images/ico/apple-touch-icon-114-precomposed.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="~/images/ico/apple-touch-icon-72-precomposed.png" />
+    <link rel="apple-touch-icon-precomposed" href="~/images/ico/apple-touch-icon-57-precomposed.png" />
+
     <!--[if lt IE 9]>
     <script src="~/js/html5shiv.js"></script>
     <script src="~/js/respond.min.js"></script>
     <![endif]-->
-    <!-- CSS của Select2 -->
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
 </head><!--/head-->
 
 <body>
@@ -59,8 +62,14 @@
                     <div class="col-sm-6">
                         <div class="contactinfo">
                             <ul class="nav nav-pills">
-                                <li><a href="#"><i class="fa fa-phone"></i> 0325471030</a></li>
-                                <li><a href="https://mail.google.com/mail/?view=cm&fs=1&to=enternitywinner2000@gmail.com&su=Liên hệ&body=Chào bạn"
+                                <li>
+                                    <a href="#">
+                                        <i class="fa fa-phone"></i> 0325471030
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=enternitywinner2000@gmail.com&su=Liên hệ&body=Chào bạn"
                                         target="_blank">
                                         <i class="fa fa-envelope"></i> enternitywinner2000@gmail.com
                                     </a>
@@ -68,16 +77,27 @@
                             </ul>
                         </div>
                     </div>
+
                     <div class="col-sm-6">
                         <div class="social-icons pull-right">
-                            <ul class="nav navbar-nav">
-                                <li><a target="_blank" href="https://www.facebook.com/trinh.le.767412"><i
-                                            class="fa fa-facebook"></i></a></li>
-                                <li><a target="_blank" href="https://x.com/Himekafcon"><i class="fa fa-twitter"></i></a>
+                            <ul class="nav navbar-nav" style="display: inline;">
+                                <li>
+                                    <a target="_blank" href="https://www.facebook.com/trinh.le.767412">
+                                        <i class="fa fa-facebook"></i>
+                                    </a>
                                 </li>
-                                <li><a target="_blank"
-                                        href="https://www.linkedin.com/in/tr%C3%ACnh-l%C3%AA-652aa2363/"><i
-                                            class="fa fa-linkedin"></i></a></li>
+
+                                <li>
+                                    <a target="_blank" href="https://x.com/Himekafcon">
+                                        <i class="fa fa-twitter"></i>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a target="_blank" href="https://www.linkedin.com/in/tr%C3%ACnh-l%C3%AA-652aa2363/">
+                                        <i class="fa fa-linkedin"></i>
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -91,16 +111,19 @@
                 <div class="row">
                     <div class="col-sm-4">
                         <div class="logo pull-left">
-                            <a asp-action="index" asp-controller="Home"><img src="~/img/logo.png" alt="" width="100"
-                                    height="100" /></a>
+                            <a asp-action="index" asp-controller="Home">
+                                <img src="~/img/logo.png" alt="" width="100" height="100" />
+                            </a>
                         </div>
+
                         <div class="btn-group pull-right">
 
                         </div>
                     </div>
+
                     <div class="col-sm-8">
                         <div class="shop-menu pull-right">
-                            <ul class="nav navbar-nav">
+                            <ul class="nav navbar-nav" style="display: inline;">
 
                                 <li>
                                     <a asp-controller="cart" asp-action="Index">
@@ -113,15 +136,18 @@
 
                                     <li>
                                         <a asp-action="Wishlist" asp-controller="Home">
-                                            <i class="fa fa-heart"></i>Yêu thích
+                                            <i class="fa fa-heart"></i>
+                                            Yêu thích
                                         </a>
                                     </li>
+
                                     <li>
                                         <a asp-action="Compare" asp-controller="Home">
                                             <i class="fa fa-star"></i>
                                             So sánh
                                         </a>
                                     </li>
+
                                     <li>
                                         <a asp-action="Index" asp-controller="Cart">
                                             <i class="fa fa-crosshairs"></i>
@@ -133,15 +159,18 @@
                                         <a class="nav-link">
                                             Hi, @User.Identity.Name <i class="fa fa-angle-down"></i>
                                         </a>
+
                                         <ul role="menu" class="dropdown-menu">
-                                            <li><a class="dropdown-item" asp-controller="Account" asp-action="History">
+                                            <li>
+                                                <a class="dropdown-item" asp-controller="Account" asp-action="History">
                                                     <i class="fa fa-history"></i> Lịch sử đơn hàng
                                                 </a>
                                             </li>
+
                                             <li>
                                                 @* Ẩn mục admin nếu không phải admin *@
-                                                @if (User.IsInRole("Admin")|| User.IsInRole("employee"))
-                                                
+                                                @if (User.IsInRole("Admin") || User.IsInRole("employee"))
+
                                                 {
                                                     <a class="dropdown-item" asp-area="Admin" asp-controller="Dashboard"
                                                         asp-action="Index">
@@ -149,6 +178,7 @@
                                                     </a>
                                                 }
                                             </li>
+
                                             <li>
                                                 <form asp-controller="Account" asp-action="Logout" method="post"
                                                     class="form-inline">
@@ -163,7 +193,10 @@
                                 }
                                 else
                                 {
-                                    <li><a asp-controller="Account" asp-action="Login"><i class="fa fa-lock"></i>Login</a>
+                                    <li>
+                                        <a asp-controller="Account" asp-action="Login">
+                                            <i class="fa fa-lock"></i>Login
+                                        </a>
                                     </li>
                                 }
                             </ul>
@@ -284,41 +317,52 @@
             <span>Perfume Bot</span>
             <button id="chatbox-close-btn">×</button>
         </div>
+
         <div id="chatbox-messages">
             <!-- Tin nhắn sẽ được thêm vào đây bằng JavaScript -->
             <div class="message bot-message">Welcome to Myperfume! Tôi có thể giúp gì cho bạn?</div>
         </div>
+
         <div id="chatbox-input-area">
             <input type="text" id="chatbox-input" placeholder="Nhập câu hỏi của bạn...">
-            <button id="chatbox-voice-btn">giọng nói</button> <!-- Nút thu âm -->
-            <button id="chatbox-send-btn">Gửi</button>
+            <button id="chatbox-voice-btn">
+                <i class="fa fa-microphone" aria-hidden="true"></i>
+            </button> <!-- Nút thu âm -->
+
+            <button id="chatbox-send-btn">
+                <i class="fa fa-paper-plane" aria-hidden="true"></i>
+            </button>
         </div>
 
     </div>
+
     <img id="chatbox-toggle-img" src="~/img/moiii.png" alt="Chat"
         style="position: fixed; bottom: 20px; right: 20px; width: 100px; height: 100px; cursor: pointer; z-index: 999;">
+
     <!-- Nút để mở/đóng chatbox -->
     <script src="~/js/jquery.js"></script>
     <!-- jQuery (nền tảng cho các plugin khác, nên đặt đầu tiên) -->
+    <!-- jQuery 3.5.1 -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
-    <!-- jQuery UI (nếu bạn cần hiệu ứng kéo/thả, datepicker, v.v) -->
+    <!-- jQuery UI -->
     <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
 
-    <!-- Bootstrap JS (cần jQuery trước) -->
+    <!-- Bootstrap 4.5.2 (bundle có Popper) -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Các plugin phụ thuộc jQuery -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.all.min.js"></script>
+    <!-- SweetAlert2 & Select2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.19.1/dist/sweetalert2.all.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-    <!-- Các plugin tùy chỉnh (nên để sau các thư viện gốc) -->
+    <!-- Plugin tuỳ chỉnh -->
     <script src="~/js/jquery.prettyPhoto.js"></script>
     <script src="~/js/price-range.js"></script>
-
-    <!-- Các script nội bộ (đặt cuối cùng) -->
     <script src="~/js/jquery.scrollUp.min.js"></script>
+
+    <!-- main.js -->
     <script src="~/js/main.js"></script>
+
     <script src="~/js/chatbox.js" asp-append-version="true"></script>
 
     <!-- Script xử lý sự kiện -->

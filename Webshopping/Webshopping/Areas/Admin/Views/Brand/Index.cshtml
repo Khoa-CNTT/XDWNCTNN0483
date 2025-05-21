@@ -23,10 +23,10 @@
 }
 
 <!-- Your other content here -->
-    @if (User.IsInRole("employee"))
-    {
+@if (User.IsInRole("Employee"))
+{
     <a asp-area="admin" asp-action="Add" asp-controller="brand" class="btn btn-primary btn-sm pt-1">Thêm thương hiệu</a>
-    }
+}
 <table class="table" id="myTable">
     <thead>
         <tr>
