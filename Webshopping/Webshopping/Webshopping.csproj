@@ -5,6 +5,7 @@
     <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <NoWarn>$(NoWarn);NU1701</NoWarn>
+    <HotReloadEnabled>true</HotReloadEnabled>
   </PropertyGroup>
 
   <ItemGroup>
@@ -33,6 +34,15 @@
     <Folder Include="Migrations\" />
     <Folder Include="wwwroot\img\chatbot\" />
     <Folder Include="wwwroot\Logo\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Nhóm cấu hình dotnet watch -->
+    <Watch Include="Views/**/*.cshtml" />
+    <Watch Include="Pages/**/*.cshtml" />
+    <Watch Include="appsettings.Development.json" />
+    <Watch Include="appsettings.json" />
+    <Watch Remove="wwwroot/temp/**" />
   </ItemGroup>
 
 </Project>

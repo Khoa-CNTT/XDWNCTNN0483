@@ -89,6 +89,7 @@ namespace Webshopping.Controllers
                 return StatusCode(500, "lỗi thêm vào danh sách yêu thích ");
             }
         }
+
         [HttpPost]
         public async Task<IActionResult> AddCompare(int Id, CompareModel Comparemodel)
         {
@@ -109,7 +110,7 @@ namespace Webshopping.Controllers
                 return StatusCode(500, "lỗi thêm  sản phẩm so sánh ");
             }
         }
-        
+
         public IActionResult Privacy()
         {
             return View();

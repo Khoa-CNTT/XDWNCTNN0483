@@ -23,55 +23,54 @@
                     {
                         @foreach (var item in Model.CartItems)
                         {
-                            <tr>
-                                <td class="cart_product">
-                                    <a href="">
-                                        <img src="~/img/@item.Image" alt="@item.ProductName" width="30%" />
-                                    </a>
-                                </td>
+                    <tr>
+                        <td class="cart_product">
+                            <a href="">
+                                <img src="~/img/@item.Image" alt="@item.ProductName" width="30%" />
+                            </a>
+                        </td>
 
-                                <td class="cart_description">
-                                    <h4><a href="">@item.ProductName</a></h4>
-                                </td>
+                        <td class="cart_description">
+                            <h4><a href="">@item.ProductName</a></h4>
+                        </td>
 
-                                <td class="cart_price">
-                                    <p>@item.Price.ToString("#,##0 VNĐ")</p>
-                                </td>
+                        <td class="cart_price">
+                            <p>@item.Price.ToString("#,##0 VNĐ")</p>
+                        </td>
 
-                                <td>
-                                    <a class="btn btn-default btn-sn" asp-controller="Cart" asp-action="Increase"
-                                       asp-route-id="@item.ProductId"> + </a>
-                                    <input class="cart_quantity_input" type="text" name="quantity" value="@item.Quantity"
-                                           autocomplete="off" size="2">
+                        <td>
+                            <a class="btn btn-default btn-sn" asp-controller="Cart" asp-action="Increase"
+                                asp-route-id="@item.ProductId"> + </a>
+                            <input class="cart_quantity_input" type="text" name="quantity" value="@item.Quantity"
+                                autocomplete="off" size="2">
 
-                                    <a class="btn btn-success btn-sn @(item.Quantity <= 1 ? "disabled" : "")"
-                                       asp-controller="Cart"
-                                       asp-action="Decrease"
-                                       asp-route-id="@item.ProductId"> - </a>
+                            <a class="btn btn-success btn-sn @(item.Quantity <= 1 ? "disabled" : "")"
+                                asp-controller="Cart" asp-action="Decrease" asp-route-id="@item.ProductId"> - </a>
 
-                                    <a class="btn btn-danger btn-sn" asp-controller="Cart" asp-action="Remove"
-                                       asp-route-id="@item.ProductId">
-                                        Xóa
-                                    </a>
-                                </td>
+                            <a class="btn btn-danger btn-sn" asp-controller="Cart" asp-action="Remove"
+                                asp-route-id="@item.ProductId">
+                                Xóa
+                            </a>
+                        </td>
 
-                                <td class="cart_total">
-                                    <p class="cart_total_price">
-                                        @Model.CartItems.Where(x => x.ProductId == item.ProductId).Sum(x
-                                                 => x.Quantity * x.Price).ToString("#,##0 VNĐ")
-                                    </p>
-                                </td>
+                        <td class="cart_total">
+                            <p class="cart_total_price">
+                                @Model.CartItems.Where(x => x.ProductId == item.ProductId).Sum(x
+                                                                => x.Quantity* x.Price).ToString("#,##0 VNĐ")
+                            </p>
+                        </td>
 
 
                             </tr>
-                        }
+                                        }
 
                         <tr>
                             <td rowspan="5">
                                 Tổng cộng: <p class="cart_total_price">@Model.GrandTotal.ToString("#,##0 VNĐ")</p>
                                 <form>
                                     Mã khuyến mãi:
-                                    <input type="text" class="form-control coupon-value" /><span class="text text-success">@Model.CouponCode</span> <br />
+                                    <input type="text" class="form-control coupon-value" /><span
+                                        class="text text-success">@Model.CouponCode</span> <br />
 
                                     <input type="button" value="Apply" class="btn btn-sm btn-primary btn-apply-coupon" />
                                 </form>
@@ -113,26 +112,27 @@
 
                             </td>
 
-                            @if (User.Identity?.IsAuthenticated ?? false)
-                            {
-                                <td>
-                                    @if (@Model.ShippingPrice > 0)
-                                    {
-                                        <a class="btn btn-primary btn-sm btn-checkout"
-                                           onclick="return confirm('Xác nhận đặt hàng?');" asp-action="Checkout"
-                                           asp-controller="Checkout">
-                                            Xác nhận đặt hàng
-                                        </a>
-                                    }
-                                    else
-                                    {
-                                        <a disabled class="btn btn-primary btn-sm btn-checkout"
-                                           onclick="return confirm('Xác nhận đặt hàng?');" asp-action="Checkout"
-                                           asp-controller="Checkout"> Xác nhận đặt hàng </a>
-                                        <p><span class="text text-danger">Tính phí vận chuyển để xác nhận đơn.</span></p>
-                                    }
-                                </td>
-                                <td>
+                            <td>
+                                @if (@Model.ShippingPrice > 0)
+                                {
+                                    <a class="btn btn-primary btn-sm btn-checkout"
+                                        onclick="return confirm('Xác nhận đặt hàng?');" asp-action="Checkout"
+                                        asp-controller="Checkout">
+                                        Xác nhận đặt hàng
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a disabled class="btn btn-primary btn-sm btn-checkout"
+                                        onclick="return confirm('Xác nhận đặt hàng?');" asp-action="Checkout"
+                                        asp-controller="Checkout"> Xác nhận đặt hàng </a>
+                                    <p><span class="text text-danger">Tính phí vận chuyển để xác nhận đơn.</span></p>
+                                }
+                            </td>
+
+                            <td>
+                                @if (User.Identity.IsAuthenticated)
+                                {
                                     <form method="POST" asp-action="CreatePaymentMomo" asp-controller="Payment">
                                         <input type="hidden" name="FullName" value="@User.Identity.Name" />
                                         <input type="hidden" name="Amount" value="@Model.GrandTotal" />
@@ -140,20 +140,26 @@
 
                                         <button class="btn btn-danger" name="PayUrl" type="submit">Thanh toán qua MoMo</button>
                                     </form>
+
                                     <form method="POST" asp-action="CreatePaymentUrlVnpay" asp-controller="Payment">
 
                                         <input type="hidden" name="Name" value="@User.Identity.Name" />
                                         <input type="hidden" name="Amount" value="@Model.GrandTotal" />
                                         <input type="hidden" name="OrderDescription"
-                                               value="Đã thanh toán qua Vnpay tại Thong_Shopping" />
+                                            value="Đã thanh toán qua Vnpay tại Thong_Shopping" />
                                         <input type="hidden" name="OrderType" value="other" />
 
                                         <button class="btn btn-success" type="submit">Thanh toán qua Vnpay</button>
                                     </form>
 
-                                </td>
-
-                            }
+                                }
+                                else
+                                {
+                                    <!-- Chưa đăng nhập: Hiển thị cảnh báo khi nhấn nút -->
+                                    <button class="btn btn-danger" onclick="checkLogin('momo')">Thanh toán qua MoMo</button>
+                                    <button class="btn btn-success" onclick="checkLogin('vnpay')">Thanh toán qua Vnpay</button>
+                                }
+                            </td>
                             <td colspan="3">
                                 <a class="btn btn-danger btn-sm" asp-action="Clear" asp-controller="Cart">
                                     Xóa tất cả
@@ -176,6 +182,28 @@
 </section>
 
 @section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        function checkLogin(method) {
+            Swal.fire({
+                title: 'Bạn cần đăng nhập',
+                text: "Vui lòng đăng nhập để thanh toán!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Đăng nhập ngay',
+                cancelButtonText: 'Ở lại giỏ hàng'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const returnUrl = window.location.pathname; // Giữ lại URL hiện tại để quay lại sau đăng nhập
+                    window.location.href = '/account/login?returnUrl=' + encodeURIComponent(returnUrl);
+                }
+            });
+        }
+    </script>
+
     <script>
         $(".btn-apply-coupon").click(function () {
             var coupon_value = $(".coupon-value").val();
