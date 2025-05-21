@@ -42,6 +42,7 @@ namespace Webshopping.Controllers
         {
             return View("~/Views/Checkout/Index.cshtml");
         }
+
         [HttpPost]
         public async Task<IActionResult> Add(int Id)
         {
