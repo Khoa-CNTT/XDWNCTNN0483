@@ -163,6 +163,7 @@ public class ProductController : Controller
         // Cập nhật các trường khác
         existingProduct.Name = model.Name;
         existingProduct.Description = model.Description;
+        existingProduct.Infomation = model.Infomation;
         existingProduct.Price = model.Price;
         existingProduct.BrandID = model.BrandID;
         existingProduct.CategoryID = model.CategoryID;

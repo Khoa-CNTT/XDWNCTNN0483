@@ -13,6 +13,7 @@ namespace Webshopping.Models
         public string Slug { get; set; }
         // [Required(ErrorMessage = "Yêu cầu nhập mô tả của sản phẩm"), MinLength(4)]
         public string Description { get; set; }
+        public string Infomation { get; set; }
         [Required(ErrorMessage = "Yêu cầu nhập giá của sản phẩm")]
         [Range(1, double.MaxValue, ErrorMessage = "Giá sản phẩm phải lớn hơn 0")]
         public decimal Price { get; set; }

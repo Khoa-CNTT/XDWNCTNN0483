@@ -15,7 +15,6 @@
 				<div class="view-product">
 					<div class="img-magnifier-containerd">
 						<img id="productImage" src="~/img/@Model.ProductDetails.Img" alt="@Model.ProductDetails.Name"  />
-						<h3>ZOOM</h3>
 					</div>
 				</div>
 				<div id="similar-product" class="carousel slide" data-ride="carousel">
@@ -74,7 +73,7 @@
 			<!--category-tab-->
 			<div class="col-sm-12">
 				<ul class="nav nav-tabs">
-					<li class ="active"><a href="#details" data-toggle="tab">Chi tiết</a></li>
+					<li class="active"><a href="#details" data-toggle="tab">Chi tiết</a></li>
 					<li><a href="#companyprofile" data-toggle="tab">Thông tin</a></li>
 					<li><a href="#tag" data-toggle="tab">Thẻ</a></li>
 					<li><a href="#reviews" data-toggle="tab">Đánh giá (5)</a></li>
@@ -92,25 +91,13 @@
 						<p>Không có mô tả cho sản phẩm này.</p>
 					}	
 				</div>
-				<div class="tab-pane fade" id="companyprofile">
-					 @foreach (var relatedProduct in ViewBag.RelatedProducts as IEnumerable<ProductModel>)
-					{
-					<div class="col-sm-3">
-						<div class="product-image-wrapper">
-							<div class="single-products">
-								<div class="productinfo text-center">
-									<img src="~/img/@Model.ProductDetails.Img" alt="" />
-									<h2>@Model.ProductDetails.CapitalPrice</h2>
-									<p>@Model.ProductDetails.Name</p>
-									<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-								</div>
-							</div>
-						</div>
-					</div>
-					}
+				<div class="tab-pane" id="companyprofile">
+					@Html.Raw(Model.ProductDetails.Infomation)
 				</div>
-
-				<div class="tab-pane fade active in" id="reviews">
+				<div class="tab-pane" id="tag">
+					
+				</div>
+				<div class="tab-pane " id="reviews">
 					<div class="col-sm-12">
 						<ul>
 							<li><a href=""><i class="fa fa-user"></i>VN</a></li>
@@ -159,7 +146,7 @@
 
 					<div class="item active">
 						 @foreach (var relatedProduct in @ViewBag.RelatedProducts as IEnumerable<ProductModel>)
-    {
+						 {
 						<div class="col-sm-4">
 								<div class="product-image-wrapper">
 									<div class="single-products">
@@ -177,7 +164,7 @@
 									</div>
 								</div>
 						</div>
-	}
+							}
 						
 					</div>
 					

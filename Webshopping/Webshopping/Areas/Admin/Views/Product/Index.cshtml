@@ -37,6 +37,7 @@
             <th scope="col">Số lượng</th>
             <th scope="col">Đã bán</th>
             <th scope="col">Mô tả</th>
+            <th scope="col">Thông tin</th>
             <th scope="col">Giá của sản phẩm</th>
             <th></th>
             <th scope="col">Hình ảnh</th>
@@ -61,6 +62,7 @@
                 </td>
                 <td><b>@item.Sold</b></td>
                 <td>@Html.Raw(item.Description)</td>
+                <td>@Html.Raw(item.Infomation)</td>
                 <td>@item.Price.ToString("#,##0 VNĐ")</td>
                 <td>@item.CapitalPrice.ToString("#,##0 VNĐ")</td>
                 <td>

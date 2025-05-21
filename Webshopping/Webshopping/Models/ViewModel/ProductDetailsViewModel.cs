@@ -16,5 +16,6 @@ namespace Webshopping.Models.ViewModel
         public string Comment { get; set; }
 
         public string Star { get; set; }
+        public string Infomation { get; set; }
     }
 }
