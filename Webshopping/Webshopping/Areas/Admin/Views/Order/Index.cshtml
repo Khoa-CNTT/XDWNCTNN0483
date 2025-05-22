@@ -111,13 +111,12 @@
 					</td>
 
 					<td>@item.CreateDate.ToString("dd-MM-yyyy")</td>
-					<td>
+					<td style="display: flex;">
 						<a class="btn btn-warning btn-sm" asp-action="ViewOrder" asp-controller="Order"
 							asp-route-ordercode="@item.OrderCode">Chi tiết</a>
 
 						<a class="btn btn-danger btn-sm" asp-action="Delete" asp-controller="Order"
-							asp-route-ordercode="@item.OrderCode">Xóa</a>
-
+							style="margin-left: 0.4rem;" asp-route-ordercode="@item.OrderCode">Xóa</a>
 					</td>
 				</tr>
 			}

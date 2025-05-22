@@ -51,7 +51,7 @@
         <!-- Sau trường Giá trị giảm -->
         <div class="form-group">
             <label>Số lượng mã giảm giá</label>
-            <input asp-for="Quantity" class="form-control" type="number" min="1"/>
+            <input asp-for="Quantity" class="form-control" type="number" min="1" />
             <span asp-validation-for="Quantity" class="text-danger"></span>
         </div>
 
@@ -143,6 +143,7 @@
         </tbody>
     </table>
 </div>
+
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");

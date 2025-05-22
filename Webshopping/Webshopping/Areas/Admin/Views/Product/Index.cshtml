@@ -56,7 +56,7 @@
                     <b>@item.Quantity</b>
                     <br />
                     <a asp-controller="Product" asp-action="AddQuantity" asp-route-Id="@item.Id">
-                        Add Quantity
+                        Thêm số lượng
                     </a>
                 </td>
                 <td><b>@item.Sold</b></td>
@@ -70,12 +70,12 @@
                 <td>@item.Category.Name</td>
                 <td>@item.Brand.Name</td>
 
-                <td>
+                <td style="display: flex;">
                     <a asp-action="Edit" class="btn btn-sm btn-warning" asp-controller="Product" asp-route-Id="@item.Id">
                         Sửa
                     </a>
                     <form asp-action="Delete" asp-controller="Product" asp-route-id="@item.Id" method="post"
-                        style="display: inline;">
+                        style="margin-left: 0.4rem">
                         <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
                     </form>
                 </td>
