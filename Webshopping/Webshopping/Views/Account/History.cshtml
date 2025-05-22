@@ -3,21 +3,20 @@
 @model IEnumerable<OrderModel>
 
 @{
-    ViewData["Title"] = "List Orders History" + @ViewBag.UserEmail;
-
+    ViewData["Title"] = "List Orders History" + @ViewBag.UserName;
 }
 
 <!DOCTYPE html>
 
 <html>
-    
+
 <head>
     <meta name="viewport" content="width=device-width" />
 
 </head>
-    
+
 <body>
-    <h3>Danh sách đơn hàng của @ViewBag.UserEmail</h3>
+    <h3>Danh sách đơn hàng của @ViewBag.UserName</h3>
 
     <table class="table" id="myTable">
         <thead>
@@ -55,11 +54,11 @@
                     <td>
                         @if (item.Status == 1)
                         {
-                            <span class="text text-success">Đơn hàng mới</span>
+                            <span class="text text-primary">Đơn hàng mới</span>
                         }
                         else if (item.Status == 2)
                         {
-                            <span class="text text-success">Đang giao hàng</span>
+                            <span class="text text-danger">Đang giao hàng</span>
                         }
                         else if (item.Status == 3)
                         {
@@ -67,7 +66,6 @@
                         }
                         else
                         {
-
                             <span class="text text-danger">Đã hủy</span>
                         }
                     </td>
@@ -81,7 +79,8 @@
                                 Hủy đơn hàng
                             </a>
                         }
-                        else if (item.Status == 2 || item.Status == 3)// Kiểm tra nếu đơn hàng đang xử lý hoặc đã xử lý xong thì mất nút
+                        else if (item.Status == 2 || item.Status == 3)// Kiểm tra nếu đơn hàng đang xử lý hoặc đã xử lý xong
+                                                                      @* thì mất nút *@
                         {
                             <span class="text text-success">Bạn không được phép hủy đơn hàng</span>
                         }
