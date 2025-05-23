@@ -109,21 +109,21 @@ public partial class Program
         app.UseStatusCodePagesWithRedirects("/Home/Error?statuscode={0}");
 
         // Seeding Data when is running Program
-        // using (var scope = app.Services.CreateScope())
-        // {
-        //     var services = scope.ServiceProvider;
-        //     var context = services.GetRequiredService<DataContext>();
+        using (var scope = app.Services.CreateScope())
+        {
+            var services = scope.ServiceProvider;
+            var context = services.GetRequiredService<DataContext>();
 
-        //     // Call the SeedData method
-        //     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-        //     var userManager = services.GetRequiredService<UserManager<AppUserModel>>();
-        //     var logger = services.GetRequiredService<ILogger<Program>>();
+            // Call the SeedData method
+            var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+            var userManager = services.GetRequiredService<UserManager<AppUserModel>>();
+            var logger = services.GetRequiredService<ILogger<Program>>();
 
-        //     await context.Database.MigrateAsync();
-        //     SeedData.SeedingData(context);
-        //     await SeedData.SeedRolesAsync(roleManager);
-        //     await SeedData.SeedUserAscync(userManager, logger);
-        // }
+            await context.Database.MigrateAsync();
+            SeedData.SeedingData(context);
+            await SeedData.SeedRolesAsync(roleManager);
+            await SeedData.SeedUserAscync(userManager, logger);
+        }
 
         app.UseSession();
 
