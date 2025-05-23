@@ -49,8 +49,6 @@ public partial class Program
         // Đăng ký IHttpClientFactory
         builder.Services.AddHttpClient<GeminiService>();
 
-        
-
         //Khai bao Identity
         builder.Services.AddIdentity<AppUserModel, IdentityRole>()
              .AddEntityFrameworkStores<DataContext>().AddDefaultTokenProviders();
