@@ -38,6 +38,7 @@
 	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
 	<!-- Vanilla JS Datepicker-->
+	@RenderSection("Styles", required: false)
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
 </head><!--/head-->
@@ -116,37 +117,37 @@
 				</div>
 			</section>
 
-			
+
 			<!-- Chatbox Container -->
-			
-      <div id="gemini-chatbox">
-        <div id="chatbox-header">
-          <span>Perfume Bot</span>
-          <button id="chatbox-close-btn">×</button>
-        </div>
 
-        <div id="chatbox-messages">
-          <!-- Tin nhắn sẽ được thêm vào đây bằng JavaScript -->
-          <div class="message bot-message">Welcome to Myperfume! Tôi có thể giúp gì cho bạn?</div>
-        </div>
+			<div id="gemini-chatbox">
+				<div id="chatbox-header">
+					<span>Perfume Bot</span>
+					<button id="chatbox-close-btn">×</button>
+				</div>
 
-       <div id="chatbox-input-area">
-            <input type="text" id="chatbox-input" placeholder="Nhập câu hỏi của bạn...">
-            <button id="chatbox-voice-btn">
-                <i class="fa fa-microphone" aria-hidden="true"></i>
-            </button> <!-- Nút thu âm -->
+				<div id="chatbox-messages">
+					<!-- Tin nhắn sẽ được thêm vào đây bằng JavaScript -->
+					<div class="message bot-message">Welcome to Myperfume! Tôi có thể giúp gì cho bạn?</div>
+				</div>
 
-            <button id="chatbox-send-btn">
-                <i class="fa fa-paper-plane" aria-hidden="true"></i>
-            </button>
-        </div>
+				<div id="chatbox-input-area">
+					<input type="text" id="chatbox-input" placeholder="Nhập câu hỏi của bạn...">
+					<button id="chatbox-voice-btn">
+						<i class="fa fa-microphone" aria-hidden="true"></i>
+					</button> <!-- Nút thu âm -->
 
-      </div>
-      <img id="chatbox-toggle-img" src="~/img/moiii.png" alt="Chat"
-        style="position: fixed; bottom: 20px; right: 20px; width: 100px; height: 100px; cursor: pointer; z-index: 999;">
+					<button id="chatbox-send-btn">
+						<i class="fa fa-paper-plane" aria-hidden="true"></i>
+					</button>
+				</div>
+
+			</div>
+			<img id="chatbox-toggle-img" src="~/img/moiii.png" alt="Chat"
+				style="position: fixed; bottom: 20px; right: 20px; width: 100px; height: 100px; cursor: pointer; z-index: 999;">
 		</div>
 		<!--/Footer-->
-    
+
 		<script src="~/js/jquery.js"></script>
 		<script src="~/js/bootstrap.min.js"></script>
 		<script src="~/js/jquery.scrollUp.min.js"></script>
@@ -188,6 +189,27 @@
 				layout: {
 					topStart: {
 						buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+					}
+				},
+				language: {
+					lengthMenu: "Hiển thị _MENU_ mục",
+					zeroRecords: "Không tìm thấy kết quả nào",
+					info: "Hiển thị từ _START_ đến _END_ của _TOTAL_ mục",
+					infoEmpty: "Không có dữ liệu để hiển thị",
+					infoFiltered: "(lọc từ tổng số _MAX_ mục)",
+					search: "Tìm kiếm:",
+					paginate: {
+						first: "«",
+						last: "»",
+						next: "›",
+						previous: "‹"
+					},
+					buttons: {
+						copy: 'Sao chép',
+						csv: 'Xuất CSV',
+						excel: 'Xuất Excel',
+						pdf: 'Xuất PDF',
+						print: 'In'
 					}
 				}
 			});
