@@ -169,7 +169,7 @@
 
                                             <li>
                                                 @* Ẩn mục admin nếu không phải admin *@
-                                                @if (User.IsInRole("Admin") || User.IsInRole("employee"))
+                                                @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
 
                                                 {
                                                     <a class="dropdown-item" asp-area="Admin" asp-controller="Dashboard"

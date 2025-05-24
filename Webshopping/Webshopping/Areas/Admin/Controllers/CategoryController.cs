@@ -44,13 +44,11 @@ public class CategoryController : Controller
 
         return View(data);
     }
-
     [HttpGet("create")]
     public IActionResult Add()
     {
         return View();
     }
-
     [HttpPost("create")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Add(CategoryModel category)

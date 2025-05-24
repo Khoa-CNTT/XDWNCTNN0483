@@ -186,7 +186,7 @@ namespace Webshopping.Controllers
         public IActionResult RemoveShippingCookie()
         {
             Response.Cookies.Delete("ShippingPrice");
-            return RedirectToAction("Index", "Cart");
+            return Json(new { success = true });
         }
         // GET: Coupon
         [HttpPost]
