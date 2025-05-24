@@ -1,6 +1,15 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model IEnumerable<ProductModel>
 @{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h5>Thông tin liên hệ</h5>
+<div class="col-sm-3">
+    <partial name="_SidebarPartial" />
+</div>
+<div class="col-sm-9 padding-right">
+    <div class="features_items">
+        <!--features_items-->
+        <h2 class="title text-center">Liên hệ</h2>
+        
+    </div>
+</div>
