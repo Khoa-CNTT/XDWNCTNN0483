@@ -11,6 +11,7 @@ using ChatBotGemini;
 using ChatBotGemini.Services;
 using System.Threading.Tasks;
 using Webshopping.Models.Momo;
+using Webshopping.Areas.Admin.Service;
 
 public partial class Program
 {
@@ -31,6 +32,9 @@ public partial class Program
         //Add EmailSender
         builder.Services.AddTransient<IEmailSender, EmailSender>();
 
+        // import file excel
+        builder.Services.AddScoped<IExcelImportService, ExcelImportService>();
+
         // Add services to the container.
         builder.Services.AddControllersWithViews();
         builder.Configuration.AddJsonFile("appsettings.json");
@@ -48,8 +52,6 @@ public partial class Program
         });
         // Đăng ký IHttpClientFactory
         builder.Services.AddHttpClient<GeminiService>();
-
-        
 
         //Khai bao Identity
         builder.Services.AddIdentity<AppUserModel, IdentityRole>()
@@ -111,21 +113,21 @@ public partial class Program
         app.UseStatusCodePagesWithRedirects("/Home/Error?statuscode={0}");
 
         // Seeding Data when is running Program
-        // using (var scope = app.Services.CreateScope())
-        // {
-        //     var services = scope.ServiceProvider;
-        //     var context = services.GetRequiredService<DataContext>();
+        using (var scope = app.Services.CreateScope())
+        {
+            var services = scope.ServiceProvider;
+            var context = services.GetRequiredService<DataContext>();
 
-        //     // Call the SeedData method
-        //     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-        //     var userManager = services.GetRequiredService<UserManager<AppUserModel>>();
-        //     var logger = services.GetRequiredService<ILogger<Program>>();
+            // Call the SeedData method
+            var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+            var userManager = services.GetRequiredService<UserManager<AppUserModel>>();
+            var logger = services.GetRequiredService<ILogger<Program>>();
 
-        //     await context.Database.MigrateAsync();
-        //     SeedData.SeedingData(context);
-        //     await SeedData.SeedRolesAsync(roleManager);
-        //     await SeedData.SeedUserAscync(userManager, logger);
-        // }
+            await context.Database.MigrateAsync();
+            SeedData.SeedingData(context);
+            await SeedData.SeedRolesAsync(roleManager);
+            await SeedData.SeedUserAscync(userManager, logger);
+        }
 
         app.UseSession();
 

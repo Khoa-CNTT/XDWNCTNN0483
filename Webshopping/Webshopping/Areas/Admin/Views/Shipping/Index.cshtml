@@ -56,7 +56,7 @@
     </div>
 
     <div class="form-group">
-        <button type="button" class="btn btn-primary btn-add-shipping">Create</button>
+        <button type="button" class="btn btn-primary btn-add-shipping">Thếm</button>
     </div>
 
     <h2>Danh sách vận chuyển </h2>
@@ -81,9 +81,9 @@
                     <td>@shipping.Price.ToString("#,##0 VNĐ")</td>
                     <td>
                         <form asp-action="Delete" asp-controller="Shipping" method="post" style="display:inline"
-                            onsubmit="return confirmDelete();">
+                            class="delete-form">
                             <input type="hidden" name="id" value="@shipping.Id" />
-                            <button type="submit" class="btn btn-danger">Delete</button>
+                            <button type="submit" class="btn btn-danger">Xóa</button>
                         </form>
                     </td>
                 </tr>
@@ -93,12 +93,9 @@
 </div>
 
 @section Scripts {
-    <script>
-        function confirmDelete() {
-            // Hiển thị cảnh báo xác nhận khi người dùng nhấn Xóa
-            return confirm("Bạn có chắc chắn muốn xóa mục này?");
-        }
+    <script src="~/js/delete-confirm"></script>
 
+    <script>
         $(document).ready(function () {
             // Khởi tạo DataTable
             $('#myTable').DataTable();
@@ -174,10 +171,10 @@
                                     quan,
                                     phuong,
                                     parseInt(price).toLocaleString('vi-VN') + " VNĐ",
-                                    `<form method="post" action="/Shipping/Delete" style="display:inline">
-                                                                                                        <input type="hidden" name="id" value="${result.id}" />
-                                                                                                        <button type="submit" class="btn btn-danger">Delete</button>
-                                                                                                      </form>`
+                                    `<form method="post" action="/Shipping/Delete" style="display:inline" class="delete-form">
+                                            <input type="hidden" name="id" value="${result.id}" />
+                                            <button type="submit" class="btn btn-danger">Xóa</button>
+                                        </form>`
                                 ]).draw();
 
                                 // Reset input
@@ -194,4 +191,6 @@
             });
         });
     </script>
+
+    <script src="~/js/delete-confirm.js"></script>
 }

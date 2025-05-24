@@ -6,10 +6,12 @@
 <!DOCTYPE html>
 
 <html>
+
 <head>
     <meta name="viewport" content="width=device-width" />
 
 </head>
+
 <body>
     <h3>Danh sách yêu thích</h3>
 
@@ -26,16 +28,21 @@
             </tr>
         </thead>
         <tbody>
-                @foreach (var wishlist_product in Model)
+            @foreach (var wishlist_product in Model)
             {
                 key++;
                 <tr>
                     <td>@key</td>
-                        <td>@wishlist_product.Product.Name</td>
-                        <td>@Html.Raw(@wishlist_product.Product.Description)</td>
-                        <td>@wishlist_product.Product.Price.ToString("#,##0 VNĐ")</td>
+                    <td>@wishlist_product.Product.Name</td>
+                    <td>@Html.Raw(@wishlist_product.Product.Description)</td>
+                    <td>@wishlist_product.Product.Price.ToString("#,##0 VNĐ")</td>
                     <td> <img src="~/img/@wishlist_product.Product.Img" width="120px" height="150px" /> </td>
-                        <td><a class="btn btn-danger btn-sm confirmDeletion" asp-action="DeleteWishlist" asp-controller="Home" asp-route-Id="@wishlist_product.Wishlists.Id">Xóa</a></td>
+                    <td>
+                        <a class="btn btn-danger btn-sm confirmDeletion " asp-action="DeleteWishlist" asp-controller="Home"
+                            asp-route-Id="@wishlist_product.Wishlists.Id">
+                            Xóa
+                        </a>
+                    </td>
                 </tr>
             }
         </tbody>

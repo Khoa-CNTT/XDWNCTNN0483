@@ -46,12 +46,16 @@ public class AccountController : Controller
             //Khi Người dùng chưa đăng nhập thì chuyển hướng về trang đăng nhập
             return RedirectToAction("Login", "Account");
         }
+
+        // gấn claims bằng giá trị
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         var userEmail = User.FindFirstValue(ClaimTypes.Email);
+        var userName = User.FindFirstValue(ClaimTypes.Name);
 
         var Orders = await _dataContext.Orders
                 .Where(od => od.UserName == userEmail).OrderByDescending(od => od.Id).ToListAsync();
-        ViewBag.UserEmail = userEmail;
+
+        ViewBag.UserName = userName;
         return View(Orders);
     }
 

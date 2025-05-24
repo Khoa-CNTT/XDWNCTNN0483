@@ -27,7 +27,19 @@
 
 @if (User.IsInRole("Employee"))
 {
-    <a asp-area="admin" asp-action="Add" asp-controller="Product" class="btn btn-primary btn-sm pt-1">Thêm sản phẩm</a>
+    <div style="display: flex;">
+        <a asp-area="admin" asp-action="Add" asp-controller="Product" class="btn btn-primary btn-sm pt-1">Thêm sản phẩm</a>
+
+        <form asp-area="admin" asp-action="ImportExcel" asp-controller="Product" method="post" enctype="multipart/form-data"
+            style="margin-left: 0.8rem">
+            <input type="file" name="file" id="fileInput" style="display: none;" required />
+
+            <button type="button" class="btn btn-primary" onclick="document.getElementById('fileInput').click()"
+                style="background: #89AC46;">
+                Nhập file Excel
+            </button>
+        </form>
+    </div>
 }
 <table class="table" id="myTable">
     <thead>
@@ -38,7 +50,7 @@
             <th scope="col">Đã bán</th>
             <th scope="col">Mô tả</th>
             <th scope="col">Giá của sản phẩm</th>
-            <th></th>
+            <th scope="col">Giá vốn</th>
             <th scope="col">Hình ảnh</th>
             <th scope="col">Slug sản phẩm</th>
             <th scope="col">Danh mục</th>
@@ -56,7 +68,7 @@
                     <b>@item.Quantity</b>
                     <br />
                     <a asp-controller="Product" asp-action="AddQuantity" asp-route-Id="@item.Id">
-                        Add Quantity
+                        Thêm số lượng
                     </a>
                 </td>
                 <td><b>@item.Sold</b></td>
@@ -70,13 +82,15 @@
                 <td>@item.Category.Name</td>
                 <td>@item.Brand.Name</td>
 
-                <td>
+                <td style="display: flex;">
                     <a asp-action="Edit" class="btn btn-sm btn-warning" asp-controller="Product" asp-route-Id="@item.Id">
                         Sửa
                     </a>
                     <form asp-action="Delete" asp-controller="Product" asp-route-id="@item.Id" method="post"
-                        style="display: inline;">
-                        <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
+                        style="margin-left: 0.4rem" class="delete-form">
+                        <button type="submit" class="btn btn-danger btn-sm">
+                            Xóa
+                        </button>
                     </form>
                 </td>
             </tr>
@@ -93,4 +107,12 @@
             });
         });
     </script>
+
+    <script>
+        document.getElementById('fileInput').addEventListener('change', function () {
+            this.form.submit();
+        });
+    </script>
+
+    <script src="~/js/delete-confirm.js"></script>
 }

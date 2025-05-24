@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.IdentityModel.Tokens;
 using Webshopping.Areas.Admin.Common;
+using Webshopping.Areas.Admin.Service;
 using Webshopping.Models;
 using Webshopping.Repository;
 
@@ -15,41 +16,41 @@ using Webshopping.Repository;
 public class BrandController : Controller
 {
     private readonly DataContext _dataContext;
+    private readonly IWebHostEnvironment _env;
+    private readonly IExcelImportService _excelImportService;
 
-    public BrandController(DataContext context)
+    public BrandController(DataContext context, IExcelImportService excelImportService)
     {
         _dataContext = context;
+        _excelImportService = excelImportService;
     }
 
     [HttpGet("")]
-    public async Task<IActionResult> Index(int pg = 1)
+    public IActionResult Index()
     {
-        List<BrandModel> brand = _dataContext.Brands.ToList();
-
-
-        const int pageSize = 10;
-
-        if (pg < 1)
-        {
-            pg = 1;
-        }
-        int recsCount = brand.Count();
-
-        var pager = new Paginate(recsCount, pg, pageSize);
-
-        int recSkip = (pg - 1) * pageSize;
-
-        var data = brand.Skip(recSkip).Take(pager.PageSize).ToList();
-
-        ViewBag.Pager = pager;
-
-        return View(data);
+        var brands = _dataContext.Brands.ToList();
+        return View(brands);
     }
 
     [HttpGet("create")]
     public IActionResult Add()
     {
         return View();
+    }
+
+    [HttpPost("import-excel")]
+    public IActionResult ImportExcel(IFormFile file)
+    {
+        if (file == null || file.Length == 0)
+        {
+            ModelState.AddModelError("", "Please select a valid Excel file.");
+            return View(); // hoặc redirect
+        }
+
+        _excelImportService.ImportFromExcel(file);
+
+        TempData["Success"] = "Import thành công!";
+        return RedirectToAction("Index"); // chuyển đến trang danh sách
     }
 
     [HttpPost("create")]

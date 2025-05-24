@@ -26,16 +26,16 @@ namespace Webshopping.Repository
                 // Thêm Brands (Thương hiệu)
                 var brands = new List<BrandModel>
                 {
-                    new BrandModel { Name = "Chanel", Description = "French luxury fashion house known for iconic fragrances", Status = 1 },
-                    new BrandModel { Name = "Dior", Description = "Luxury brand famous for floral and elegant perfumes", Status = 1 },
-                    new BrandModel { Name = "Lancôme", Description = "French perfume brand with feminine and sophisticated scents", Status = 1 },
-                    new BrandModel { Name = "Yves Saint Laurent", Description = "Bold and modern fragrance collections", Status = 1 },
-                    new BrandModel { Name = "Tom Ford", Description = "Luxurious, daring, and high-end niche perfumes", Status = 1 },
-                    new BrandModel { Name = "Gucci", Description = "Fashion-forward scents with unique compositions", Status = 1 },
-                    new BrandModel { Name = "Versace", Description = "Mediterranean-inspired fragrances with vibrant notes", Status = 1 },
-                    new BrandModel { Name = "Calvin Klein", Description = "Minimalist and fresh fragrances for men and women", Status = 1 },
-                    new BrandModel { Name = "Jean Paul Gaultier", Description = "Provocative and innovative fragrance design", Status = 1 },
-                    new BrandModel { Name = "Estée Lauder", Description = "Timeless classic perfumes for every occasion", Status = 1 }
+                    new BrandModel { Name = "Chanel", Slug = "chanel", Description = "French luxury fashion house known for iconic fragrances", Status = 1 },
+                    new BrandModel { Name = "Dior", Slug = "dior", Description = "Luxury brand famous for floral and elegant perfumes", Status = 1 },
+                    new BrandModel { Name = "Lancôme", Slug = "lancome", Description = "French perfume brand with feminine and sophisticated scents", Status = 1 },
+                    new BrandModel { Name = "Yves Saint Laurent",Slug = "yves-saint-laurent", Description = "Bold and modern fragrance collections", Status = 1 },
+                    new BrandModel { Name = "Tom Ford",Slug = "tom-ford", Description = "Luxurious, daring, and high-end niche perfumes", Status = 1 },
+                    new BrandModel { Name = "Gucci", Slug = "gucci", Description = "Fashion-forward scents with unique compositions", Status = 1 },
+                    new BrandModel { Name = "Versace",Slug = "versace", Description = "Mediterranean-inspired fragrances with vibrant notes", Status = 1 },
+                    new BrandModel { Name = "Calvin Klein",Slug = "calvin-klein", Description = "Minimalist and fresh fragrances for men and women", Status = 1 },
+                    new BrandModel { Name = "Jean Paul Gaultier",Slug = "jean-paul-gaultier", Description = "Provocative and innovative fragrance design", Status = 1 },
+                    new BrandModel { Name = "Estée Lauder",Slug = "estée-lauder", Description = "Timeless classic perfumes for every occasion", Status = 1 }
                 };
 
                 _context.Brands.AddRange(brands);
@@ -44,11 +44,11 @@ namespace Webshopping.Repository
                 // Thêm Categories (Danh mục)
                 var categories = new List<CategoryModel>
                 {
-                    new CategoryModel { Name = "Floral", Description = "Soft, romantic floral notes", Status = 1 },
-                    new CategoryModel { Name = "Oriental", Description = "Warm and rich scents like vanilla and spices", Status = 1 },
-                    new CategoryModel { Name = "Woody", Description = "Earthy, deep, masculine and strong aromas", Status = 1 },
-                    new CategoryModel { Name = "Fresh", Description = "Citrus, green and aquatic notes", Status = 1 },
-                    new CategoryModel { Name = "Gourmand", Description = "Sweet, edible-like fragrances", Status = 1 }
+                    new CategoryModel { Name = "Floral",Slug = "floral", Description = "Soft, romantic floral notes", Status = 1 },
+                    new CategoryModel { Name = "Oriental",Slug = "oriental", Description = "Warm and rich scents like vanilla and spices", Status = 1 },
+                    new CategoryModel { Name = "Woody",Slug = "woody", Description = "Earthy, deep, masculine and strong aromas", Status = 1 },
+                    new CategoryModel { Name = "Fresh",Slug = "fresh", Description = "Citrus, green and aquatic notes", Status = 1 },
+                    new CategoryModel { Name = "Gourmand",Slug = "gourmand", Description = "Sweet, edible-like fragrances", Status = 1 }
                 };
 
                 _context.Categories.AddRange(categories);

@@ -195,7 +195,8 @@
                                 {
                                     <li>
                                         <a asp-controller="Account" asp-action="Login">
-                                            <i class="fa fa-lock"></i>Login
+                                            <i class="fa fa-lock"></i>
+                                            Đăng nhập
                                         </a>
                                     </li>
                                 }
@@ -240,7 +241,7 @@
 
     <section>
         <div class="container">
-            <div class="row">
+            <div class="row" style="display: inline;">
                 @Html.Partial("_NotificationPartial")
                 @RenderBody()
             </div>
