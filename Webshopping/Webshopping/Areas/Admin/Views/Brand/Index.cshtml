@@ -1,9 +1,8 @@
 @using Webshopping.Models
-
 @model IEnumerable<BrandModel>
 
 @{
-    ViewData["title"] = "Brand Listed";
+    ViewData["title"] = "List Brand";
 }
 
 <h3>Danh sách thương hiệu</h3>
@@ -22,62 +21,69 @@
     </div>
 }
 
-<!-- Your other content here -->
 @if (User.IsInRole("Employee"))
 {
-    <a asp-area="admin" asp-action="Add" asp-controller="brand" class="btn btn-primary btn-sm pt-1">Thêm thương hiệu</a>
+    <div style="display: flex;">
+        <a asp-area="admin" asp-action="Add" asp-controller="Brand" class="btn btn-primary btn-sm pt-1">Thêm sản phẩm</a>
+
+        <form asp-area="admin" asp-action="ImportExcel" asp-controller="Brand" method="post" enctype="multipart/form-data"
+            style="margin-left: 0.8rem">
+            <input type="file" name="file" id="fileInput" style="display: none;" required />
+
+            <button type="button" class="btn btn-primary" onclick="document.getElementById('fileInput').click()"
+                style="background: #89AC46;">
+                Nhập file Excel
+            </button>
+        </form>
+    </div>
 }
-<table class="table" id="myTable">
+
+<table class="table display" id="myTable">
     <thead>
         <tr>
-            <th scope="col">STT</th>
-            <th scope="col">Tên thương hiệu</th>
-            <th scope="col">Mô tả của thương hiệu</th>
-            <th scope="col">Slug thương hiệu</th>
-            <th scope="col">Trạng thái</th>
-            <th scope="col">Thao tác</th>
+            <th>STT</th>
+            <th>Tên thương hiệu</th>
+            <th>Mô tả của thương hiệu</th>
+            <th>Slug thương hiệu</th>
+            <th>Trạng thái</th>
+            <th>Thao tác</th>
         </tr>
     </thead>
-    <tbody id="categoryTableBody">
+    <tbody>
+        @{
+            int stt = 1;
+        }
         @foreach (var item in Model)
         {
             <tr>
-                <th class="index-col" scope="row"></th>
+                <td>@stt</td>
                 <td>@item.Name</td>
                 <td>@Html.Raw(item.Description)</td>
                 <td>@item.Slug</td>
-
                 <td>
-                    @if (@item.Status == 1)
+                    @if (item.Status == 1)
                     {
-                        <span class="text text-success">Hiển thị</span>
+                        <span class="text-success">Hiển thị</span>
                     }
                     else
                     {
-                        <span class="text text-secondary">Ẩn</span>
+                        <span class="text-secondary">Ẩn</span>
                     }
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-controller="Brand" asp-route-id="@item.Id" class="btn btn-sm btn-warning">
-                        Sửa
-                    </a>
+                    <a asp-action="Edit" asp-controller="Brand" asp-route-id="@item.Id"
+                        class="btn btn-sm btn-warning">Sửa</a>
                     <form asp-action="Delete" asp-controller="Brand" asp-route-id="@item.Id" method="post"
-                        style="display: inline;">
+                        style="display:inline;" class="delete-form">
                         <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
                     </form>
                 </td>
             </tr>
+            stt++;
         }
     </tbody>
 </table>
 
 @section Scripts {
-    <script>
-        $(document).ready(function () {
-            // Lặp qua từng dòng trong tbody và đánh số thứ tự
-            $('#categoryTableBody tr').each(function (index) {
-                $(this).find('.index-col').text(index + 1);
-            });
-        });
-    </script>
+    <script src="~/js/delete-confirm.js"></script>
 }

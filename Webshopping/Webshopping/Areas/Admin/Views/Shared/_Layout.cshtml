@@ -38,6 +38,7 @@
 	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
 	<!-- Vanilla JS Datepicker-->
+	@RenderSection("Styles", required: false)
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
 </head><!--/head-->
@@ -116,73 +117,37 @@
 				</div>
 			</section>
 
-			@* <footer id="footer" class="border-top footer text-muted">
-				<!--Footer-->
-				<div class="footer-top">
-					<div class="container">
-						<div class="row">
-							<!-- Cột logo -->
-							<div class="col-sm-3">
-								<div class="companyinfo">
-									<h2><span>My</span>perfume</h2>
-									<p>Đề tài khóa luận tốt nghiệp nhóm 56.</p>
-								</div>
-							</div>
-							<!-- Cột bản đồ -->
-							<div class="col-sm-5">
-								<div class="address">
-									<iframe
-										src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d958.5263301179341!2d108.20855569892156!3d16.060023555265023!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x314219b42269bcd3%3A0x46dd4e5c7ec9cb14!2zxJDhuqFpIGjhu41jIER1eSBUw6Ju!5e0!3m2!1svi!2s!4v1746414575203!5m2!1svi!2s"
-										width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy"
-										referrerpolicy="no-referrer-when-downgrade">
-									</iframe>
-								</div>
-							</div>
-						</div>
 
-					</div>
-				</div>
-
-				<div class="footer-bottom">
-					<div class="container">
-						<div class="row">
-							<p class="pull-left">Copyright © 2025 Myperfume </p>
-							<p class="pull-right">
-								Designed by <span>
-									<a target="_blank" href="https://www.facebook.com/trinh.le.767412">Trinhleeneeee</a>
-								</span>
-							</p>
-						</div>
-					</div>
-				</div>
-
-			</footer> *@
-      
 			<!-- Chatbox Container -->
-			
-      <div id="gemini-chatbox">
-        <div id="chatbox-header">
-          <span>Perfume Bot</span>
-          <button id="chatbox-close-btn">×</button>
-        </div>
 
-        <div id="chatbox-messages">
-          <!-- Tin nhắn sẽ được thêm vào đây bằng JavaScript -->
-          <div class="message bot-message">Welcome to Myperfume! Tôi có thể giúp gì cho bạn?</div>
-        </div>
+			<div id="gemini-chatbox">
+				<div id="chatbox-header">
+					<span>Perfume Bot</span>
+					<button id="chatbox-close-btn">×</button>
+				</div>
 
-        <div id="chatbox-input-area">
-          <input type="text" id="chatbox-input" placeholder="Nhập câu hỏi của bạn...">
-          <button id="chatbox-voice-btn">giọng nói</button> <!-- Nút thu âm -->
-          <button id="chatbox-send-btn">Gửi</button>
-        </div>
+				<div id="chatbox-messages">
+					<!-- Tin nhắn sẽ được thêm vào đây bằng JavaScript -->
+					<div class="message bot-message">Welcome to Myperfume! Tôi có thể giúp gì cho bạn?</div>
+				</div>
 
-      </div>
-      <img id="chatbox-toggle-img" src="~/img/moiii.png" alt="Chat"
-        style="position: fixed; bottom: 20px; right: 20px; width: 100px; height: 100px; cursor: pointer; z-index: 999;">
+				<div id="chatbox-input-area">
+					<input type="text" id="chatbox-input" placeholder="Nhập câu hỏi của bạn...">
+					<button id="chatbox-voice-btn">
+						<i class="fa fa-microphone" aria-hidden="true"></i>
+					</button> <!-- Nút thu âm -->
+
+					<button id="chatbox-send-btn">
+						<i class="fa fa-paper-plane" aria-hidden="true"></i>
+					</button>
+				</div>
+
+			</div>
+			<img id="chatbox-toggle-img" src="~/img/moiii.png" alt="Chat"
+				style="position: fixed; bottom: 20px; right: 20px; width: 100px; height: 100px; cursor: pointer; z-index: 999;">
 		</div>
 		<!--/Footer-->
-    
+
 		<script src="~/js/jquery.js"></script>
 		<script src="~/js/bootstrap.min.js"></script>
 		<script src="~/js/jquery.scrollUp.min.js"></script>
@@ -224,6 +189,27 @@
 				layout: {
 					topStart: {
 						buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+					}
+				},
+				language: {
+					lengthMenu: "Hiển thị _MENU_ mục",
+					zeroRecords: "Không tìm thấy kết quả nào",
+					info: "Hiển thị từ _START_ đến _END_ của _TOTAL_ mục",
+					infoEmpty: "Không có dữ liệu để hiển thị",
+					infoFiltered: "(lọc từ tổng số _MAX_ mục)",
+					search: "Tìm kiếm:",
+					paginate: {
+						first: "«",
+						last: "»",
+						next: "›",
+						previous: "‹"
+					},
+					buttons: {
+						copy: 'Sao chép',
+						csv: 'Xuất CSV',
+						excel: 'Xuất Excel',
+						pdf: 'Xuất PDF',
+						print: 'In'
 					}
 				}
 			});

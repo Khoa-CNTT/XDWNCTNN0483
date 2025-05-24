@@ -1,84 +1,90 @@
-@using Webshopping.Models;
+@using Webshopping.Models
 
 @model IEnumerable<CategoryModel>
 
 @{
-    ViewData["title"] = "List Category";
-    int stt = 1;
-
-    Paginate pager = new Paginate();
-
-    int pageNo = 0;
-
-    if (ViewBag.Pager != null)
-    {
-        pager = ViewBag.Pager;
-
-        pageNo = pager.CurrentPage;
-    }
-
+    ViewData["title"] = "List Brand";
 }
 
-<!DOCTYPE html>
+<h3>Danh sách danh mục</h3>
 
-<html>
+@if (TempData["success"] != null)
+{
+    <div class="alert alert-success notification">
+        @TempData["success"]
+    </div>
+}
 
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-</head>
+@if (TempData["error"] != null)
+{
+    <div class="alert alert-danger notification">
+        @TempData["error"]
+    </div>
+}
 
-<body>
+@if (User.IsInRole("Employee"))
+{
+    <div style="display: flex;">
+        <a asp-area="admin" asp-action="Add" asp-controller="Category" class="btn btn-primary btn-sm pt-1">Thêm sản phẩm</a>
 
-    <h3>Danh Mục</h3>
-    @if (User.IsInRole("Employee"))
-    {
+        <form asp-area="admin" asp-action="ImportExcel" asp-controller="Category" method="post"
+            enctype="multipart/form-data" style="margin-left: 0.8rem">
+            <input type="file" name="file" id="fileInput" style="display: none;" required />
 
-        <a class="btn btn-primary" asp-action="Create" asp-controller="Category">Thêm danh mục</a>
-    }
+            <button type="button" class="btn btn-primary" onclick="document.getElementById('fileInput').click()"
+                style="background: #89AC46;">
+                Nhập file Excel
+            </button>
+        </form>
+    </div>
+}
 
-    <table class="table" id="myTable">
-        <thead>
+<table class="table display" id="myTable">
+    <thead>
+        <tr>
+            <th>STT</th>
+            <th>Tên danh mục</th>
+            <th>Mô tả của danh mục</th>
+            <th>Slug danh mục</th>
+            <th>Trạng thái</th>
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int stt = 1;
+        }
+        @foreach (var item in Model)
+        {
             <tr>
-                <th>STT</th>
-                <th>Tên danh mục</th>
-                <th>Mô tả</th>
-                <th>Slug danh mục</th>
-                <th>Trạng thái</th>
-                <th>Thao tác</th>
+                <td>@stt</td>
+                <td>@item.Name</td>
+                <td>@Html.Raw(item.Description)</td>
+                <td>@item.Slug</td>
+                <td>
+                    @if (item.Status == 1)
+                    {
+                        <span class="text-success">Hiển thị</span>
+                    }
+                    else
+                    {
+                        <span class="text-secondary">Ẩn</span>
+                    }
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-controller="Category" asp-route-id="@item.Id"
+                        class="btn btn-sm btn-warning">Sửa</a>
+                    <form asp-action="Delete" asp-controller="Category" asp-route-id="@item.Id" method="post"
+                        style="display:inline;" class="delete-form">
+                        <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
+                    </form>
+                </td>
             </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td></td>
-                    <td>@item.Name</td>
-                    <td>@Html.Raw(@item.Description)</td>
-                    <td>@item.Slug </td>
-                    <td>
-                        @if (item.Status == 1)
-                        {
-                            <span class="text text-success">Hiển thị</span>
-                        }
-                        else
-                        {
-                            <span class="text text-danger">Ẩn</span>
-                        }
-                    </td>
-                    <td>
-                        <a class="btn btn-warning btn-sm" asp-action="Edit" asp-controller="Category"
-                            asp-route-Id="@item.Id">Sứa</a>
-                        <form asp-action="Delete" asp-route-id="@item.Id" method="post" style="display: inline-block;">
-                            <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
-                        </form>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-    <partial name="_paging" model="@pager" />
+            stt++;
+        }
+    </tbody>
+</table>
 
-</body>
-
-</html>
+@section Scripts {
+    <script src="~/js/delete-confirm.js"></script>
+}

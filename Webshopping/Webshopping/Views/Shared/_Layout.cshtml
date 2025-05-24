@@ -169,7 +169,7 @@
 
                                             <li>
                                                 @* Ẩn mục admin nếu không phải admin *@
-                                                @if (User.IsInRole("Admin") || User.IsInRole("employee"))
+                                                @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
 
                                                 {
                                                     <a class="dropdown-item" asp-area="Admin" asp-controller="Dashboard"
@@ -195,7 +195,8 @@
                                 {
                                     <li>
                                         <a asp-controller="Account" asp-action="Login">
-                                            <i class="fa fa-lock"></i>Login
+                                            <i class="fa fa-lock"></i>
+                                            Đăng nhập
                                         </a>
                                     </li>
                                 }
@@ -240,7 +241,7 @@
 
     <section>
         <div class="container">
-            <div class="row">
+            <div class="row" style="display: inline;">
                 @Html.Partial("_NotificationPartial")
                 @RenderBody()
             </div>

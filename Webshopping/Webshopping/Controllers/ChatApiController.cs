@@ -1,32 +1,33 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration; // Đọc config
-using ChatBotGemini.Models.Gemini; // Models Gemini request/response
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Http;
-using System.Linq;
-using Microsoft.EntityFrameworkCore; // Cho ToListAsync
-using System;
-using Webshopping.Repository;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using System;
+using ChatBotGemini.Models.Gemini;
+using Webshopping.Repository;
+using Webshopping.Models;
 
-namespace ChatBotGemini.Controllers
+namespace Webshopping.Controllers
 {
     [Route("api/chat")]
     [ApiController]
-    public class ChatApiController : ControllerBase
+    public partial class ChatAPIController : ControllerBase
     {
+
+        private readonly string _geminiApiUrl;
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IConfiguration _configuration;
         private readonly DataContext _dbContext; // EF Core DbContext
         private readonly string _geminiApiKey;
-        private readonly string _geminiApiUrl;
 
-        public ChatApiController(IHttpClientFactory httpClientFactory, IConfiguration configuration, DataContext dbContext)
+        public ChatAPIController(IHttpClientFactory httpClientFactory, IConfiguration configuration, DataContext dbContext)
         {
             _httpClientFactory = httpClientFactory;
             _configuration = configuration;
@@ -39,7 +40,6 @@ namespace ChatBotGemini.Controllers
             }
             _geminiApiUrl = $"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={_geminiApiKey}";
         }
-
         private List<Content> GetChatHistory()
         {
             var historyJson = HttpContext.Session.GetString("ChatHistory");
@@ -68,6 +68,149 @@ namespace ChatBotGemini.Controllers
         {
             if (string.IsNullOrWhiteSpace(input?.Message))
                 return BadRequest(new { error = "Tin nhắn không được để trống." });
+
+            string message = input.Message.Trim().ToLower();
+
+            // === Xử lý CRUD cơ bản ===
+            var userMessage = input.Message;
+            // CREATE
+            if (userMessage.Contains("thêm danh mục"))
+            {
+                if (!User.IsInRole("Admin"))
+                {
+                    // Kiểm tra quyền truy cập
+                    var categoryName = ExtractName(userMessage, "thêm danh mục");
+
+                    if (string.IsNullOrWhiteSpace(categoryName))
+                        return Ok(new { reply = "⚠️ Vui lòng nhập tên danh mục." });
+
+                    // Tạo mô tả và slug giả định từ tên
+                    var description = $"Danh mục {categoryName}";
+                    var slug = categoryName.ToLower().Replace(" ", "-"); // bạn có thể dùng helper Slugify nếu có
+                    var status = 1;
+
+                    var newCategory = new CategoryModel
+                    {
+                        Name = categoryName,
+                        Description = description,
+                        Slug = slug,
+                        Status = status
+                    };
+
+                    try
+                    {
+                        _dbContext.Categories.Add(newCategory);
+                        await _dbContext.SaveChangesAsync();
+                        return Ok(new { reply = $"✅ Đã thêm danh mục: {categoryName}" });
+                    }
+                    catch (Exception ex)
+                    {
+                        return StatusCode(500, new { reply = $"❌ Lỗi khi thêm danh mục: {ex.Message}" });
+                    }
+                }
+
+
+                if (userMessage.Contains("thêm thương hiệu"))
+                {
+                    var brandName = ExtractName(userMessage, "thêm thương hiệu");
+
+                    if (string.IsNullOrWhiteSpace(brandName))
+                        return Ok(new { reply = "⚠️ Vui lòng nhập tên thương hiệu." });
+
+                    // Tạo mô tả và slug giả định từ tên
+                    var description = $"Thương hiệu {brandName}";
+                    var slug = brandName.ToLower().Replace(" ", "-"); // bạn có thể dùng helper Slugify nếu có
+                    var status = 1;
+
+                    var newBrand = new BrandModel
+                    {
+                        Name = brandName,
+                        Description = description,
+                        Slug = slug,
+                        Status = status
+                    };
+
+                    try
+                    {
+                        _dbContext.Brands.Add(newBrand);
+                        await _dbContext.SaveChangesAsync();
+                        return Ok(new { reply = $"✅ Đã thêm thương hiệu: {brandName}" });
+                    }
+                    catch (Exception ex)
+                    {
+                        return StatusCode(500, new { reply = $"❌ Lỗi khi thêm thương hiệu: {ex.Message}" });
+                    }
+                     }
+            else
+            {
+                return Ok(new { reply = "⚠️ chỉ nhân viên mới được thêm mới" });
+            }
+                }
+           
+
+            // READ
+                if (userMessage.Contains("xem danh mục"))
+                {
+                    var categories = _dbContext.Categories.Select(c => c.Name).ToList();
+                    return Ok(new { reply = "📋 Danh mục hiện có: " + string.Join(", ", categories) });
+                }
+
+            if (userMessage.Contains("xem thương hiệu"))
+            {
+                var brands = _dbContext.Brands.Select(b => b.Name).ToList();
+                return Ok(new { reply = "📋 Thương hiệu hiện có: " + string.Join(", ", brands) });
+            }
+
+
+            // UPDATE
+            if (userMessage.Contains("sửa danh mục"))
+            {
+                var (oldName, newName) = ExtractUpdateNames(userMessage, "sửa danh mục");
+                var category = await _dbContext.Categories.FirstOrDefaultAsync(c => c.Name == oldName);
+                if (category == null) return Ok(new { reply = $"❌ Không tìm thấy danh mục {oldName}" });
+                category.Name = newName;
+                await _dbContext.SaveChangesAsync();
+                return Ok(new { reply = $"✅ Đã cập nhật danh mục {oldName} thành {newName}" });
+            }
+
+            if (userMessage.Contains("sửa thương hiệu"))
+            {
+                var (oldName, newName) = ExtractUpdateNames(userMessage, "sửa thương hiệu");
+                var brand = await _dbContext.Brands.FirstOrDefaultAsync(b => b.Name == oldName);
+                if (brand == null) return Ok(new { reply = $"❌ Không tìm thấy thương hiệu {oldName}" });
+                brand.Name = newName;
+                await _dbContext.SaveChangesAsync();
+                return Ok(new { reply = $"✅ Đã cập nhật thương hiệu {oldName} thành {newName}" });
+            }
+
+            // DELETE
+            if (userMessage.Contains("xóa danh mục"))
+            {
+                var name = ExtractName(userMessage, "xóa danh mục");
+                var category = await _dbContext.Categories.FirstOrDefaultAsync(c => c.Name == name);
+                if (category == null) return Ok(new { reply = $"❌ Không tìm thấy danh mục {name}" });
+                _dbContext.Categories.Remove(category);
+                await _dbContext.SaveChangesAsync();
+                return Ok(new { reply = $"🗑️ Đã xóa danh mục: {name}" });
+            }
+
+            if (userMessage.Contains("xóa thương hiệu"))
+            {
+                var name = ExtractName(userMessage, "xóa thương hiệu");
+                if (string.IsNullOrWhiteSpace(name))
+                    return Ok(new { reply = "⚠️ Bạn vui lòng cung cấp tên thương hiệu cần xoá." });
+
+                var brand = await _dbContext.Brands.FirstOrDefaultAsync(b => b.Name.ToLower() == name.ToLower());
+                if (brand == null)
+                    return Ok(new { reply = $"❌ Không tìm thấy thương hiệu {name}" });
+
+                _dbContext.Brands.Remove(brand);
+                await _dbContext.SaveChangesAsync();
+                return Ok(new { reply = $"🗑️ Đã xóa thương hiệu: {name}" });
+            }
+
+            // Nếu không phải CRUD → chuyển qua Gemini xử lý
+            Console.WriteLine("⚠️ Không khớp CRUD, chuyển sang Gemini...");
 
             try
             {
@@ -209,6 +352,19 @@ namespace ChatBotGemini.Controllers
             // 5) Xuất
             return asHtml ? t.Replace("\n", "<br/>") : "";
         }
+        private string ExtractName(string userMessage, string keyword)
+        {
+            var name = userMessage.Substring(userMessage.ToLower().IndexOf(keyword.ToLower()) + keyword.Length).Trim();
+            return name;
+        }
+
+        private (string, string) ExtractUpdateNames(string userMessage, string keyword)
+        {
+            var parts = userMessage.Split(keyword);
+            if (parts.Length < 2) return ("", "");
+            var names = parts[1].Split("thành");
+            return names.Length == 2 ? (names[0].Trim(), names[1].Trim()) : ("", "");
+        }
     }
 
     // Lớp nhận input message
@@ -216,4 +372,7 @@ namespace ChatBotGemini.Controllers
     {
         public string Message { get; set; }
     }
+
+    // End of ChatAPIController
+
 }

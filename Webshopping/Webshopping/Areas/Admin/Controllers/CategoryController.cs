@@ -6,6 +6,7 @@ using Webshopping.Models;
 using Webshopping.Repository;
 using Webshopping.Areas.Admin.Common;
 using Microsoft.AspNetCore.Authorization;
+using Webshopping.Areas.Admin.Service;
 
 [Area("Admin")]
 [Route("admin/category/")]
@@ -13,44 +14,25 @@ using Microsoft.AspNetCore.Authorization;
 public class CategoryController : Controller
 {
     private readonly DataContext _dataContext;
-    public CategoryController(DataContext context)
+    private readonly IExcelImportService _excelImportService;
+
+    public CategoryController(DataContext context, IExcelImportService excelImportService)
     {
         _dataContext = context;
+        _excelImportService = excelImportService;
     }
 
     [HttpGet("")]
     public async Task<IActionResult> Index(int pg = 1)
     {
-        List<CategoryModel> category = _dataContext.Categories.ToList(); //33 datas
-
-
-        const int pageSize = 10; //10 items/trang
-
-        if (pg < 1) //page < 1;
-        {
-            pg = 1; //page ==1
-        }
-        int recsCount = category.Count(); //33 items;
-
-        var pager = new Paginate(recsCount, pg, pageSize);
-
-        int recSkip = (pg - 1) * pageSize; //(3 - 1) * 10; 
-
-        //category.Skip(20).Take(10).ToList()
-
-        var data = category.Skip(recSkip).Take(pager.PageSize).ToList();
-
-        ViewBag.Pager = pager;
-
-        return View(data);
+        var brands = _dataContext.Categories.ToList();
+        return View(brands);
     }
-
     [HttpGet("create")]
     public IActionResult Add()
     {
         return View();
     }
-
     [HttpPost("create")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Add(CategoryModel category)
@@ -144,5 +126,20 @@ public class CategoryController : Controller
 
         TempData["success"] = "Danh mục đã được xóa thành công!";
         return RedirectToAction("Index");
+    }
+
+    [HttpPost("import-excel")]
+    public IActionResult ImportExcel(IFormFile file)
+    {
+        if (file == null || file.Length == 0)
+        {
+            ModelState.AddModelError("", "Please select a valid Excel file.");
+            return View(); // hoặc redirect
+        }
+
+        _excelImportService.ImportFromExcel(file);
+
+        TempData["Success"] = "Import thành công!";
+        return RedirectToAction("Index"); // chuyển đến trang danh sách
     }
 }

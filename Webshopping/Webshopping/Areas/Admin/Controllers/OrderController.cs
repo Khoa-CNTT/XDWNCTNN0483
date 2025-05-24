@@ -97,11 +97,11 @@ namespace Webshopping.Areas.Admin.Controllers
 			try
 			{
 				await _dataContext.SaveChangesAsync();
-				return Ok(new { success = true, message = "Order status updated successfully" });
+				return Ok(new { success = true, message = "cập nhật trạng thái thành công" });
 			}
 			catch (Exception)
 			{
-				return StatusCode(500, "An error occurred while updating the order status.");
+				return StatusCode(500, "lỗi khi cập nhật trạng thái.");
 			}
 		}
 
