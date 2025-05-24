@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.ObjectPool;
 using Webshopping.Areas.Admin.Common;
+using Webshopping.Areas.Admin.Service;
 using Webshopping.Models;
 using Webshopping.Repository;
 
@@ -19,11 +20,31 @@ public class ProductController : Controller
 {
     private readonly DataContext _dataContext;
     private readonly IWebHostEnvironment _webHostEnvironment;
-    public ProductController(DataContext context, IWebHostEnvironment webHostEnvironment)
+    private readonly IExcelImportService _excelImportService;
+
+    public ProductController(DataContext context, IWebHostEnvironment webHostEnvironment, IExcelImportService excelImportService)
     {
         _dataContext = context;
         _webHostEnvironment = webHostEnvironment;
+        _excelImportService = excelImportService;
     }
+
+    // POST: admin/product/import-excel
+    [HttpPost("import-excel")]
+    public IActionResult ImportExcel(IFormFile file)
+    {
+        if (file == null || file.Length == 0)
+        {
+            ModelState.AddModelError("", "Hãy chọn file Excel");
+            return View(); // hoặc redirect
+        }
+
+        _excelImportService.ImportFromExcel(file);
+
+        TempData["Success"] = "Nhập file Excel thành công!";
+        return RedirectToAction("Index"); // chuyển đến trang danh sách
+    }
+
 
     // GET: /admin/product
     [HttpGet("")]

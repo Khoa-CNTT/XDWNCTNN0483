@@ -6,6 +6,7 @@ using Webshopping.Models;
 using Webshopping.Repository;
 using Webshopping.Areas.Admin.Common;
 using Microsoft.AspNetCore.Authorization;
+using Webshopping.Areas.Admin.Service;
 
 [Area("Admin")]
 [Route("admin/category/")]
@@ -13,9 +14,12 @@ using Microsoft.AspNetCore.Authorization;
 public class CategoryController : Controller
 {
     private readonly DataContext _dataContext;
-    public CategoryController(DataContext context)
+    private readonly IExcelImportService _excelImportService;
+
+    public CategoryController(DataContext context, IExcelImportService excelImportService)
     {
         _dataContext = context;
+        _excelImportService = excelImportService;
     }
 
     [HttpGet("")]
@@ -124,5 +128,20 @@ public class CategoryController : Controller
 
         TempData["success"] = "Danh mục đã được xóa thành công!";
         return RedirectToAction("Index");
+    }
+
+    [HttpPost("import-excel")]
+    public IActionResult ImportExcel(IFormFile file)
+    {
+        if (file == null || file.Length == 0)
+        {
+            ModelState.AddModelError("", "Please select a valid Excel file.");
+            return View(); // hoặc redirect
+        }
+
+        _excelImportService.ImportFromExcel(file);
+
+        TempData["Success"] = "Import thành công!";
+        return RedirectToAction("Index"); // chuyển đến trang danh sách
     }
 }

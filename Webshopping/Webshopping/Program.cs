@@ -11,6 +11,7 @@ using ChatBotGemini;
 using ChatBotGemini.Services;
 using System.Threading.Tasks;
 using Webshopping.Models.Momo;
+using Webshopping.Areas.Admin.Service;
 
 public partial class Program
 {
@@ -30,6 +31,9 @@ public partial class Program
 
         //Add EmailSender
         builder.Services.AddTransient<IEmailSender, EmailSender>();
+
+        // import file excel
+        builder.Services.AddScoped<IExcelImportService, ExcelImportService>();
 
         // Add services to the container.
         builder.Services.AddControllersWithViews();

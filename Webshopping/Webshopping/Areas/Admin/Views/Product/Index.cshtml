@@ -27,7 +27,19 @@
 
 @if (User.IsInRole("Employee"))
 {
-    <a asp-area="admin" asp-action="Add" asp-controller="Product" class="btn btn-primary btn-sm pt-1">Thêm sản phẩm</a>
+    <div style="display: flex;">
+        <a asp-area="admin" asp-action="Add" asp-controller="Product" class="btn btn-primary btn-sm pt-1">Thêm sản phẩm</a>
+
+        <form asp-area="admin" asp-action="ImportExcel" asp-controller="Product" method="post" enctype="multipart/form-data"
+            style="margin-left: 0.8rem">
+            <input type="file" name="file" id="fileInput" style="display: none;" required />
+
+            <button type="button" class="btn btn-primary" onclick="document.getElementById('fileInput').click()"
+                style="background: #89AC46;">
+                Nhập file Excel
+            </button>
+        </form>
+    </div>
 }
 <table class="table" id="myTable">
     <thead>
@@ -93,4 +105,11 @@
             });
         });
     </script>
+
+    <script>
+        document.getElementById('fileInput').addEventListener('change', function () {
+            this.form.submit();
+        });
+    </script>
+
 }
