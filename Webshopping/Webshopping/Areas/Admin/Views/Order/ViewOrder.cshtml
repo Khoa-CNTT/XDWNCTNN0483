@@ -58,8 +58,8 @@
                     </td>
                     <td></td>
                     <td></td>
-                    <td>giảm giá : @ViewBag.CouponCode</td>
-                    <td>Chi phí vận chuyển : @ViewBag.ShippingCost.ToString("#,##0 đ")</td>
+                    <td>Giảm giá : @ViewBag.CouponCode</td>
+                    <td>Chi phí vận chuyển : @ViewBag.ShippingCost.ToString("#,##0 VNĐ")</td>
                     <td>
 
                         Tổng hóa đơn: @{
@@ -82,7 +82,7 @@
                         if (discount > total) { discount = total; } // tránh âm tiền
                         decimal finalTotal = total - discount + shipping;
 
-                        @finalTotal.ToString("#,##0 đ")
+                        @finalTotal.ToString("#,##0 VNĐ")
                     }
                     </td>
                     <td>

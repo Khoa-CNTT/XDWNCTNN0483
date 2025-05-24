@@ -3,7 +3,7 @@ using Webshopping.Models.Vnpay;
 
 namespace Webshopping.Services.Vnpay
 {
-    public class VnPayService :  IVnPayService
+    public class VnPayService : IVnPayService
     {
         private readonly IConfiguration _configuration;
         public VnPayService(IConfiguration configuration)
@@ -35,14 +35,12 @@ namespace Webshopping.Services.Vnpay
 
             return paymentUrl;
         }
-        public PaymentResponseModel PaymentExecute(IQueryCollection collections)
+        public PaymentResponseModel PaymentExecute(IQueryCollection collections) // xử lý dữ liệu trả về sau khi thanh toán
         {
             var pay = new VnPayLibrary();
             var response = pay.GetFullResponseData(collections, _configuration["Vnpay:HashSecret"]);
 
             return response;
         }
-
-
     }
 }

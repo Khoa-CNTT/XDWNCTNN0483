@@ -21,6 +21,7 @@ namespace Webshopping.Libraries
                     vnPay.AddResponseData(key, value);
                 }
             }
+            // lấy thông tin đo0nư hàng
             var orderId = Convert.ToInt64(vnPay.GetResponseData("vnp_TxnRef"));
             var vnPayTranId = Convert.ToInt64(vnPay.GetResponseData("vnp_TransactionNo"));
             var vnpResponseCode = vnPay.GetResponseData("vnp_ResponseCode");
@@ -28,13 +29,13 @@ namespace Webshopping.Libraries
                 collection.FirstOrDefault(k => k.Key == "vnp_SecureHash").Value; //hash của dữ liệu trả về
             var orderInfo = vnPay.GetResponseData("vnp_OrderInfo");
             var checkSignature =
-                vnPay.ValidateSignature(vnpSecureHash, hashSecret); //check Signature
+                vnPay.ValidateSignature(vnpSecureHash, hashSecret); // Xác thực chữ ký từ Vnpay
             if (!checkSignature)
-                return new PaymentResponseModel()
+                return new PaymentResponseModel() 
                 {
                     Success = false
                 };
-            return new PaymentResponseModel()
+            return new PaymentResponseModel()// hợp lệ thì trả về PaymentResponseModel
             {
                 Success = true,
                 PaymentMethod = "VnPay",
@@ -46,7 +47,7 @@ namespace Webshopping.Libraries
                 VnPayResponseCode = vnpResponseCode
             };
         }
-        public string GetIpAddress(HttpContext context)
+        public string GetIpAddress(HttpContext context) // lấy địa chỉ ip của người dùng
         {
             var ipAddress = string.Empty;
             try
@@ -74,25 +75,25 @@ namespace Webshopping.Libraries
             return "127.0.0.1";
         }
 
-        public void AddRequestData(string key, string value)
+        public void AddRequestData(string key, string value)// thêm dữ liệu vào request
         {
             if (!string.IsNullOrEmpty(value))
             {
                 _requestData.Add(key, value);
             }
         }
-        public void AddResponseData(string key, string value)
+        public void AddResponseData(string key, string value)// thêm dữ liệu vào response
         {
             if (!string.IsNullOrEmpty(value))
             {
                 _responseData.Add(key, value);
             }
         }
-        public string GetResponseData(string key)
+        public string GetResponseData(string key)// lấy dữ liệu từ response
         {
             return _responseData.TryGetValue(key, out var retValue) ? retValue : string.Empty;
         }
-        public string CreateRequestUrl(string baseUrl, string vnpHashSecret)
+        public string CreateRequestUrl(string baseUrl, string vnpHashSecret)// tạo url thanh toán  
         {
             var data = new StringBuilder();
 
@@ -115,13 +116,13 @@ namespace Webshopping.Libraries
 
             return baseUrl;
         }
-        public bool ValidateSignature(string inputHash, string secretKey)
+        public bool ValidateSignature(string inputHash, string secretKey) 
         {
             var rspRaw = GetResponseData();
             var myChecksum = HmacSha512(secretKey, rspRaw);
             return myChecksum.Equals(inputHash, StringComparison.InvariantCultureIgnoreCase);
         }
-        private string HmacSha512(string key, string inputData)
+        private string HmacSha512(string key, string inputData)// tạo chữ ký
         {
             var hash = new StringBuilder();
             var keyBytes = Encoding.UTF8.GetBytes(key);
