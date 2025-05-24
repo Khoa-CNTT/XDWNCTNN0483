@@ -74,8 +74,8 @@
 
                         @if (item.Status == 1) // Kiểm tra nếu đơn hàng là hàng mới thì hiện nút hủy
                         {
-                            <a onclick="return confirm('Bạn xác nhận muốn hủy?')" class="btn btn-danger btn-sm"
-                                asp-action="CancelOrder" asp-controller="Account" asp-route-ordercode="@item.OrderCode">
+                            <a class="btn btn-danger btn-sm delete-form" asp-action="CancelOrder" asp-controller="Account"
+                                asp-route-ordercode="@item.OrderCode">
                                 Hủy đơn hàng
                             </a>
                         }
@@ -97,3 +97,7 @@
 </body>
 
 </html>
+
+@section Scripts {
+    <script src="~/js/delete-confirm"></script>
+}

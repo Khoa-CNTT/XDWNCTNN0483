@@ -51,8 +51,12 @@
                     <td>
                         <a class="btn btn-warning btn-sm" asp-action="Edit" asp-controller="User"
                             asp-route-Id="@user.Id">Sứa</a>
-                        <form asp-action="Delete" asp-route-id="@user.Id" method="post" style="display: inline-block;">
-                            <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
+
+                        <form asp-action="Delete" asp-route-id="@user.Id" method="post" style="display: inline-block;"
+                            class="delete-form">
+                            <button type="submit" class="btn btn-danger btn-sm">
+                                Xóa
+                            </button>
                         </form>
                     </td>
                 </tr>
@@ -71,4 +75,6 @@
             });
         });
     </script>
+
+    <script src="~/js/delete-confirm.js"></script>
 }

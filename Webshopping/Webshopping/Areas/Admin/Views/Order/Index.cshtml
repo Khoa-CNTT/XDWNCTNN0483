@@ -115,7 +115,8 @@
 						<a class="btn btn-warning btn-sm" asp-action="ViewOrder" asp-controller="Order"
 							asp-route-ordercode="@item.OrderCode">Chi tiết</a>
 
-						<a class="btn btn-danger btn-sm" asp-action="Delete" asp-controller="Order"
+						<a class="btn btn-danger btn-sm btn-delete" asp-action="Delete" asp-controller="Order"
+							data-url="@Url.Action("Delete", "Order", new { ordercode = item.OrderCode })"
 							style="margin-left: 0.4rem;" asp-route-ordercode="@item.OrderCode">Xóa</a>
 					</td>
 				</tr>
@@ -126,3 +127,7 @@
 </body>
 
 </html>
+
+@section Scripts {
+	<script src="~/js/delete-confirm.js"></script>
+}

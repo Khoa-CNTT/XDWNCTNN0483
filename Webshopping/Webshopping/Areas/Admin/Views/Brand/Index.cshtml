@@ -74,7 +74,7 @@
                     <a asp-action="Edit" asp-controller="Brand" asp-route-id="@item.Id"
                         class="btn btn-sm btn-warning">Sửa</a>
                     <form asp-action="Delete" asp-controller="Brand" asp-route-id="@item.Id" method="post"
-                        style="display:inline;">
+                        style="display:inline;" class="delete-form">
                         <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
                     </form>
                 </td>
@@ -83,3 +83,7 @@
         }
     </tbody>
 </table>
+
+@section Scripts {
+    <script src="~/js/delete-confirm.js"></script>
+}
