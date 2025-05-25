@@ -78,10 +78,56 @@
 </div>
 
 @section Scripts {
+    <!-- CHỈ GIỮ MỘT BẢN jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.14.0/jquery-ui.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script>
         $(function () {
-            $.scrollUp();
-            // Add to cart
+            // ✅ SLIDER: Lọc giá
+            $("#slider-range").slider({
+                range: true,
+                min: @ViewBag.minprice, // hoặc hardcode min nếu không có ViewBag
+                max: @ViewBag.maxprice,
+                step: 100000,
+                values: [@ViewBag.minprice, @ViewBag.maxprice],
+                slide: function (event, ui) {
+                    $("#amount").val(
+                        new Intl.NumberFormat("vn-VN", { style: "currency", currency: "VND" }).format(ui.values[0]) +
+                        " - " +
+                        new Intl.NumberFormat("vn-VN", { style: "currency", currency: "VND" }).format(ui.values[1])
+                    );
+                }
+            });
+
+            // Hiển thị giá ban đầu
+            $("#amount").val(
+                new Intl.NumberFormat("vn-VN", { style: "currency", currency: "VND" }).format($("#slider-range").slider("values", 0)) +
+                " - " +
+                new Intl.NumberFormat("vn-VN", { style: "currency", currency: "VND" }).format($("#slider-range").slider("values", 1))
+            );
+
+            // ✅ Button lọc giá
+            $('.btn-locgia').on('click', function () {
+                var url = $(this).data("current_url");
+                if (url) {
+                    window.location = url + "?startprice=" + $("#slider-range").slider("values", 0)
+                        + "&endprice=" + $("#slider-range").slider("values", 1);
+                }
+                return false;
+            });
+
+            // ✅ Dropdown sắp xếp
+            $('#sort_by').on('change', function () {
+                var url = $(this).val();
+                if (url) {
+                    window.location = url;
+                }
+                return false;
+            });
+
+            // ✅ Thêm giỏ hàng
             $('.add-to-cart').click(function () {
                 var Id = $(this).data("product_id");
                 $.ajax({
@@ -97,8 +143,8 @@
                 });
             });
 
-            // Add to wishlist
-            $('.add-btn-wishlist').click(function () {
+            // ✅ Yêu thích
+            $(document).on('click', '.add-btn-wishlist', function () {
                 var Id = $(this).data("product_id");
                 $.ajax({
                     type: "POST",
@@ -110,10 +156,9 @@
                 });
             });
 
-            // Add to compare
-            $('.add-btn-compare').click(function () {
+            // ✅ So sánh
+            $(document).on('click', '.add-btn-compare', function () {
                 var Id = $(this).data("product_id");
-
                 $.ajax({
                     type: "POST",
                     url: "@Url.Action("AddCompare", "Home")",
@@ -129,7 +174,6 @@
                                 cancelButtonText: 'Không'
                             }).then((res) => {
                                 if (res.isConfirmed) {
-                                    // Điều hướng đến trang so sánh
                                     window.location.href = "/Home/Compare";
                                 }
                             });
@@ -150,6 +194,7 @@
                     }
                 });
             });
+
         });
     </script>
 }
