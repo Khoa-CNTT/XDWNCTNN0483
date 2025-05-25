@@ -20,6 +20,16 @@ namespace Webshopping.Controllers
         {
             return View();
         }
+        public async Task<IActionResult> Search(string searchTerm)
+		{
+			var products = await _dataContext.Products
+			.Where(p => p.Name.Contains(searchTerm) || p.Description.Contains(searchTerm))
+			.ToListAsync();
+
+			ViewBag.Keyword = searchTerm;
+
+			return View(products);
+		}
         public async Task<IActionResult> Detail(int Id)
         {
             if (Id == null) return RedirectToAction("Index");

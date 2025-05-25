@@ -74,11 +74,54 @@
 </div>
 
 @section Scripts {
+    <!-- CHỈ GIỮ MỘT BẢN jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.14.0/jquery-ui.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
         $(function () {
-            // Không cần gọi $.scrollUp() nếu không dùng plugin scrollUp
+            // ✅ SLIDER: Lọc giá
+            $("#slider-range").slider({
+                range: true,
+                min: @ViewBag.minprice, // hoặc hardcode min nếu không có ViewBag
+                max: @ViewBag.maxprice,
+                step: 100000,
+                values: [@ViewBag.minprice, @ViewBag.maxprice],
+                slide: function (event, ui) {
+                    $("#amount").val(
+                        new Intl.NumberFormat("vn-VN", { style: "currency", currency: "VND" }).format(ui.values[0]) +
+                        " - " +
+                        new Intl.NumberFormat("vn-VN", { style: "currency", currency: "VND" }).format(ui.values[1])
+                    );
+                }
+            });
+
+            // Hiển thị giá ban đầu
+            $("#amount").val(
+                new Intl.NumberFormat("vn-VN", { style: "currency", currency: "VND" }).format($("#slider-range").slider("values", 0)) +
+                " - " +
+                new Intl.NumberFormat("vn-VN", { style: "currency", currency: "VND" }).format($("#slider-range").slider("values", 1))
+            );
+
+            // ✅ Button lọc giá
+            $('.btn-locgia').on('click', function () {
+                var url = $(this).data("current_url");
+                if (url) {
+                    window.location = url + "?startprice=" + $("#slider-range").slider("values", 0)
+                        + "&endprice=" + $("#slider-range").slider("values", 1);
+                }
+                return false;
+            });
+
+            // ✅ Dropdown sắp xếp
+            $('#sort_by').on('change', function () {
+                var url = $(this).val();
+                if (url) {
+                    window.location = url;
+                }
+                return false;
+            });
 
             // ✅ Thêm giỏ hàng
             $('.add-to-cart').click(function () {
@@ -148,37 +191,6 @@
                 });
             });
 
-            // ✅ Slider lọc giá
-            $("#slider-range").slider({
-                range: true,
-                step: 10000,
-                min: 1000,
-                max: 10000000,
-                values: [1000, 300000],
-                slide: function (event, ui) {
-                    $("#amount").val(
-                        new Intl.NumberFormat("vn-VN", { style: "currency", currency: "VND" }).format(ui.values[0]) +
-                        " - " +
-                        new Intl.NumberFormat("vn-VN", { style: "currency", currency: "VND" }).format(ui.values[1])
-                    );
-                }
-            });
-
-            $("#amount").val(
-                new Intl.NumberFormat("vn-VN", { style: "currency", currency: "VND" }).format($("#slider-range").slider("values", 0)) +
-                " - " +
-                new Intl.NumberFormat("vn-VN", { style: "currency", currency: "VND" }).format($("#slider-range").slider("values", 1))
-            );
-
-            // ✅ Lọc giá
-            $(document).on('click', '.btn-locgia', function () {
-                var url = $(this).data("current_url");
-                if (url) {
-                    window.location = url + "?startprice=" + $("#slider-range").slider("values", 0)
-                        + "&endprice=" + $("#slider-range").slider("values", 1);
-                }
-                return false;
-            });
         });
     </script>
 }

@@ -71,10 +71,11 @@
                             </p>
                         </td>
                         <td>
-                            <a class="btn btn-danger btn-sn" asp-controller="Cart" asp-action="Remove"
-                                asp-route-id="@item.ProductId">
-                                Xóa
-                            </a>
+                            <a href="#" 
+   class="btn btn-danger btn-sm btn-delete-cart-item" 
+   data-url="@Url.Action("Remove", "Cart", new { id = item.ProductId })">
+   Xóa
+</a>
                         </td>
                     </tr>
                                         }
@@ -185,7 +186,8 @@
                                     <p><span class="text text-danger">Tính phí vận chuyển để xác nhận đơn.</span></p>
                                 </td>
                                 <td >
-                                    <a class="btn btn-danger btn-sm" asp-action="Clear" asp-controller="Cart">
+                                    <a href="#" class="btn btn-danger btn-sm clear-cart-btn"
+                                        data-url="@Url.Action("Clear", "Cart")">
                                         Xóa tất cả
                                     </a>
                                 </td>
@@ -217,7 +219,20 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-
+    <script>
+        @if (TempData["success"] != null)
+        {
+            <text>
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Thành công!',
+                    text: '@TempData["success"]',
+                    timer: 2500,
+                    showConfirmButton: false
+                });
+            </text>
+        }
+    </script>
     <script>
         function checkLogin(method) {
             Swal.fire({
@@ -261,8 +276,47 @@
                         }
                     });
                 }
-            })
+            });
+            // Xóa sản phẩm khỏi giỏ hàng
+            $(document).on('click', '.btn-delete-cart-item', function (e) {
+                e.preventDefault(); // Ngăn điều hướng mặc định
+                const url = $(this).data('url');
 
+                Swal.fire({
+                    title: 'Bạn có chắc chắn?',
+                    text: "Thao tác này sẽ xóa sản phẩm khỏi giỏ hàng!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Vâng, xóa!',
+                    cancelButtonText: 'Hủy bỏ'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = url;
+                    }
+                });
+            });
+            // Xóa toàn bộ giỏ hàng
+            $(document).on('click', '.clear-cart-btn', function (e) {
+                e.preventDefault(); // Ngăn điều hướng mặc định
+                const url = $(this).data('url');
+
+                Swal.fire({
+                    title: 'Bạn có chắc chắn?',
+                    text: "Thao tác này sẽ xóa toàn bộ giỏ hàng của bạn!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Vâng, xóa tất cả!',
+                    cancelButtonText: 'Hủy bỏ'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = url;
+                    }
+                });
+            });
             @* const selectAllCheckbox = $("#selectAll");
             const productCheckboxes = $(".product-checkbox");
 

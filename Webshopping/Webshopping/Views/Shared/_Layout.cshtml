@@ -229,7 +229,16 @@
                             </ul>
                         </div>
                     </div>
-
+                    <div class="col-sm-3">
+                        <form asp-controller="Product" asp-action="Search" method="post">
+                            <div class="search_box pull-right">
+                                <input type="text" placeholder="Search" name="searchTerm" />
+                                <button class="btn btn-warning" type="submit">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
