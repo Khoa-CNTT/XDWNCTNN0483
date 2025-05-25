@@ -35,7 +35,7 @@ public class ProductController : Controller
     {
         if (file == null || file.Length == 0)
         {
-            ModelState.AddModelError("", "Hãy chọn file Excel");
+            ModelState.AddModelError("", "Hãy chọn excel.");
             return View(); // hoặc redirect
         }
 

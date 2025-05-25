@@ -133,7 +133,7 @@ public class CategoryController : Controller
     {
         if (file == null || file.Length == 0)
         {
-            ModelState.AddModelError("", "Please select a valid Excel file.");
+            ModelState.AddModelError("", "Hãy chọn excel.");
             return View(); // hoặc redirect
         }
 
